@@ -205,6 +205,21 @@ until docker compose exec -T mysql mysqladmin ping -h localhost -u root -prootpa
     fi
     sleep 1
 done
+
+# Additional check: Ensure MySQL can accept queries (not just pings)
+echo "Verifying MySQL can accept database queries..."
+ATTEMPTS=0
+MAX_ATTEMPTS=10
+until docker compose exec -T mysql mysql -u root -prootpassword -e "SELECT 1;" app1 > /dev/null 2>&1; do
+    ATTEMPTS=$((ATTEMPTS + 1))
+    if [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; then
+        echo -e "${RED}MySQL not accepting queries after ${MAX_ATTEMPTS} seconds${NC}"
+        docker compose down -v > /dev/null 2>&1
+        exit 1
+    fi
+    sleep 1
+done
+
 echo -e "${GREEN}MySQL is ready${NC}"
 echo ""
 

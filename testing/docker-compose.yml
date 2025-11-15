@@ -12,11 +12,6 @@ services:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
     ports:
       - "3306:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   # Example 1: Single database snapshot (legacy mode)
   snapshot-single:

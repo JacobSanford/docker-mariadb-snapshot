@@ -19,6 +19,9 @@ jobs:
   build-push-images:
     name: Build and Push Image
     needs: [tests]
+    permissions:
+      contents: read
+      packages: write
     uses: unb-libraries/dockworker/.github/workflows/build-push.yaml@6.x
     with:
       build-themes: false

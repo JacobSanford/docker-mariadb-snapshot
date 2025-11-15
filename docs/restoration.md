@@ -122,4 +122,4 @@ cat snapshot-metadata.json | jq .
 
 - [Configuration Reference](configuration.md) - Environment variables and snapshot settings
 - [Important Considerations](important-considerations.md) - Security and data integrity notes
-- [Snapshot Metadata](configuration.md#snapshot-metadata) - Understanding metadata files
+- [Snapshot Metadata](metadata.md) - Understanding metadata files

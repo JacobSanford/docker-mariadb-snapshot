@@ -200,6 +200,7 @@ until docker compose exec -T mysql mysqladmin ping -h localhost -u root -prootpa
     ATTEMPTS=$((ATTEMPTS + 1))
     if [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; then
         echo -e "${RED}MySQL failed to start after ${MAX_ATTEMPTS} seconds${NC}"
+        docker compose logs mysql
         docker compose down -v > /dev/null 2>&1
         exit 1
     fi
@@ -214,6 +215,7 @@ until docker compose exec -T mysql mysql -u root -prootpassword -e "SELECT 1;" a
     ATTEMPTS=$((ATTEMPTS + 1))
     if [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; then
         echo -e "${RED}MySQL not accepting queries after ${MAX_ATTEMPTS} seconds${NC}"
+        docker compose logs mysql
         docker compose down -v > /dev/null 2>&1
         exit 1
     fi

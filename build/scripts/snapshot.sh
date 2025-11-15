@@ -204,7 +204,8 @@ snapshot_single_database() {
     $IGNORE_TABLES_FULL_DUMP_CMD \
     "$DB_NAME" > "$TMP_DATA" 2>&1; then
     echo "❌ ERROR: Failed to dump database: $DB_NAME"
-    echo "Check the error messages above for details."
+    echo "Error output:"
+    head -200 "$TMP_DATA" 2>/dev/null || echo "(no error output captured)"
     rm -f "$TMP_SCHEMA" "$TMP_DATA" "$TMP_COMBINED"
     return 1
   fi
@@ -261,7 +262,8 @@ snapshot_users_grants() {
     --system=users \
     --default-character-set=${DB_DEFAULT_CHARSET} > "$TMP_USERS" 2>&1; then
     echo "❌ ERROR: Failed to dump users and grants"
-    echo "Check the error messages above for details."
+    echo "Error output:"
+    head -200 "$TMP_USERS" 2>/dev/null || echo "(no error output captured)"
     echo "The database user may lack privileges to dump system users."
     rm -f "$TMP_USERS"
     return 1

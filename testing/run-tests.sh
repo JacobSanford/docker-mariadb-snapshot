@@ -213,7 +213,7 @@ echo "Step 5/5: Running snapshot tests..."
 echo ""
 
 # Test 1: Single database snapshot
-docker compose run --rm snapshot-single hourly > /dev/null 2>&1
+docker compose run --rm snapshot-single hourly
 run_test "Single database snapshot" "validate_snapshot ./snapshots/single/hourly.0/mysql/app1.gz app1"
 
 # Test 2: Multiple databases snapshot

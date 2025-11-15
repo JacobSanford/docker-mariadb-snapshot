@@ -25,7 +25,7 @@ Control how many backups are retained by rsnapshot (follows [rsnapshot retention
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `GZIP_COMPRESSION_LEVEL` | Level of [gzip compression](https://linux.die.net/man/1/gzip){target="_blank"} (1-9, where 9 is maximum compression) | `6` |
+| `GZIP_COMPRESSION_LEVEL` | Level of [gzip compression](https://en.wikipedia.org/wiki/Gzip){target="_blank"} (1-9, where 9 is maximum compression) | `6` |
 | `DB_DUMP_LOCATION` | Directory where backup files will be stored | `/data` |
 | `DB_DEFAULT_CHARSET` | Character set used for [mariadb-dump](https://mariadb.com/kb/en/mariadb-dump/){target="_blank"} operations | `utf8mb4` |
 

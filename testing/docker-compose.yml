@@ -1,0 +1,159 @@
+services:
+  # MySQL database server with sample databases
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-server
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: app1
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Example 1: Single database snapshot (legacy mode)
+  snapshot-single:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mariadb-snapshot:test
+    container_name: snapshot-single
+    restart: "no"
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_USER_NAME: root
+      DB_USER_PASSWORD: rootpassword
+      DB_DATABASE: app1
+      DB_STRUCT_TABLES: "cache_*,sessions"
+    volumes:
+      - ./snapshots/single:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # Example 2: Multiple databases (explicit list)
+  snapshot-multiple:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mariadb-snapshot:test
+    container_name: snapshot-multiple
+    restart: "no"
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_USER_NAME: root
+      DB_USER_PASSWORD: rootpassword
+      DB_DATABASES: "app1,app2,app3"
+      DB_STRUCT_TABLES: "cache_*,sessions"
+    volumes:
+      - ./snapshots/multiple:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # Example 3: Auto-discovery (all databases)
+  snapshot-all:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mariadb-snapshot:test
+    container_name: snapshot-all
+    restart: "no"
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_USER_NAME: root
+      DB_USER_PASSWORD: rootpassword
+      DB_SNAPSHOT_ALL_DATABASES: "true"
+      DB_EXCLUDE_DATABASES: "information_schema,performance_schema,mysql,sys"
+    volumes:
+      - ./snapshots/all:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # Example 4: Per-database structure-only tables
+  snapshot-per-db-config:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mariadb-snapshot:test
+    container_name: snapshot-per-db-config
+    restart: "no"
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_USER_NAME: root
+      DB_USER_PASSWORD: rootpassword
+      DB_DATABASES: "app1,app2"
+      # Per-database structure-only tables
+      DB_STRUCT_TABLES_APP1: "cache_*,sessions,watchdog"
+      DB_STRUCT_TABLES_APP2: "temp_*,cache"
+      # Retention policy
+      RSNAPSHOT_RETAIN_HOURLY: 24
+      RSNAPSHOT_RETAIN_DAILY: 7
+      RSNAPSHOT_RETAIN_WEEKLY: 4
+      RSNAPSHOT_RETAIN_MONTHLY: 12
+    volumes:
+      - ./snapshots/per-db:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # Example 5: Auto-discovery with combined snapshot
+  snapshot-combined:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mariadb-snapshot:test
+    container_name: snapshot-combined
+    restart: "no"
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_USER_NAME: root
+      DB_USER_PASSWORD: rootpassword
+      DB_SNAPSHOT_ALL_DATABASES: "true"
+      DB_SNAPSHOT_COMBINED: "true"
+      DB_EXCLUDE_DATABASES: "information_schema,performance_schema,mysql,sys"
+      # Optionally configure structure-only tables
+      DB_STRUCT_TABLES: "cache_*,sessions"
+    volumes:
+      - ./snapshots/combined:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # Example 6: Users and grants backup
+  snapshot-with-users:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mariadb-snapshot:test
+    container_name: snapshot-with-users
+    restart: "no"
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_USER_NAME: root
+      DB_USER_PASSWORD: rootpassword
+      DB_SNAPSHOT_ALL_DATABASES: "true"
+      DB_SNAPSHOT_USERS_GRANTS: "true"
+      DB_EXCLUDE_DATABASES: "information_schema,performance_schema,mysql,sys"
+    volumes:
+      - ./snapshots/with-users:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql-data:

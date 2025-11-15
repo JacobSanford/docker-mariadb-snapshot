@@ -1,0 +1,28 @@
+name: Test and Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: Setup/Validation Tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run tests
+      run: bash testing/run-tests.sh
+
+  build-push-images:
+    name: Build and Push Image
+    needs: [tests]
+    uses: unb-libraries/dockworker/.github/workflows/build-push.yaml@6.x
+    with:
+      build-themes: false
+      image-name: 'ghcr.io/jacobsanford/mariadb-snapshot'
+      push-all-branches: true
+      push-branches: '[]'
+    secrets:
+      GH_CONTAINER_REGISTRY_USER: ${{ github.actor }}
+      GH_CONTAINER_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}

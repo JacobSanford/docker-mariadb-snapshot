@@ -1,0 +1,86 @@
+site_name: docker-mariadb-snapshot
+site_description: MariaDB/MySQL snapshot container using rsnapshot for periodic database snapshots and rotation
+site_author: Jacob Sanford
+site_url: https://jacobsanford.github.io/docker-mariadb-snapshot/
+
+repo_name: JacobSanford/docker-mariadb-snapshot
+repo_url: https://github.com/JacobSanford/docker-mariadb-snapshot
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+theme:
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - tables
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.caret
+
+nav:
+  - Home: index.md
+  - User Guide:
+    - QuickStart: quickstart.md
+    - Configuration: configuration.md
+    - Sample Orchestration Use:
+      - Docker Compose: docker-compose.md
+      - Kubernetes: kubernetes.md
+    - Snapshot Metadata: metadata.md
+    - Restoring Snapshots: restoration.md
+    - Running Tests: running-tests.md
+    - Important Considerations: important-considerations.md
+
+plugins:
+  - search
+  - htmlproofer:
+      enabled: !ENV [CI, false] 
+      raise_error: true
+      raise_error_after_finish: true
+      validate_external_urls: true
+      validate_rendered_template: true
+  - enumerate-headings:
+      exclude:
+        - index.md

@@ -1,3 +1,13 @@
+---
+title: Snapshot Metadata
+description: Understanding the snapshot-metadata.json file generated with each backup operation
+audience: users
+doc_type: reference
+tags: [metadata, json, snapshot-info, configuration, troubleshooting]
+lastReviewed: 2025-11-16
+version: 1.x
+---
+
 # Snapshot Metadata
 
 Each snapshot run automatically generates a `snapshot-metadata.json` file containing detailed information about the backup operation. This file is stored alongside your database backups and rotated with them by rsnapshot.

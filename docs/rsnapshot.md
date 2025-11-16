@@ -1,4 +1,14 @@
-# Understanding RSnapshot Configuration
+---
+title: Understanding the RSnapshot Configuration
+description: How rsnapshot frequency labels and snapshot rotation work in docker-mariadb-snapshot
+audience: users
+doc_type: reference
+tags: [rsnapshot, configuration, rotation, retention, scheduling]
+lastReviewed: 2025-11-16
+version: 1.x
+---
+
+# Understanding the RSnapshot Configuration
 
 ## 'Frequency' Labels
 This image's environment variable names and rsnapshot configuration use the terms `hourly`, `daily`, `weekly`, and `monthly` to refer to different snapshot retention levels:

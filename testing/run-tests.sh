@@ -1,7 +1,7 @@
 #!/bin/bash
 # Automated test runner for docker-mariadb-snapshot
 # Tests all snapshot scenarios and validates snapshot integrity
-set -ex
+set -e
 
 FAILED=0
 TESTS_PASSED=0

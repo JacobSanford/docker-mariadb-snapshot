@@ -74,7 +74,9 @@ nav:
     - Running Tests: running-tests.md
     - Important Considerations: important-considerations.md
     - Security: security.md
-    - Contributing: contributing.md
+    - Contributing:
+      - General: contributing.md
+      - Style: style.md
 
 plugins:
   - search

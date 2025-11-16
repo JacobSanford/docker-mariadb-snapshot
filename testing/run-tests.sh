@@ -100,7 +100,7 @@ validate_structure_only() {
     return 0
 }
 
-# Helper function to validate users/grants backup
+# Helper function to validate users/grants snapshot
 validate_users_grants() {
     local snapshot_file="$1"
 
@@ -169,12 +169,12 @@ validate_metadata() {
 }
 
 echo "=================================================="
-echo "MySQL/MariaDB Snapshot Container - Test Suite"
+echo "MySQL/MariaDB Snapshot Image - Test Suite"
 echo "=================================================="
 echo ""
 
-# Step 1: Clean up any existing containers and volumes
-echo "Step 1/5: Cleaning up old containers and volumes..."
+# Step 1: Clean up any existing images and volumes
+echo "Step 1/5: Cleaning up old images and volumes..."
 docker compose down -v > /dev/null 2>&1
 docker run --rm -v "$(pwd)/snapshots:/snapshots" alpine:3.22 sh -c "rm -rf /snapshots/* && mkdir -p /snapshots" || true
 echo -e "${GREEN}Cleanup complete${NC}"
@@ -263,11 +263,11 @@ run_test "Structure-only tables (cache_pages)" "validate_structure_only ./snapsh
 run_test "Per-DB structure-only (app1 cache)" "validate_structure_only ./snapshots/per-db/hourly.0/mysql/app1.gz cache"
 run_test "Per-DB structure-only (app2 temp_files)" "validate_structure_only ./snapshots/per-db/hourly.0/mysql/app2.gz temp_files"
 
-# Test 8: Users and grants backup
+# Test 8: Users and grants snapshot
 docker compose run --rm snapshot-with-users hourly > /dev/null 2>&1
-run_test "Users/grants backup created" "validate_users_grants ./snapshots/with-users/hourly.0/mysql/users.sql.gz"
+run_test "Users/grants snapshot created" "validate_users_grants ./snapshots/with-users/hourly.0/mysql/users.sql.gz"
 run_test "Users/grants file exists" "[ -f ./snapshots/with-users/hourly.0/mysql/users.sql.gz ]"
-run_test "Database snapshots still created with users backup" "validate_snapshot ./snapshots/with-users/hourly.0/mysql/app1.gz app1"
+run_test "Database snapshots still created with users snapshot" "validate_snapshot ./snapshots/with-users/hourly.0/mysql/app1.gz app1"
 
 # Test 9: Snapshot metadata validation
 run_test "Metadata created (single)" "validate_metadata ./snapshots/single/hourly.0/mysql/snapshot-metadata.json"
@@ -285,8 +285,8 @@ fi
 echo "=================================================="
 echo ""
 
-# Cleanup: Stop and remove containers
-echo "Cleaning up containers..."
+# Cleanup: Stop and remove images
+echo "Cleaning up images..."
 docker compose down > /dev/null 2>&1
 echo -e "${GREEN}Cleanup complete${NC}"
 echo ""

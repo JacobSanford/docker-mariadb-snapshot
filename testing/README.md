@@ -1,6 +1,6 @@
 # Testing
 
-This directory contains automated tests for the docker-mariadb-snapshot container.
+This directory contains automated tests for the docker-mariadb-snapshot image.
 
 ## Quick Start
 
@@ -16,12 +16,12 @@ The test runner is self-contained and requires no manual setup. It will build th
 
 The test suite validates:
 
-- All backup modes (single, multiple, auto-discovery)
+- All snapshot modes (single, multiple, auto-discovery)
 - Structure-only table configurations (global and per-database)
-- Combined backup feature
+- Combined snapshot feature
 - File integrity and SQL validity
-- Backup rotation
+- Snapshot rotation
 
 ## Full Documentation
 
-For comprehensive testing documentation, see **[../docs/running-tests.md](../docs/running-tests.md)**
+For comprehensive testing documentation, see **[running-tests.md](https://jacobsanford.github.io/docker-mariadb-snapshot/running-tests.md)**

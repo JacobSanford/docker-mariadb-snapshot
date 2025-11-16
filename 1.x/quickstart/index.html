@@ -241,10 +241,10 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#understanding-backup-output">
+<a class="md-nav__link" href="#understanding-snapshot-output">
 <span class="md-ellipsis">
       
-        Understanding Backup Output
+        Understanding Snapshot Output
       
     </span>
 </a>
@@ -273,9 +273,21 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../rsnapshot/">
+<span class="md-ellipsis">
+    
+  
+    RSnapshot Configuration
+  
+
+    
+  </span>
+</a>
+</li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_3" type="checkbox"/>
-<label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
 <span class="md-ellipsis">
     
   
@@ -286,8 +298,8 @@
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_2_3_label" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="__nav_2_3">
+<nav aria-expanded="false" aria-labelledby="__nav_2_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_4">
 <span class="md-nav__icon md-icon"></span>
             
   
@@ -371,6 +383,30 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../security/">
+<span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../contributing/">
+<span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+</a>
+</li>
 </ul>
 </nav>
 </li>
@@ -429,10 +465,10 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#understanding-backup-output">
+<a class="md-nav__link" href="#understanding-snapshot-output">
 <span class="md-ellipsis">
       
-        Understanding Backup Output
+        Understanding Snapshot Output
       
     </span>
 </a>
@@ -460,14 +496,14 @@
 <p>Please review the <a href="../important-considerations/">Important Considerations</a> document. This package has not been reviewed for all possible use cases and environments. It should be considered an example, rather than a production-ready tool. Please ensure that you audit this package and how you deploy it against your specific environment and requirements.</p>
 </div>
 <h2 id="basic-usage"><span class="enumerate-headings-plugin enumerate-heading-plugin">1.1</span> Basic Usage</h2>
-<p>The container accepts one argument to specify the backup frequency:</p>
+<p>docker-mariadb-rsnapshot accepts one argument to specify the snapshot frequency:</p>
 <ul>
-<li><code>hourly</code> - Performs an hourly backup</li>
-<li><code>daily</code> - Performs a daily backup</li>
-<li><code>weekly</code> - Performs a weekly backup</li>
-<li><code>monthly</code> - Performs a monthly backup</li>
+<li><code>hourly</code> - Performs an hourly snapshot</li>
+<li><code>daily</code> - Performs a daily snapshot</li>
+<li><code>weekly</code> - Performs a weekly snapshot</li>
+<li><code>monthly</code> - Performs a monthly snapshot</li>
 </ul>
-<p>These are labels passed to rsnapshot, which handles backup rotation based on your retention configuration.</p>
+<p>These are labels passed to rsnapshot, which handles snapshot rotation based on your retention configuration.</p>
 <h2 id="docker-run-example"><span class="enumerate-headings-plugin enumerate-heading-plugin">1.2</span> Docker Run Example</h2>
 <p>Here's a minimal example backing up a single database:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
@@ -479,7 +515,7 @@
 </span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">  </span>-v<span class="w"> </span>/path/to/snapshots:/data<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">  </span>jacobsanford/docker-mariadb-snapshot:1.x<span class="w"> </span>hourly
 </span></code></pre></div>
-<p>This creates a backup in <code>/path/to/snapshots/hourly.0/mysql/myapp.gz</code>.</p>
+<p>This creates a snapshot in <code>/path/to/snapshots/hourly.0/mysql/myapp.gz</code>.</p>
 <h2 id="docker-compose-quick-example"><span class="enumerate-headings-plugin enumerate-heading-plugin">1.3</span> Docker Compose Quick Example</h2>
 <p>Create a <code>docker-compose.yml</code>:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">services</span><span class="p">:</span>
@@ -499,7 +535,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>mariadb-snapshot<span class="w"> </span>hourly
 </span></code></pre></div>
 <h3 id="scheduling-with-cron"><span class="enumerate-headings-plugin enumerate-heading-plugin">1.3.1</span> Scheduling with Cron</h3>
-<p>To run automated backups, add to your <a href="https://man7.org/linux/man-pages/man5/crontab.5.html" target="_blank">crontab</a>:</p>
+<p>To run automated snapshots, add to your <a href="https://man7.org/linux/man-pages/man5/crontab.5.html" target="_blank">crontab</a>:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1"># Hourly snapshots at minute 0</span>
 </span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="m">0</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/path/to/compose<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>mariadb-snapshot<span class="w"> </span>hourly
 </span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>
@@ -512,27 +548,27 @@
 </span><span id="__span-3-10"><a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="c1"># Monthly snapshots on the 1st at 4am</span>
 </span><span id="__span-3-11"><a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="m">0</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/path/to/compose<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>mariadb-snapshot<span class="w"> </span>monthly
 </span></code></pre></div>
-<h2 id="understanding-backup-output"><span class="enumerate-headings-plugin enumerate-heading-plugin">1.4</span> Understanding Backup Output</h2>
-<p>Backups are rotated and stored in timestamped snapshot directories per <a href="https://wiki.archlinux.org/title/Rsnapshot" target="_blank">rsnapshot conventions</a>:</p>
+<h2 id="understanding-snapshot-output"><span class="enumerate-headings-plugin enumerate-heading-plugin">1.4</span> Understanding Snapshot Output</h2>
+<p>Snapshots are rotated and stored in timestamped snapshot directories per <a href="https://wiki.archlinux.org/title/Rsnapshot" target="_blank">rsnapshot conventions</a>:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>/data/
-</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>├── hourly.0/    # Most recent hourly backup
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>├── hourly.0/    # Most recent hourly snapshot
 </span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>│   └── mysql/
 </span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a>│       └── myapp.gz
-</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>├── hourly.1/    # Previous hourly backup
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>├── hourly.1/    # Previous hourly snapshot
 </span><span id="__span-4-6"><a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a>├── hourly.2/
-</span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a>├── daily.0/     # Most recent daily backup
+</span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a>├── daily.0/     # Most recent daily snapshot
 </span><span id="__span-4-8"><a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a>│   └── mysql/
 </span><span id="__span-4-9"><a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a>│       └── myapp.gz
 </span><span id="__span-4-10"><a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a>├── daily.1/
-</span><span id="__span-4-11"><a href="#__codelineno-4-11" id="__codelineno-4-11" name="__codelineno-4-11"></a>└── weekly.0/    # Most recent weekly backup
+</span><span id="__span-4-11"><a href="#__codelineno-4-11" id="__codelineno-4-11" name="__codelineno-4-11"></a>└── weekly.0/    # Most recent weekly snapshot
 </span><span id="__span-4-12"><a href="#__codelineno-4-12" id="__codelineno-4-12" name="__codelineno-4-12"></a>    └── mysql/
 </span><span id="__span-4-13"><a href="#__codelineno-4-13" id="__codelineno-4-13" name="__codelineno-4-13"></a>        └── myapp.gz
 </span></code></pre></div>
-<p>The <code>.0</code> directories contain the newest backups. Older backups are rotated to <code>.1</code>, <code>.2</code>, etc., based on your retention policy.</p>
+<p>The <code>.0</code> directories contain the newest snapshots. Older snapshots are rotated to <code>.1</code>, <code>.2</code>, etc., based on your retention policy.</p>
 <h2 id="next-steps"><span class="enumerate-headings-plugin enumerate-heading-plugin">1.5</span> Next Steps</h2>
 <ul>
-<li><strong><a href="../configuration/">Configuration</a></strong> - Learn about all environment variables and backup modes</li>
-<li><strong><a href="../docker-compose/">Docker Compose Examples</a></strong> - See examples for all backup modes</li>
+<li><strong><a href="../configuration/">Configuration</a></strong> - Learn about all environment variables and snapshot modes</li>
+<li><strong><a href="../docker-compose/">Docker Compose Examples</a></strong> - See examples for all snapshot modes</li>
 <li><strong><a href="../kubernetes/">Kubernetes</a></strong> - Deploy with CronJob for automated scheduling</li>
 </ul>
 </article>

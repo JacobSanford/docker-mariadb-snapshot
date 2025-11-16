@@ -9,7 +9,7 @@
 <meta content="Jacob Sanford" name="author"/>
 <link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/configuration/" rel="canonical"/>
 <link href="../quickstart/" rel="prev"/>
-<link href="../docker-compose/" rel="next"/>
+<link href="../rsnapshot/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
 <title>Configuration Reference - docker-mariadb-snapshot</title>
@@ -311,10 +311,10 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#users-and-grants-backup">
+<a class="md-nav__link" href="#users-and-grants-snapshot">
 <span class="md-ellipsis">
       
-        Users and Grants Backup
+        Users and Grants Snapshot
       
     </span>
 </a>
@@ -322,9 +322,21 @@
 </ul>
 </nav>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../rsnapshot/">
+<span class="md-ellipsis">
+    
+  
+    RSnapshot Configuration
+  
+
+    
+  </span>
+</a>
+</li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_3" type="checkbox"/>
-<label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
 <span class="md-ellipsis">
     
   
@@ -335,8 +347,8 @@
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_2_3_label" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="__nav_2_3">
+<nav aria-expanded="false" aria-labelledby="__nav_2_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_4">
 <span class="md-nav__icon md-icon"></span>
             
   
@@ -414,6 +426,30 @@
     
   
     Important Considerations
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../security/">
+<span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../contributing/">
+<span class="md-ellipsis">
+    
+  
+    Contributing
   
 
     
@@ -536,10 +572,10 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#users-and-grants-backup">
+<a class="md-nav__link" href="#users-and-grants-snapshot">
 <span class="md-ellipsis">
       
-        Users and Grants Backup
+        Users and Grants Snapshot
       
     </span>
 </a>
@@ -552,9 +588,9 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="snapshot-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.</span> Snapshot Configuration</h1>
-<p>This page provides a complete reference for all configuration options. Configuration is performed via environment variables within the container.</p>
+<p>This page provides a complete reference for all configuration options. All configuration options are set via environment variables within the running container.</p>
 <h2 id="rsnapshot-retention-settings"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.1</span> Rsnapshot Retention Settings</h2>
-<p>Control how many backups are retained by rsnapshot (follows <a href="https://wiki.archlinux.org/title/Rsnapshot" target="_blank">rsnapshot retention models</a>):</p>
+<p>Control how many snapshots are retained by rsnapshot (follows <a href="https://wiki.archlinux.org/title/Rsnapshot" target="_blank">rsnapshot retention models</a>):</p>
 <table>
 <thead>
 <tr>
@@ -603,7 +639,7 @@
 </tr>
 <tr>
 <td><code>DB_DUMP_LOCATION</code></td>
-<td>Directory where backup files will be stored</td>
+<td>Directory where snapshot files will be stored</td>
 <td><code>/data</code></td>
 </tr>
 <tr>
@@ -613,9 +649,9 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Tip:</strong> Higher compression levels reduce file size but increase CPU usage and backup time.</p>
+<p><strong>Tip:</strong> Higher compression levels reduce file size but increase CPU usage and snapshot time.</p>
 <h2 id="mysql-connection-parameters"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.3</span> MySQL Connection Parameters</h2>
-<p>Configure how the container connects to your MariaDB/MySQL server:</p>
+<p>Configure how docker-mariadb-rsnapshot connects to your MariaDB/MySQL server:</p>
 <table>
 <thead>
 <tr>
@@ -647,11 +683,11 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Security Note:</strong> Always use a dedicated backup user with minimal required privileges (<code>SELECT</code>, <code>LOCK TABLES</code>, <code>SHOW VIEW</code>, <code>EVENT</code>, <code>TRIGGER</code>).</p>
+<p><strong>Security Note:</strong> Always use a dedicated snapshot user with minimal required privileges (<code>SELECT</code>, <code>LOCK TABLES</code>, <code>SHOW VIEW</code>, <code>EVENT</code>, <code>TRIGGER</code>).</p>
 <h2 id="database-selection-modes"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4</span> Database Selection Modes</h2>
-<p>The container supports three ways to select databases for backup. If multiple modes are configured, they are evaluated in priority order.</p>
+<p>docker-mariadb-rsnapshot supports three ways to select databases for snapshot. If multiple modes are configured, they are evaluated in priority order.</p>
 <h3 id="mode-1-explicit-list"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4.1</span> Mode 1: Explicit List</h3>
-<p>Backup a specific list of databases. Each database is backed up to a separate <code>.gz</code> file.</p>
+<p>Snapshot a specific list of databases. Each database is backed up to a separate <code>.gz</code> file.</p>
 <table>
 <thead>
 <tr>
@@ -663,13 +699,13 @@
 <tbody>
 <tr>
 <td><code>DB_DATABASES</code></td>
-<td>Comma-separated list of databases to backup</td>
+<td>Comma-separated list of databases to snapshot</td>
 <td><code>db1,db2,db3</code></td>
 </tr>
 </tbody>
 </table>
 <h3 id="mode-2-auto-discovery"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4.2</span> Mode 2: Auto-Discovery</h3>
-<p>Automatically discover and backup all databases on the server, excluding system databases.</p>
+<p>Automatically discover and snapshot all databases on the server, excluding system databases.</p>
 <table>
 <thead>
 <tr>
@@ -691,13 +727,13 @@
 </tr>
 <tr>
 <td><code>DB_SNAPSHOT_COMBINED</code></td>
-<td>Set to <code>true</code> or <code>1</code> to create additional combined backup file</td>
+<td>Set to <code>true</code> or <code>1</code> to create additional combined snapshot file</td>
 <td>(disabled)</td>
 </tr>
 </tbody>
 </table>
 <h3 id="mode-3-single-database-legacy"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4.3</span> Mode 3: Single Database - Legacy</h3>
-<p>Backup a single specific database. This is the original behavior maintained for backward compatibility. Do not use this mode, as it may be removed in future releases.</p>
+<p>Snapshot a single specific database. This is the original behavior maintained for backward compatibility. Do not use this mode, as it may be removed in future releases.</p>
 <table>
 <thead>
 <tr>
@@ -709,13 +745,13 @@
 <tbody>
 <tr>
 <td><code>DB_DATABASE</code></td>
-<td>Single database to backup</td>
+<td>Single database to snapshot</td>
 <td><code>myapp</code></td>
 </tr>
 </tbody>
 </table>
 <h2 id="structure-only-tables"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.5</span> Structure-Only Tables</h2>
-<p>Often, certain tables (like cache or session tables) do not need their data backed up, only their structure. This feature allows you to specify tables whose data should be excluded from the backup while preserving their schema.</p>
+<p>Often, certain tables (like cache or session tables) do not need their data backed up, only their structure. This feature allows you to specify tables whose data should be excluded from the snapshot while preserving their schema.</p>
 <h3 id="global-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.5.1</span> Global Configuration</h3>
 <p>To exclude structure-only tables across all snapshotted databases:</p>
 <table>
@@ -782,8 +818,8 @@
 </tr>
 </tbody>
 </table>
-<h2 id="users-and-grants-backup"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.6</span> Users and Grants Backup</h2>
-<p>In addition to backing up database contents, you can also backup MariaDB/MySQL user accounts and their grants. This creates a separate backup file containing user definitions and privileges.</p>
+<h2 id="users-and-grants-snapshot"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.6</span> Users and Grants Snapshot</h2>
+<p>In addition to backing up database contents, you can also snapshot MariaDB/MySQL user accounts and their grants. This creates a separate snapshot file containing user definitions and privileges.</p>
 <table>
 <thead>
 <tr>
@@ -795,19 +831,19 @@
 <tbody>
 <tr>
 <td><code>DB_SNAPSHOT_USERS_GRANTS</code></td>
-<td>Set to <code>true</code> or <code>1</code> to backup users and grants</td>
+<td>Set to <code>true</code> or <code>1</code> to snapshot users and grants</td>
 <td>(disabled)</td>
 </tr>
 </tbody>
 </table>
-<p>When enabled, the container will create an additional file <code>users.sql.gz</code> containing:
+<p>When enabled, docker-mariadb-rsnapshot will create an additional file <code>users.sql.gz</code> containing:
 - User account definitions (<code>CREATE USER</code> statements)
 - Grant permissions (<code>GRANT</code> statements)
 - Password hashes and authentication plugins</p>
 <p><strong>Important Notes:</strong>
 - The database user must have privileges to read the <code>mysql</code> system database
-- The backup user typically needs <code>SELECT</code> privilege on <code>mysql.*</code> to dump users
-- User backups are created once per snapshot invocation (not per database)
+- The snapshot user typically needs <code>SELECT</code> privilege on <code>mysql.*</code> to dump users
+- User snapshots are created once per snapshot invocation (not per database)
 - This feature can be used with any database selection mode (single, explicit list, or auto-discovery)</p>
 </article>
 </div>

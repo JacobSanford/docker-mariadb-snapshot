@@ -8,7 +8,7 @@
 <meta content="Sample Docker Compose configurations for all backup modes including single database, multiple databases, auto-discovery, and structure-only tables" name="description"/>
 <meta content="Jacob Sanford" name="author"/>
 <link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/docker-compose/" rel="canonical"/>
-<link href="../configuration/" rel="prev"/>
+<link href="../rsnapshot/" rel="prev"/>
 <link href="../kubernetes/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
@@ -195,9 +195,21 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../rsnapshot/">
+<span class="md-ellipsis">
+    
+  
+    RSnapshot Configuration
+  
+
+    
+  </span>
+</a>
+</li>
 <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_2_3" type="checkbox"/>
-<label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
 <span class="md-ellipsis">
     
   
@@ -208,8 +220,8 @@
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="true" aria-labelledby="__nav_2_3_label" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="__nav_2_3">
+<nav aria-expanded="true" aria-labelledby="__nav_2_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_4">
 <span class="md-nav__icon md-icon"></span>
             
   
@@ -380,6 +392,30 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../security/">
+<span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../contributing/">
+<span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+</a>
+</li>
 </ul>
 </nav>
 </li>
@@ -471,13 +507,13 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="docker-compose-examples"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.</span> Docker Compose Examples</h1>
+<h1 id="docker-compose-examples"><span class="enumerate-headings-plugin enumerate-heading-plugin">4.</span> Docker Compose Examples</h1>
 <p>This page provides <a href="https://docs.docker.com/compose/" target="_blank">Docker Compose</a> examples.</p>
 <div class="admonition warning">
 <p class="admonition-title">Your Responsibility</p>
 <p>Please review the <a href="../important-considerations/">Important Considerations</a> document. This package has not been reviewed for all possible use cases and environments. It should be considered an example, rather than a production-ready tool. Please ensure that you audit this package and how you deploy it against your specific environment and requirements.</p>
 </div>
-<h2 id="drop-in-example"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.1</span> Drop-In Example</h2>
+<h2 id="drop-in-example"><span class="enumerate-headings-plugin enumerate-heading-plugin">4.1</span> Drop-In Example</h2>
 <p>A full Docker Compose setup with MySQL server and backup service:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">  </span><span class="nt">mysql</span><span class="p">:</span>
@@ -508,8 +544,8 @@
 </span><span id="__span-0-27"><a href="#__codelineno-0-27" id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="nt">volumes</span><span class="p">:</span>
 </span><span id="__span-0-28"><a href="#__codelineno-0-28" id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">  </span><span class="nt">mysql-data</span><span class="p">:</span>
 </span></code></pre></div>
-<h2 id="other-examples"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.2</span> Other Examples</h2>
-<h3 id="multiple-specific-databases"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.2.1</span> Multiple Specific Databases</h3>
+<h2 id="other-examples"><span class="enumerate-headings-plugin enumerate-heading-plugin">4.2</span> Other Examples</h2>
+<h3 id="multiple-specific-databases"><span class="enumerate-headings-plugin enumerate-heading-plugin">4.2.1</span> Multiple Specific Databases</h3>
 <p>Backs up a specific list of databases. Each database is backed up to a separate file.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="nt">mysql</span><span class="p">:</span>
@@ -528,7 +564,7 @@
 </span><span id="__span-1-15"><a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
 </span><span id="__span-1-16"><a href="#__codelineno-1-16" id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./snapshots:/data</span>
 </span></code></pre></div>
-<h3 id="all-databases"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.2.2</span> All Databases</h3>
+<h3 id="all-databases"><span class="enumerate-headings-plugin enumerate-heading-plugin">4.2.2</span> All Databases</h3>
 <p>Automatically discovers and backs up all non-system databases.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">mysql</span><span class="p">:</span>
@@ -547,7 +583,7 @@
 </span><span id="__span-2-15"><a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>
 </span><span id="__span-2-16"><a href="#__codelineno-2-16" id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./snapshots:/data</span>
 </span></code></pre></div>
-<h3 id="with-structure-only-tables-per-database"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.2.3</span> With Structure-Only Tables Per Database</h3>
+<h3 id="with-structure-only-tables-per-database"><span class="enumerate-headings-plugin enumerate-heading-plugin">4.2.3</span> With Structure-Only Tables Per Database</h3>
 <p>Different structure-only table patterns for each database.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="nt">mysql</span><span class="p">:</span>
@@ -575,12 +611,12 @@
 </span><span id="__span-3-24"><a href="#__codelineno-3-24" id="__codelineno-3-24" name="__codelineno-3-24"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
 </span><span id="__span-3-25"><a href="#__codelineno-3-25" id="__codelineno-3-25" name="__codelineno-3-25"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./snapshots:/data</span>
 </span></code></pre></div>
-<h2 id="running-backups"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.3</span> Running Backups</h2>
+<h2 id="running-backups"><span class="enumerate-headings-plugin enumerate-heading-plugin">4.3</span> Running Backups</h2>
 <p>All examples use the same pattern:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>&lt;service-name&gt;<span class="w"> </span>&lt;frequency&gt;
 </span></code></pre></div>
 <p>Where <code>&lt;frequency&gt;</code> is one of: <code>hourly</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code></p>
-<h2 id="next-steps"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.4</span> Next Steps</h2>
+<h2 id="next-steps"><span class="enumerate-headings-plugin enumerate-heading-plugin">4.4</span> Next Steps</h2>
 <ul>
 <li><strong><a href="../configuration/">Configuration Reference</a></strong> - Detailed environment variable documentation</li>
 <li><strong><a href="../kubernetes/">Kubernetes Examples</a></strong> - Deploy with CronJob for automated scheduling</li>

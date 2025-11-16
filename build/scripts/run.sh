@@ -14,4 +14,5 @@ echo "Configuration:"
 cat /etc/rsnapshot.conf
 echo "Generating Snapshots..."
 
+/usr/bin/rsnapshot -c /etc/rsnapshot.conf sync
 /usr/bin/rsnapshot -c /etc/rsnapshot.conf $FREQUENCY

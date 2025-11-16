@@ -65,6 +65,7 @@ nav:
   - User Guide:
     - QuickStart: quickstart.md
     - Configuration: configuration.md
+    - RSnapshot Configuration: rsnapshot.md
     - Sample Orchestration Use:
       - Docker Compose: docker-compose.md
       - Kubernetes: kubernetes.md
@@ -72,6 +73,8 @@ nav:
     - Restoring Snapshots: restoration.md
     - Running Tests: running-tests.md
     - Important Considerations: important-considerations.md
+    - Security: security.md
+    - Contributing: contributing.md
 
 plugins:
   - search

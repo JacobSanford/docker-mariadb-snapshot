@@ -3,7 +3,7 @@
   <img src="docs/images/logo.png" alt="docker-mariadb-snapshot logo">
 </p>
 
-A [Docker](https://www.docker.com){target="_blank"} image that wraps [mariadb-dump](https://mariadb.org)/[mysqldump](https://www.mysql.com) and [rsnapshot](https://rsnapshot.org) to provide a drop-in solution for periodic snapshots of MariaDB/MySQL databases with automated rotation and retention.
+A [Docker](https://www.docker.com) image that wraps [mariadb-dump](https://mariadb.org)/[mysqldump](https://www.mysql.com) and [rsnapshot](https://rsnapshot.org) to provide a drop-in solution for periodic snapshots of MariaDB/MySQL databases with automated rotation and retention.
 
 The primary goals of docker-mariadb-snapshot are reliability, simplicity, and ease of use.
 

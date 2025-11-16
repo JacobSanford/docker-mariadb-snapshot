@@ -15,28 +15,18 @@ Although these appear to be time-based settings, it is important to understand _
 The actual frequency of when each level is executed is solely determined by how you schedule rsnapshot (e.g., via cron jobs).
 
 ## Snapshot Rotation
-Rotation only happens for the level you invoke. When you run:
+By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. In the above configuration, the daily,weekly, and monthly levels 'promote' the oldest snapshot from the level above it __instead of creating a new snapshot from live data__.
 
-```
-rsnapshot daily
-```
+docker-mariadb-snapshot instead leverages the `sync_first     1` rsnapshot configuration item. Consequently, __running docker-mariadb-snapshot with any frequency level as an argument will always snapshot the live data before performing the rotation__, and rotation only happens within the level you invoke.
+
+This is less efficient in terms of storage and snapshot time, but it guarantees that each snapshot level contains a full snapshot of the live data exactly at the time of execution.
+
+Therefore, running docker-mariadb-snapshot with a `daily` argument will execute as follows
 
 rsnapshot will:
 
 Rotate the daily.* set (daily.6 → daily.7, ..., daily.0 → daily.1)
 
-Create/refresh daily.0 from the live filesystem (using hard links to save space).
+Create a new daily.0 daily snapshot from the live filesystem.
 
-It will completely ignore the other levels:
-
-hourly.*
-weekly.*
-monthly.*
-
-Those are only rotated when you explicitly run:
-
-```
-rsnapshot hourly
-rsnapshot weekly
-rsnapshot monthly
-```
+It will completely ignore the other levels and never 'promote' snapshots from hourly to daily, daily to weekly, or weekly to monthly.

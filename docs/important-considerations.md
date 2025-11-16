@@ -26,6 +26,11 @@ This package may not be suitable for all environments. Please ensure that you au
 ## Sensitive Data
 Database snapshots may contain sensitive, personal, or confidential data. Ensure that snapshot files are stored securely and access is restricted.
 
+## Non-Default rsnapshot Configuration
+By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. docker-mariadb-snapshot instead leverages the `sync_first     1` rsnapshot configuration item.
+
+Consequently, running docker-mariadb-snapshot with any frequency level as an argument __will always snapshot the live data before performing the rotation__, and rotation only happens within the level you invoke. See the [Understanding the RSnapshot Configuration](rsnapshot.md) document for more details.
+
 ## Container Restart Policies
 The image ENTRYPOINT will return a non-zero exit code if any part of the snapshot process fails (even if only one database snapshot in many fails).
 

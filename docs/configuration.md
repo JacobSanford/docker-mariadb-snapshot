@@ -33,7 +33,7 @@ Control how many snapshots are retained by rsnapshot (follows [rsnapshot retenti
 
 ## MySQL Connection Parameters
 
-Configure how docker-mariadb-rsnapshot connects to your MariaDB/MySQL server:
+Configure how docker-mariadb-snapshot connects to your MariaDB/MySQL server:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
@@ -46,7 +46,7 @@ Configure how docker-mariadb-rsnapshot connects to your MariaDB/MySQL server:
 
 ## Database Selection Modes
 
-docker-mariadb-rsnapshot supports three ways to select databases for snapshot. If multiple modes are configured, they are evaluated in priority order.
+docker-mariadb-snapshot supports three ways to select databases for snapshot. If multiple modes are configured, they are evaluated in priority order.
 
 ### Mode 1: Explicit List
 
@@ -124,7 +124,7 @@ In addition to backing up database contents, you can also snapshot MariaDB/MySQL
 |----------|-------------|---------|
 | `DB_SNAPSHOT_USERS_GRANTS` | Set to `true` or `1` to snapshot users and grants | (disabled) |
 
-When enabled, docker-mariadb-rsnapshot will create an additional file `users.sql.gz` containing:
+When enabled, docker-mariadb-snapshot will create an additional file `users.sql.gz` containing:
 - User account definitions (`CREATE USER` statements)
 - Grant permissions (`GRANT` statements)
 - Password hashes and authentication plugins

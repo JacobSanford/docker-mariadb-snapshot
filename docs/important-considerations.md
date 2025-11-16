@@ -34,13 +34,13 @@ Consequently, running docker-mariadb-snapshot with any frequency level as an arg
 ## Container Restart Policies
 The image ENTRYPOINT will return a non-zero exit code if any part of the snapshot process fails (even if only one database snapshot in many fails).
 
-This means: If only one database in an entire snapshot failed to snapshot, docker-mariadb-rsnapshot will still signal the orchestration system that the run has failed. This allows observability and notification of snapshot issues.
+This means: If only one database in an entire snapshot failed to snapshot, docker-mariadb-snapshot will still signal the orchestration system that the run has failed. This allows observability and notification of snapshot issues.
 
 Other databases/users may have successfully snapshotted during such a failed run. To err on the side of caution, __a partial snapshot failure is still post-processed as if it were successful__ - rotation will occur, and the snapshot files created during that run will be retained according to your retention policies.
 
-A consequence of this: if a snapshot fails and docker-mariadb-rsnapshot exits with a non-zero status, a container restart policy like `always` or `on-failure` could cause a cascading string of restarts and failed snapshots, ovewriting many retained 'good' snapshots with the current failure.
+A consequence of this: if a snapshot fails and docker-mariadb-snapshot exits with a non-zero status, a container restart policy like `always` or `on-failure` could cause a cascading string of restarts and failed snapshots, overwriting many retained 'good' snapshots with the current failure.
 
-Although all examples within this documentation set docker-mariadb-rsnapshot restart policy to prevent automatic restarts on failure, it is important to ensure that your orchestration system or container runtime is configured similarly to handle these scenarios appropriately.
+Although all examples within this documentation set docker-mariadb-snapshot restart policy to prevent automatic restarts on failure, it is important to ensure that your orchestration system or container runtime is configured similarly to handle these scenarios appropriately.
 
 ### Suggested Configurations
 #### docker-compose

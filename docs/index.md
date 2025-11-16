@@ -1,6 +1,6 @@
 ---
 title: docker-mariadb-snapshot Documentation
-description: Docker imagefor periodic MariaDB/MySQL database snapshots with rotation using rsnapshot
+description: Docker image for periodic MariaDB/MySQL database snapshots with rotation using rsnapshot
 audience: users
 doc_type: landing
 tags: [mysql, mariadb, backup, snapshot, rsnapshot, docker, database]

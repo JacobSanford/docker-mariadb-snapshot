@@ -17,7 +17,7 @@ Get up and running with docker-mariadb-snapshot in 5 minutes.
 
 ## Basic Usage
 
-docker-mariadb-rsnapshot accepts one argument to specify the snapshot frequency:
+docker-mariadb-snapshot accepts one argument to specify the snapshot frequency:
 
 - `hourly` - Performs an hourly snapshot
 - `daily` - Performs a daily snapshot

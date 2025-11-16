@@ -9,13 +9,13 @@ The primary goals of docker-mariadb-snapshot are reliability, simplicity, and ea
 
 ## Documentation
 
-Read the [Full documentation](https://jacobsanford.github.io/docker-mariadb-snapshot/latest/)
+Read the [Full documentation](https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/)
 
-- **[Quick Start Guide](https://jacobsanford.github.io/docker-mariadb-snapshot/latest/quickstart)** - Get started in 5 minutes
-- **[Configuration Reference](https://jacobsanford.github.io/docker-mariadb-snapshot/latest/configuration)** - Complete environment variable guide
-- **[Docker Compose Examples](https://jacobsanford.github.io/docker-mariadb-snapshot/latest/docker-compose)** - Sample configurations for all modes
-- **[Kubernetes Deployment](https://jacobsanford.github.io/docker-mariadb-snapshot/latest/kubernetes)** - CronJob configurations
-- **[Running Tests](https://jacobsanford.github.io/docker-mariadb-snapshot/latest/running-tests)** - Developer testing guide
+- **[Quick Start Guide](https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/quickstart)** - Get started in 5 minutes
+- **[Configuration Reference](https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/configuration)** - Complete environment variable guide
+- **[Docker Compose Examples](https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/docker-compose)** - Sample configurations for all modes
+- **[Kubernetes Deployment](https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/kubernetes)** - CronJob configurations
+- **[Running Tests](https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/running-tests)** - Developer testing guide
 ## Quick Start
 
 ### Docker CLI

@@ -26,7 +26,7 @@ services:
 
   # Backup service
   mariadb-snapshot:
-    image: jacobsanford/docker-docker-mariadb-snapshot:latest
+    image: jacobsanford/docker-mariadb-snapshot:latest
     restart: "no"
     environment:
       DB_HOSTNAME: mysql
@@ -61,7 +61,7 @@ services:
     [...]
 
   mariadb-snapshot:
-    image: jacobsanford/docker-docker-mariadb-snapshot:latest
+    image: jacobsanford/docker-mariadb-snapshot:latest
     restart: "no"
     environment:
       DB_HOSTNAME: mysql
@@ -84,7 +84,7 @@ services:
     [...]
 
   mariadb-snapshot:
-      image: jacobsanford/docker-docker-mariadb-snapshot:latest
+      image: jacobsanford/docker-mariadb-snapshot:latest
       restart: "no"
       environment:
         DB_HOSTNAME: mysql
@@ -107,7 +107,7 @@ services:
     [...]
 
   mariadb-snapshot:
-    image: jacobsanford/docker-docker-mariadb-snapshot:latest
+    image: jacobsanford/docker-mariadb-snapshot:latest
     restart: "no"
     environment:
       DB_HOSTNAME: mysql

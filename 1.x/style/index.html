@@ -5,14 +5,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Guidelines for contributing to docker-mariadb-snapshot" name="description"/>
+<meta content="MariaDB/MySQL snapshot container using rsnapshot for periodic database snapshots and rotation" name="description"/>
 <meta content="Jacob Sanford" name="author"/>
-<link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/contributing/" rel="canonical"/>
-<link href="../security/" rel="prev"/>
-<link href="../style/" rel="next"/>
+<link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/style/" rel="canonical"/>
+<link href="../contributing/" rel="prev"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
-<title>Contributing - docker-mariadb-snapshot</title>
+<title>Style - docker-mariadb-snapshot</title>
 <link href="../assets/stylesheets/main.618322db.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -26,7 +25,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#contributing">
+<a class="md-skip" href="#documentation-style-guide">
           Skip to content
         </a>
 </div>
@@ -52,7 +51,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Contributing
+              Style
             
           </span>
 </div>
@@ -340,13 +339,25 @@
 
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../contributing/">
+<span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+</a>
+</li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
 <span class="md-ellipsis">
     
   
-    General
+    Style
   
 
     
@@ -357,7 +368,7 @@
 <span class="md-ellipsis">
     
   
-    General
+    Style
   
 
     
@@ -370,68 +381,97 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#quick-checklist">
+<a class="md-nav__link" href="#product-naming">
 <span class="md-ellipsis">
       
-        Quick Checklist
-      
-    </span>
-</a>
-<nav aria-label="Quick Checklist" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#code-changes">
-<span class="md-ellipsis">
-      
-        Code Changes
+        Product Naming
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#documentation-changes">
+<a class="md-nav__link" href="#front-matter">
 <span class="md-ellipsis">
       
-        Documentation Changes
+        Front Matter
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#headings">
+<span class="md-ellipsis">
+      
+        Headings
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#code-blocks">
+<span class="md-ellipsis">
+      
+        Code Blocks
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#links">
+<span class="md-ellipsis">
+      
+        Links
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#inline-code">
+<span class="md-ellipsis">
+      
+        Inline Code
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#admonitions">
+<span class="md-ellipsis">
+      
+        Admonitions
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tables">
+<span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tone-and-voice">
+<span class="md-ellipsis">
+      
+        Tone and Voice
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#file-organization">
+<span class="md-ellipsis">
+      
+        File Organization
       
     </span>
 </a>
 </li>
 </ul>
 </nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#testing">
-<span class="md-ellipsis">
-      
-        Testing
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#pull-request-template">
-<span class="md-ellipsis">
-      
-        Pull Request Template
-      
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../style/">
-<span class="md-ellipsis">
-    
-  
-    Style
-  
-
-    
-  </span>
-</a>
 </li>
 </ul>
 </nav>
@@ -454,50 +494,91 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#quick-checklist">
+<a class="md-nav__link" href="#product-naming">
 <span class="md-ellipsis">
       
-        Quick Checklist
-      
-    </span>
-</a>
-<nav aria-label="Quick Checklist" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#code-changes">
-<span class="md-ellipsis">
-      
-        Code Changes
+        Product Naming
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#documentation-changes">
+<a class="md-nav__link" href="#front-matter">
 <span class="md-ellipsis">
       
-        Documentation Changes
-      
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#testing">
-<span class="md-ellipsis">
-      
-        Testing
+        Front Matter
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#pull-request-template">
+<a class="md-nav__link" href="#headings">
 <span class="md-ellipsis">
       
-        Pull Request Template
+        Headings
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#code-blocks">
+<span class="md-ellipsis">
+      
+        Code Blocks
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#links">
+<span class="md-ellipsis">
+      
+        Links
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#inline-code">
+<span class="md-ellipsis">
+      
+        Inline Code
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#admonitions">
+<span class="md-ellipsis">
+      
+        Admonitions
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tables">
+<span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tone-and-voice">
+<span class="md-ellipsis">
+      
+        Tone and Voice
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#file-organization">
+<span class="md-ellipsis">
+      
+        File Organization
       
     </span>
 </a>
@@ -509,36 +590,119 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="contributing"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.</span> Contributing</h1>
-<p>Contributions are welcome! Please follow these guidelines when submitting pull requests.</p>
-<h2 id="quick-checklist"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1</span> Quick Checklist</h2>
-<h3 id="code-changes"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.1</span> Code Changes</h3>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> All tests pass locally (<code>./testing/run-tests.sh</code>)</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> New tests added for new functionality</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Code follows project style guidelines</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Self-review completed</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Code commented where necessary</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> No new warnings generated</li>
-</ul>
-<h3 id="documentation-changes"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.2</span> Documentation Changes</h3>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Front matter added to new/updated pages (see PR template)</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Internal links tested (<code>mkdocs serve</code>)</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"><span class="task-list-indicator"></span></input></label> Code examples tested/verified</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> New pages added to <code>mkdocs.yml</code> nav</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> "See Also" sections updated with cross-references</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> No hardcoded version numbers or test counts</li>
-<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Images optimized (&lt;500KB) with alt text</li>
-</ul>
-<h2 id="testing"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.2</span> Testing</h2>
-<p>Run the test suite before submitting:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>testing
-</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>./testing/run-tests.sh
+<h1 id="documentation-style-guide"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.</span> Documentation Style Guide</h1>
+<p>This brief style guide ensures consistency across the docker-mariadb-snapshot documentation.</p>
+<h2 id="product-naming"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.1</span> Product Naming</h2>
+<p><strong>Canonical Name:</strong> <code>docker-mariadb-snapshot</code></p>
+<p>Use this exact form in all documentation.</p>
+<h2 id="front-matter"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.2</span> Front Matter</h2>
+<p>All <code>.md</code> files must include complete YAML front matter:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nn">---</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Page Title</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">One-sentence summary of the page content</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="nt">audience</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">users|operators|developers</span>
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="nt">doc_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tutorial|howto|explanation|reference|guide|landing|quickstart</span>
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">keyword1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">keyword2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">keyword3</span><span class="p p-Indicator">]</span>
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="nt">lastReviewed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YYYY-MM-DD</span>
+</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.x</span>
+</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="nn">---</span>
 </span></code></pre></div>
-<p>See <a href="../running-tests/">Running Tests</a> for details.</p>
-<h2 id="pull-request-template"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.3</span> Pull Request Template</h2>
-<p>The full PR checklist is available in <code>.github/PULL_REQUEST_TEMPLATE.md</code>.</p>
+<p><strong>Required fields:</strong></p>
+<ul>
+<li><code>title</code>: Descriptive page title</li>
+<li><code>description</code>: Brief one-sentence summary</li>
+<li><code>audience</code>: Target reader (users, operators, or developers)</li>
+<li><code>doc_type</code>: Documentation type following Diátaxis framework</li>
+<li><code>tags</code>: Array of relevant keywords</li>
+<li><code>lastReviewed</code>: ISO date of last review</li>
+<li><code>version</code>: Product version (currently <code>1.x</code>)</li>
+</ul>
+<h2 id="headings"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.3</span> Headings</h2>
+<p><strong>Capitalization:</strong> Use sentence case with key terms capitalized</p>
+<p>Examples:</p>
+<ul>
+<li>✓ <code>## Docker Compose Examples</code></li>
+<li>✓ <code>## Structure-Only Tables</code></li>
+<li>✓ <code>## MySQL Connection Parameters</code></li>
+<li>✗ <code>## docker compose examples</code> (too lowercase)</li>
+<li>✗ <code>## DOCKER COMPOSE EXAMPLES</code> (too uppercase)</li>
+</ul>
+<p><strong>Hierarchy:</strong> Do not skip heading levels (h2 → h4)</p>
+<h2 id="code-blocks"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.4</span> Code Blocks</h2>
+<p>Always specify the language for syntax highlighting:</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="sb">```bash</span>
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>mariadb-snapshot:1.x<span class="w"> </span>hourly
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="sb">```</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="sb">```yaml</span>
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="nt">services</span><span class="p">:</span>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">  </span><span class="nt">mariadb-snapshot</span><span class="p">:</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jacobsanford/docker-mariadb-snapshot:1.x</span>
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="sb">```</span>
+</span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="sb">```json</span>
+</span><span id="__span-1-12"><a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="p">{</span>
+</span><span id="__span-1-13"><a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="w">  </span><span class="nt">"snapshot_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-11-16T12:00:00Z"</span>
+</span><span id="__span-1-14"><a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="p">}</span>
+</span><span id="__span-1-15"><a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="sb">```</span>
+</span></code></pre></div>
+<p><strong>Supported languages:</strong> <code>bash</code>, <code>yaml</code>, <code>json</code>, <code>sql</code>, <code>text</code></p>
+<h2 id="links"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.5</span> Links</h2>
+<p><strong>External links:</strong> Always use <code>{target="_blank"}</code> to open in new tabs</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>[<span class="nt">Docker</span>](<span class="na">https://www.docker.com</span>){target="_blank"}
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>[<span class="nt">MariaDB</span>](<span class="na">https://mariadb.org</span>){target="_blank"}
+</span></code></pre></div>
+<p><strong>Internal links:</strong> Use relative paths without <code>{target="_blank"}</code></p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>[<span class="nt">Configuration Reference</span>](<span class="na">configuration.md</span>)
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>[<span class="nt">Quick Start</span>](<span class="na">quickstart.md</span>)
+</span></code></pre></div>
+<p><strong>Link text:</strong> Use descriptive text, avoid "click here" or bare URLs</p>
+<ul>
+<li>✓ <code>See the [Configuration Reference](configuration.md) for details</code></li>
+<li>✗ <code>Click [here](configuration.md) for more information</code></li>
+</ul>
+<h2 id="inline-code"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.6</span> Inline Code</h2>
+<p>Use backticks for:</p>
+<ul>
+<li>File paths: <code>`/data`</code>, <code>`snapshot.sh`</code></li>
+<li>Environment variables: <code>`DB_HOSTNAME`</code>, <code>`RSNAPSHOT_RETAIN_HOURLY`</code></li>
+<li>Commands: <code>`docker compose run`</code></li>
+<li>Code references: <code>`mariadb-dump`</code>, <code>`rsnapshot`</code></li>
+</ul>
+<h2 id="admonitions"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.7</span> Admonitions</h2>
+<p>Use MkDocs admonitions for important information:</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>!!! warning "Your Responsibility"
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>    This package should be considered an example rather than production-ready.
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a>!!! note "Tip"
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>    Higher compression levels reduce file size but increase CPU usage.
+</span></code></pre></div>
+<p><strong>Common types:</strong> <code>warning</code>, <code>note</code>, <code>tip</code>, <code>info</code></p>
+<h2 id="tables"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.8</span> Tables</h2>
+<p>Use pipe tables with header separators:</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>| Variable | Description | Default |
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>|----------|-------------|---------|
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>| <span class="sb">`DB_HOSTNAME`</span> | Database server hostname | <span class="sb">`localhost`</span> |
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>| <span class="sb">`DB_PORT`</span> | Database server port | <span class="sb">`3306`</span> |
+</span></code></pre></div>
+<h2 id="tone-and-voice"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.9</span> Tone and Voice</h2>
+<p><strong>Style:</strong> Professional, technical, directive</p>
+<ul>
+<li>Use active voice: ✓ "Configure the database hostname" vs. ✗ "The database hostname should be configured"</li>
+<li>Be direct and concise</li>
+<li>Assume reader has Docker and database familiarity</li>
+<li>Avoid excessive pleasantries or conversational asides</li>
+</ul>
+<h2 id="file-organization"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.10</span> File Organization</h2>
+<p><strong>New pages:</strong>
+1. Create the <code>.md</code> file in <code>docs/</code>
+2. Add complete front matter
+3. Add to navigation in <code>mkdocs.yml</code>
+4. Include cross-references to related pages</p>
+<p><strong>Images:</strong>
+- Store in <code>docs/images/</code>
+- Optimize to &lt;500 KB
+- Always include descriptive alt text</p>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>

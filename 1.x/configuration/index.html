@@ -444,8 +444,9 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../contributing/">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
 <span class="md-ellipsis">
     
   
@@ -454,7 +455,44 @@
 
     
   </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../contributing/">
+<span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
 </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../style/">
+<span class="md-ellipsis">
+    
+  
+    Style
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 </ul>
 </nav>
@@ -651,7 +689,7 @@
 </table>
 <p><strong>Tip:</strong> Higher compression levels reduce file size but increase CPU usage and snapshot time.</p>
 <h2 id="mysql-connection-parameters"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.3</span> MySQL Connection Parameters</h2>
-<p>Configure how docker-mariadb-rsnapshot connects to your MariaDB/MySQL server:</p>
+<p>Configure how docker-mariadb-snapshot connects to your MariaDB/MySQL server:</p>
 <table>
 <thead>
 <tr>
@@ -685,7 +723,7 @@
 </table>
 <p><strong>Security Note:</strong> Always use a dedicated snapshot user with minimal required privileges (<code>SELECT</code>, <code>LOCK TABLES</code>, <code>SHOW VIEW</code>, <code>EVENT</code>, <code>TRIGGER</code>).</p>
 <h2 id="database-selection-modes"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4</span> Database Selection Modes</h2>
-<p>docker-mariadb-rsnapshot supports three ways to select databases for snapshot. If multiple modes are configured, they are evaluated in priority order.</p>
+<p>docker-mariadb-snapshot supports three ways to select databases for snapshot. If multiple modes are configured, they are evaluated in priority order.</p>
 <h3 id="mode-1-explicit-list"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4.1</span> Mode 1: Explicit List</h3>
 <p>Snapshot a specific list of databases. Each database is backed up to a separate <code>.gz</code> file.</p>
 <table>
@@ -836,7 +874,7 @@
 </tr>
 </tbody>
 </table>
-<p>When enabled, docker-mariadb-rsnapshot will create an additional file <code>users.sql.gz</code> containing:
+<p>When enabled, docker-mariadb-snapshot will create an additional file <code>users.sql.gz</code> containing:
 - User account definitions (<code>CREATE USER</code> statements)
 - Grant permissions (<code>GRANT</code> statements)
 - Password hashes and authentication plugins</p>

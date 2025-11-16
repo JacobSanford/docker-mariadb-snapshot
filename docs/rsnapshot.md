@@ -31,12 +31,10 @@ docker-mariadb-snapshot instead leverages the `sync_first     1` rsnapshot confi
 
 This is less efficient in terms of storage and snapshot time, but it guarantees that each snapshot level contains a full snapshot of the live data exactly at the time of execution.
 
-Therefore, running docker-mariadb-snapshot with a `daily` argument will execute as follows
+Therefore, running docker-mariadb-snapshot with a `daily` argument will execute as follows:
 
-rsnapshot will:
-
-Rotate the daily.* set (daily.6 → daily.7, ..., daily.0 → daily.1)
-
-Create a new daily.0 daily snapshot from the live filesystem.
+* Create a new snapshot from the live filesystem.
+* Rotate the daily.* set (daily.6 → daily.7, ..., daily.0 → daily.1)
+* Set the new snapshot as daily.0.
 
 It will completely ignore the other levels and never 'promote' snapshots from hourly to daily, daily to weekly, or weekly to monthly.

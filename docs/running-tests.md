@@ -10,9 +10,9 @@ version: 1.x
 
 # Running Tests
 
-Tests are provided for package-level testing of the docker-mariadb-snapshot container. They are not intended for end-users, but rather for developers and maintainers to validate functionality.
+Tests are provided for package-level testing of the docker-mariadb-snapshot image. They are not intended for end-users, but rather for developers and maintainers to validate functionality.
 
-This page provides comprehensive guidance for testing the docker-mariadb-snapshot container, including automated test suites and manual testing procedures.
+This page provides comprehensive guidance for testing the docker-mariadb-snapshot image, including automated test suites and manual testing procedures.
 
 ## Quick Start
 
@@ -25,7 +25,7 @@ cd testing
 
 The test runner is completely self-contained and will:
 
-1. Clean up old containers and snapshots
+1. Clean up old images and snapshots
 2. Build the [Docker](https://www.docker.com){target="_blank"} image
 3. Start [MySQL](https://www.mysql.com){target="_blank"} server
 4. Wait for MySQL to be ready

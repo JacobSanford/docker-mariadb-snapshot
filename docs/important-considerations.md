@@ -10,7 +10,15 @@ version: 1.x
 
 # Important Considerations
 This package has not been reviewed for all possible use cases and environments. It should be considered an example rather than a production-ready tool.
+
 Please be aware of the following considerations:
+
+## Testing Snapshot Restorations
+Always test restoration procedures __immediately after scheduling and performing the first snapshots__.
+
+Test in a non-production environment. Verify the snapshot integrity and compatibility with your target server version by performing the restoration as if you were in a data-loss situation.
+
+If possible, automate periodic restoration tests to ensure ongoing snapshot integrity.
 
 ## Your Environment
 This package may not be suitable for all environments. Please ensure that you audit this package and how you deploy it against your specific environment and requirements.
@@ -21,13 +29,13 @@ Database snapshots may contain sensitive, personal, or confidential data. Ensure
 ## Container Restart Policies
 The image ENTRYPOINT will return a non-zero exit code if any part of the snapshot process fails (even if only one database snapshot in many fails).
 
-This means: If only one database in an entire backup failed to snapshot, the container will still signal the orchestration system that the run has failed. This allows observability and notification of snapshot issues.
+This means: If only one database in an entire snapshot failed to snapshot, docker-mariadb-rsnapshot will still signal the orchestration system that the run has failed. This allows observability and notification of snapshot issues.
 
 Other databases/users may have successfully snapshotted during such a failed run. To err on the side of caution, __a partial snapshot failure is still post-processed as if it were successful__ - rotation will occur, and the snapshot files created during that run will be retained according to your retention policies.
 
-A consequence of this: if a snapshot fails and the container exits with a non-zero status, a container restart policy like `always` or `on-failure` could cause a cascading string of restarts and failed snapshots, ovewriting many retained 'good' snapshots with the current failure.
+A consequence of this: if a snapshot fails and docker-mariadb-rsnapshot exits with a non-zero status, a container restart policy like `always` or `on-failure` could cause a cascading string of restarts and failed snapshots, ovewriting many retained 'good' snapshots with the current failure.
 
-Although all examples within this documentation set the container restart policy to prevent automatic restarts on failure, it is important to ensure that your orchestration system or container runtime is configured similarly to handle these scenarios appropriately.
+Although all examples within this documentation set docker-mariadb-rsnapshot restart policy to prevent automatic restarts on failure, it is important to ensure that your orchestration system or container runtime is configured similarly to handle these scenarios appropriately.
 
 ### Suggested Configurations
 #### docker-compose

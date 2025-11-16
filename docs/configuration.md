@@ -9,10 +9,10 @@ version: 1.x
 ---
 
 # Snapshot Configuration
-This page provides a complete reference for all configuration options. Configuration is performed via environment variables within the container.
+This page provides a complete reference for all configuration options. All configuration options are set via environment variables within the running container.
 
 ## Rsnapshot Retention Settings
-Control how many backups are retained by rsnapshot (follows [rsnapshot retention models](https://wiki.archlinux.org/title/Rsnapshot){target="_blank"}):
+Control how many snapshots are retained by rsnapshot (follows [rsnapshot retention models](https://wiki.archlinux.org/title/Rsnapshot){target="_blank"}):
 
 | Variable | Description | Default |
 |----------|-------------|---------|
@@ -26,14 +26,14 @@ Control how many backups are retained by rsnapshot (follows [rsnapshot retention
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `GZIP_COMPRESSION_LEVEL` | Level of [gzip compression](https://en.wikipedia.org/wiki/Gzip){target="_blank"} (1-9, where 9 is maximum compression) | `6` |
-| `DB_DUMP_LOCATION` | Directory where backup files will be stored | `/data` |
+| `DB_DUMP_LOCATION` | Directory where snapshot files will be stored | `/data` |
 | `DB_DEFAULT_CHARSET` | Character set used for [mariadb-dump](https://mariadb.com/kb/en/mariadb-dump/){target="_blank"} operations | `utf8mb4` |
 
-**Tip:** Higher compression levels reduce file size but increase CPU usage and backup time.
+**Tip:** Higher compression levels reduce file size but increase CPU usage and snapshot time.
 
 ## MySQL Connection Parameters
 
-Configure how the container connects to your MariaDB/MySQL server:
+Configure how docker-mariadb-rsnapshot connects to your MariaDB/MySQL server:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
@@ -42,41 +42,41 @@ Configure how the container connects to your MariaDB/MySQL server:
 | `DB_USER_NAME` | Username for connecting to MySQL | `root` |
 | `DB_USER_PASSWORD` | Password for connecting to MySQL | `changeme` |
 
-**Security Note:** Always use a dedicated backup user with minimal required privileges (`SELECT`, `LOCK TABLES`, `SHOW VIEW`, `EVENT`, `TRIGGER`).
+**Security Note:** Always use a dedicated snapshot user with minimal required privileges (`SELECT`, `LOCK TABLES`, `SHOW VIEW`, `EVENT`, `TRIGGER`).
 
 ## Database Selection Modes
 
-The container supports three ways to select databases for backup. If multiple modes are configured, they are evaluated in priority order.
+docker-mariadb-rsnapshot supports three ways to select databases for snapshot. If multiple modes are configured, they are evaluated in priority order.
 
 ### Mode 1: Explicit List
 
-Backup a specific list of databases. Each database is backed up to a separate `.gz` file.
+Snapshot a specific list of databases. Each database is backed up to a separate `.gz` file.
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `DB_DATABASES` | Comma-separated list of databases to backup | `db1,db2,db3` |
+| `DB_DATABASES` | Comma-separated list of databases to snapshot | `db1,db2,db3` |
 
 ### Mode 2: Auto-Discovery
 
-Automatically discover and backup all databases on the server, excluding system databases.
+Automatically discover and snapshot all databases on the server, excluding system databases.
 
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `DB_SNAPSHOT_ALL_DATABASES` | Set to `true` or `1` to enable auto-discovery | (disabled) |
 | `DB_EXCLUDE_DATABASES` | Comma-separated list of databases to exclude | `information_schema,performance_schema,mysql,sys` |
-| `DB_SNAPSHOT_COMBINED` | Set to `true` or `1` to create additional combined backup file | (disabled) |
+| `DB_SNAPSHOT_COMBINED` | Set to `true` or `1` to create additional combined snapshot file | (disabled) |
 
 ### Mode 3: Single Database - Legacy
 
-Backup a single specific database. This is the original behavior maintained for backward compatibility. Do not use this mode, as it may be removed in future releases.
+Snapshot a single specific database. This is the original behavior maintained for backward compatibility. Do not use this mode, as it may be removed in future releases.
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `DB_DATABASE` | Single database to backup | `myapp` |
+| `DB_DATABASE` | Single database to snapshot | `myapp` |
 
 
 ## Structure-Only Tables
-Often, certain tables (like cache or session tables) do not need their data backed up, only their structure. This feature allows you to specify tables whose data should be excluded from the backup while preserving their schema.
+Often, certain tables (like cache or session tables) do not need their data backed up, only their structure. This feature allows you to specify tables whose data should be excluded from the snapshot while preserving their schema.
 
 ### Global Configuration
 To exclude structure-only tables across all snapshotted databases:
@@ -116,21 +116,21 @@ Where `<NORMALIZED_DB_NAME>` is the database name:
 | `my-app` | `DB_STRUCT_TABLES_MY_APP` | `cache_%,sessions` |
 | `my.app` | `DB_STRUCT_TABLES_MY_APP` | `cache_%,sessions` |
 
-## Users and Grants Backup
+## Users and Grants Snapshot
 
-In addition to backing up database contents, you can also backup MariaDB/MySQL user accounts and their grants. This creates a separate backup file containing user definitions and privileges.
+In addition to backing up database contents, you can also snapshot MariaDB/MySQL user accounts and their grants. This creates a separate snapshot file containing user definitions and privileges.
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `DB_SNAPSHOT_USERS_GRANTS` | Set to `true` or `1` to backup users and grants | (disabled) |
+| `DB_SNAPSHOT_USERS_GRANTS` | Set to `true` or `1` to snapshot users and grants | (disabled) |
 
-When enabled, the container will create an additional file `users.sql.gz` containing:
+When enabled, docker-mariadb-rsnapshot will create an additional file `users.sql.gz` containing:
 - User account definitions (`CREATE USER` statements)
 - Grant permissions (`GRANT` statements)
 - Password hashes and authentication plugins
 
 **Important Notes:**
 - The database user must have privileges to read the `mysql` system database
-- The backup user typically needs `SELECT` privilege on `mysql.*` to dump users
-- User backups are created once per snapshot invocation (not per database)
+- The snapshot user typically needs `SELECT` privilege on `mysql.*` to dump users
+- User snapshots are created once per snapshot invocation (not per database)
 - This feature can be used with any database selection mode (single, explicit list, or auto-discovery)

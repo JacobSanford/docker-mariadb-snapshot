@@ -14,7 +14,7 @@ This page provides [Kubernetes](https://kubernetes.io){target="_blank"} configur
 
 ## Overview
 
-The recommended approach is to use Kubernetes [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/){target="_blank"} resources to schedule backups at different frequencies. Each CronJob runs the backup container with a specific frequency argument (`hourly`, `daily`, `weekly`, `monthly`).
+The recommended approach is to use Kubernetes [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/){target="_blank"} resources to schedule backups at different frequencies. Each CronJob runs a snapshot container with a specific frequency argument (`hourly`, `daily`, `weekly`, `monthly`).
 
 !!! warning "Your Responsibility"
     Please review the [Important Considerations](important-considerations.md) document. This package has not been reviewed for all possible use cases and environments. It should be considered an example, rather than a production-ready tool. Please ensure that you audit this package and how you deploy it against your specific environment and requirements.

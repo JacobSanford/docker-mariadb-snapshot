@@ -5,14 +5,14 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="MariaDB/MySQL snapshot container using rsnapshot for periodic database snapshots and rotation" name="description"/>
+<meta content="How rsnapshot frequency labels and snapshot rotation work in docker-mariadb-snapshot" name="description"/>
 <meta content="Jacob Sanford" name="author"/>
 <link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/rsnapshot/" rel="canonical"/>
 <link href="../configuration/" rel="prev"/>
 <link href="../docker-compose/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
-<title>RSnapshot Configuration - docker-mariadb-snapshot</title>
+<title>Understanding the RSnapshot Configuration - docker-mariadb-snapshot</title>
 <link href="../assets/stylesheets/main.618322db.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -26,7 +26,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#understanding-rsnapshot-configuration">
+<a class="md-skip" href="#understanding-the-rsnapshot-configuration">
           Skip to content
         </a>
 </div>
@@ -52,7 +52,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              RSnapshot Configuration
+              Understanding the RSnapshot Configuration
             
           </span>
 </div>
@@ -409,7 +409,7 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="understanding-rsnapshot-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.</span> Understanding RSnapshot Configuration</h1>
+<h1 id="understanding-the-rsnapshot-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.</span> Understanding the RSnapshot Configuration</h1>
 <h2 id="frequency-labels"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.1</span> 'Frequency' Labels</h2>
 <p>This image's environment variable names and rsnapshot configuration use the terms <code>hourly</code>, <code>daily</code>, <code>weekly</code>, and <code>monthly</code> to refer to different snapshot retention levels:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>retain  hourly  RSNAPSHOT_RETAIN_HOURLY
@@ -420,21 +420,14 @@
 <p>Although these appear to be time-based settings, it is important to understand <strong>rsnapshot does not inherently understand time</strong>. 'hourly', 'daily', 'weekly', and 'monthly' are simply labels for separate snapshot retention groups without any intrinsic time meaning. They could, in fact, be anything - 'red', 'blue', 'green', etc.</p>
 <p>The actual frequency of when each level is executed is solely determined by how you schedule rsnapshot (e.g., via cron jobs).</p>
 <h2 id="snapshot-rotation"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.2</span> Snapshot Rotation</h2>
-<p>Rotation only happens for the level you invoke. When you run:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>rsnapshot daily
-</span></code></pre></div>
+<p>By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. In the above configuration, the daily,weekly, and monthly levels 'promote' the oldest snapshot from the level above it <strong>instead of creating a new snapshot from live data</strong>.</p>
+<p>docker-mariadb-snapshot instead leverages the <code>sync_first     1</code> rsnapshot configuration item. Consequently, <strong>running docker-mariadb-snapshot with any frequency level as an argument will always snapshot the live data before performing the rotation</strong>, and rotation only happens within the level you invoke.</p>
+<p>This is less efficient in terms of storage and snapshot time, but it guarantees that each snapshot level contains a full snapshot of the live data exactly at the time of execution.</p>
+<p>Therefore, running docker-mariadb-snapshot with a <code>daily</code> argument will execute as follows</p>
 <p>rsnapshot will:</p>
 <p>Rotate the daily.* set (daily.6 → daily.7, ..., daily.0 → daily.1)</p>
-<p>Create/refresh daily.0 from the live filesystem (using hard links to save space).</p>
-<p>It will completely ignore the other levels:</p>
-<p>hourly.<em>
-weekly.</em>
-monthly.*</p>
-<p>Those are only rotated when you explicitly run:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>rsnapshot hourly
-</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>rsnapshot weekly
-</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>rsnapshot monthly
-</span></code></pre></div>
+<p>Create a new daily.0 daily snapshot from the live filesystem.</p>
+<p>It will completely ignore the other levels and never 'promote' snapshots from hourly to daily, daily to weekly, or weekly to monthly.</p>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>

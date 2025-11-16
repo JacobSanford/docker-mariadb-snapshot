@@ -350,6 +350,15 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#non-default-rsnapshot-configuration">
+<span class="md-ellipsis">
+      
+        Non-Default rsnapshot Configuration
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#container-restart-policies">
 <span class="md-ellipsis">
       
@@ -483,6 +492,15 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#non-default-rsnapshot-configuration">
+<span class="md-ellipsis">
+      
+        Non-Default rsnapshot Configuration
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#container-restart-policies">
 <span class="md-ellipsis">
       
@@ -562,25 +580,28 @@
 <p>This package may not be suitable for all environments. Please ensure that you audit this package and how you deploy it against your specific environment and requirements.</p>
 <h2 id="sensitive-data"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.3</span> Sensitive Data</h2>
 <p>Database snapshots may contain sensitive, personal, or confidential data. Ensure that snapshot files are stored securely and access is restricted.</p>
-<h2 id="container-restart-policies"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.4</span> Container Restart Policies</h2>
+<h2 id="non-default-rsnapshot-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.4</span> Non-Default rsnapshot Configuration</h2>
+<p>By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. docker-mariadb-snapshot instead leverages the <code>sync_first     1</code> rsnapshot configuration item.</p>
+<p>Consequently, running docker-mariadb-snapshot with any frequency level as an argument <strong>will always snapshot the live data before performing the rotation</strong>, and rotation only happens within the level you invoke. See the <a href="../rsnapshot/">Understanding the RSnapshot Configuration</a> document for more details.</p>
+<h2 id="container-restart-policies"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.5</span> Container Restart Policies</h2>
 <p>The image ENTRYPOINT will return a non-zero exit code if any part of the snapshot process fails (even if only one database snapshot in many fails).</p>
 <p>This means: If only one database in an entire snapshot failed to snapshot, docker-mariadb-rsnapshot will still signal the orchestration system that the run has failed. This allows observability and notification of snapshot issues.</p>
 <p>Other databases/users may have successfully snapshotted during such a failed run. To err on the side of caution, <strong>a partial snapshot failure is still post-processed as if it were successful</strong> - rotation will occur, and the snapshot files created during that run will be retained according to your retention policies.</p>
 <p>A consequence of this: if a snapshot fails and docker-mariadb-rsnapshot exits with a non-zero status, a container restart policy like <code>always</code> or <code>on-failure</code> could cause a cascading string of restarts and failed snapshots, ovewriting many retained 'good' snapshots with the current failure.</p>
 <p>Although all examples within this documentation set docker-mariadb-rsnapshot restart policy to prevent automatic restarts on failure, it is important to ensure that your orchestration system or container runtime is configured similarly to handle these scenarios appropriately.</p>
-<h3 id="suggested-configurations"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.4.1</span> Suggested Configurations</h3>
-<h4 id="docker-compose"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.4.1.1</span> docker-compose</h4>
+<h3 id="suggested-configurations"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.5.1</span> Suggested Configurations</h3>
+<h4 id="docker-compose"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.5.1.1</span> docker-compose</h4>
 <p>Setting the <a href="https://docs.docker.com/reference/compose-file/services/#restart" target="_blank">restart policy</a> to "no" will prevent automatic restarts:
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">service</span><span class="p">:</span>
 </span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">    </span><span class="p p-Indicator">[</span><span class="nv">...</span><span class="p p-Indicator">]</span>
 </span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="s">"no"</span>
 </span></code></pre></div></p>
-<h4 id="kubernetes-cron"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.4.1.2</span> Kubernetes Cron</h4>
+<h4 id="kubernetes-cron"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.5.1.2</span> Kubernetes Cron</h4>
 <p>Setting the <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy" target="_blank">restartPolicy</a> to <code>Never</code> and <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-backoff-limit" target="_blank">backoffLimit</a> to <code>0</code> in a Job spec will prevent automatic restarts:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="w">    </span><span class="nt">restartPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Never</span>
 </span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">    </span><span class="nt">backoffLimit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 </span></code></pre></div>
-<h2 id="snapshot-options"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.5</span> Snapshot Options</h2>
+<h2 id="snapshot-options"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.6</span> Snapshot Options</h2>
 <p>The <a href="https://mariadb.com/kb/en/mariadb-dump/" target="_blank">mariadb-dump</a> utility has many options, however only the following are used to create snapshots:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="w">    </span>--single-transaction
 </span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">    </span>--quick
@@ -593,7 +614,7 @@
 </span></code></pre></div>
 <p>The character set defaults to <code>utf8mb4</code> but can be customized via the <code>DB_DEFAULT_CHARSET</code> environment variable.</p>
 <p>If you require additional options, you will need to modify the package accordingly.</p>
-<h2 id="data-integrity"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.6</span> Data Integrity</h2>
+<h2 id="data-integrity"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.7</span> Data Integrity</h2>
 <p>For high-reliability snapshots, a <a href="https://mariadb.org" target="_blank">MariaDB</a>/<a href="https://www.mysql.com" target="_blank">MySQL</a> server must be placed into a read-only state before the snapshot is taken.</p>
 <p>How to do so is outside the scope of this documentation, and depends on your specific environment and setup.</p>
 <p>Good starting points:</p>

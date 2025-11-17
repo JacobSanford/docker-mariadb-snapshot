@@ -530,24 +530,24 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="snapshot-consistency-and-atomic-state"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.</span> Snapshot Consistency and Atomic State</h1>
-<p>The combination of <code>--single-transaction</code> and <code>--skip-lock-tables</code> provides point-in-time consistency for <strong>InnoDB tables only</strong>. Non-transactional storage engines are not guaranteeed to be consistent. This is generally 'good enough' for non-critical services - the fact that you are considering using this package indicates that you likely do not require fully ACID-compliant backups.</p>
+<p>The combination of <code>--single-transaction</code> and <code>--skip-lock-tables</code> provides point-in-time consistency for <strong>InnoDB tables only</strong>. Non-transactional storage engines are not guaranteeed to be consistent. This is generally 'good enough' for non-critical services leveraging InnoDB - the fact that you are considering using this package indicates that you likely do not require fully ACID-compliant backups.</p>
 <h2 id="consistency-by-storage-engine"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.1</span> Consistency by Storage Engine</h2>
 <h3 id="innodb-consistent"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.1.1</span> InnoDB (✅ Consistent)</h3>
 <ul>
 <li>All tables captured at the same transaction timestamp</li>
 <li>Data relationships remain intact (e.g., orders match order items)</li>
-<li>Non-blocking - reads and writes continue during backup</li>
+<li>Non-blocking - reads and writes continue during snapshot</li>
 </ul>
 <h3 id="myisam-memory-csv-archive-inconsistent"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.1.2</span> MyISAM, MEMORY, CSV, Archive (⚠️ Inconsistent)</h3>
 <ul>
-<li>Tables are not locked during backup</li>
+<li>Tables are not locked during snapshot</li>
 <li>May be captured mid-modification</li>
 <li>Can contain mixed old and new data that never existed together</li>
 <li>Mixed InnoDB + MyISAM databases will have tables from different points in time</li>
 </ul>
 <h2 id="additional-limitations"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.2</span> Additional Limitations</h2>
 <p><strong>Binary log position:</strong> Not captured by default. Point-in-time recovery and replica setup require manual binary log analysis. To capture position, modify <code>build/scripts/snapshot.sh</code> to add <code>--master-data</code> flag.</p>
-<p><strong>Testing:</strong> Always restore backups to a test environment to verify consistency meets your requirements. See <a href="../restoration/">Restoration Guide</a>.</p>
+<p><strong>Testing:</strong> Always restore snapshots to a test environment to verify consistency meets your requirements. See <a href="../restoration/">Restoration Guide</a>.</p>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>

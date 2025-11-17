@@ -79,12 +79,12 @@ The [mariadb-dump](https://mariadb.com/kb/en/mariadb-dump/){target="_blank"} uti
 
 ## Snapshot Consistency and Atomic State
 ### Overview
-The combination of `--single-transaction` and `--skip-lock-tables` provides **point-in-time consistency for InnoDB tables only**.  Generally, this is likely 'good enough' for many applications using InnoDB as the primary storage engine. Non-transactional storage engines (MyISAM, MEMORY, etc.) are not locked and may be captured in an inconsistent state if modified during backup.
+The combination of `--single-transaction` and `--skip-lock-tables` provides **point-in-time consistency for InnoDB tables only**.  Generally, this is likely 'good enough' for many applications using InnoDB as the primary storage engine. Non-transactional storage engines (MyISAM, MEMORY, etc.) are not locked and may be captured in an inconsistent state if modified during snapshot.
 
 For more detailed information about consistency, storage engine implications, cross-engine consistency issues, and how to audit your database, see the [Snapshot Consistency and Atomic State](consistency.md) guide.
 
-## Guaranteeing Snapshot Consistency
-For high-reliability snapshots, a [MariaDB](https://mariadb.org){target="_blank"}/[MySQL](https://www.mysql.com){target="_blank"} server must be placed into a read-only state before the snapshot is taken.
+## High Confidence Snapshot Consistency
+For high-reliability snapshots, a [MariaDB](https://mariadb.org){target="_blank"}/[MySQL](https://www.mysql.com){target="_blank"} server should be placed into a read-only state before the snapshot is taken.
 
 How to do so is outside the scope of this documentation, and depends on your specific environment and setup.
 

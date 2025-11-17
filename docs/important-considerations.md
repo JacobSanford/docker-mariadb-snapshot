@@ -3,28 +3,32 @@ title: Important Considerations
 description: Critical security, data integrity, and operational considerations for using docker-mariadb-snapshot in production
 audience: users
 doc_type: reference
-tags: [security, best-practices, considerations, production, data-integrity]
-lastReviewed: 2025-11-15
+tags: [security, best-practices, considerations, production, data-integrity, performance, backup-strategies]
+lastReviewed: 2025-11-17
 version: 1.x
 ---
 
 # Important Considerations
-This package has not been reviewed for all possible use cases and environments. It should be considered an example rather than a production-ready tool.
 
-Please be aware of the following considerations:
+!!! info "Please Read"
+    These considerations are provided to help you evaluate the suitability of docker-mariadb-snapshot for your specific environment and requirements, not to scare you away from using it.
+
+    This tool has succesfully been used in production with mid-scale (1M+ rows) deployments, but every environment is different.
+
+docker-mariadb-snapshot may not be suitable for all environments. It is designed to be reliable, simple and easy to use. It may not meet all requirements or constraints in every scenario.
+
+Please ensure that you audit this package and understand its limitations before deploying it in your specific environment. Some of the considerations you may want to review before deploying this package in production include:
 
 ## Testing Snapshot Restorations
 Always test restoration procedures __immediately after scheduling and performing the first snapshots__.
 
-Test in a non-production environment. Verify the snapshot integrity and compatibility with your target server version by performing the restoration as if you were in a data-loss situation.
+- Test in a non-production environment.
+- Verify the snapshot integrity and compatibility with your target server version by performing the restoration as if you were in a data-loss situation.
 
 If possible, automate periodic restoration tests to ensure ongoing snapshot integrity.
 
-## Your Environment
-This package may not be suitable for all environments. Please ensure that you audit this package and how you deploy it against your specific environment and requirements.
-
 ## Sensitive Data
-Database snapshots may contain sensitive, personal, or confidential data. Ensure that snapshot files are stored securely and access is restricted.
+Database snapshots may contain sensitive, personal, or confidential data. Snapshots are plain-text and, unless encrypted separately, insecure by default. Ensure that snapshot files are stored securely and access is restricted.
 
 ## Non-Default rsnapshot Configuration
 By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. docker-mariadb-snapshot instead leverages the `sync_first     1` rsnapshot configuration item.
@@ -73,11 +77,13 @@ The [mariadb-dump](https://mariadb.com/kb/en/mariadb-dump/){target="_blank"} uti
     --default-character-set=${DB_DEFAULT_CHARSET}
 ```
 
-The character set defaults to `utf8mb4` but can be customized via the `DB_DEFAULT_CHARSET` environment variable.
+## Backup Consistency and Atomic State
+### Overview
+The combination of `--single-transaction` and `--skip-lock-tables` provides **point-in-time consistency for InnoDB tables only**.  Generally, this is likely 'good enough' for many applications using InnoDB as the primary storage engine. Non-transactional storage engines (MyISAM, MEMORY, etc.) are not locked and may be captured in an inconsistent state if modified during backup.
 
-If you require additional options, you will need to modify the package accordingly.
+For more detailed information about consistency, storage engine implications, cross-engine consistency issues, and how to audit your database, see the [Backup Consistency and Atomic State](backup-consistency.md) guide.
 
-## Data Integrity
+## Guaranteeing Snapshot Consistency
 For high-reliability snapshots, a [MariaDB](https://mariadb.org){target="_blank"}/[MySQL](https://www.mysql.com){target="_blank"} server must be placed into a read-only state before the snapshot is taken.
 
 How to do so is outside the scope of this documentation, and depends on your specific environment and setup.

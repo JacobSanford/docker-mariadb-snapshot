@@ -65,18 +65,20 @@ nav:
   - User Guide:
     - QuickStart: quickstart.md
     - Configuration: configuration.md
-    - RSnapshot Configuration: rsnapshot.md
+    - rsnapshot Configuration: rsnapshot.md
     - Sample Orchestration Use:
       - Docker Compose: docker-compose.md
       - Kubernetes: kubernetes.md
-    - Snapshot Metadata: metadata.md
     - Restoring Snapshots: restoration.md
-    - Running Tests: running-tests.md
-    - Important Considerations: important-considerations.md
-    - Security: security.md
+    - Reference Documentation:
+      - Important Considerations: important-considerations.md
+      - Snapshot Metadata: metadata.md
+      - Backup Consistency: backup-consistency.md
+      - Security: security.md
     - Contributing:
       - General: contributing.md
-      - Style: style.md
+      - Running Tests: running-tests.md
+      - Documentation Style: style.md
 
 plugins:
   - search

@@ -134,7 +134,7 @@ services:
       mysql:
         condition: service_healthy
 
-  # Example 6: Users and grants backup
+  # Example 6: Users and grants snapshot
   snapshot-with-users:
     build:
       context: ..

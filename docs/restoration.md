@@ -1,6 +1,6 @@
 ---
 title: Restoring Snapshots
-description: Guide for restoring database snapshots and user accounts from docker-mariadb-snapshot backups
+description: Guide for restoring database snapshots and user accounts from docker-mariadb-snapshot snapshots
 audience: users
 doc_type: guide
 tags: [restore, recovery, mysql, mariadb, backup, users, grants]
@@ -13,11 +13,11 @@ version: 1.x
 This guide covers basic restoration of database snapshots and user accounts created by docker-mariadb-snapshot.
 
 !!! warning "Test Restorations First"
-    Always test restoration procedures in a non-production environment before performing them on production systems. Verify backup integrity and compatibility with your target server version.
+    Always test restoration procedures in a non-production environment before performing them on production systems. Verify snapshot integrity and compatibility with your target server version.
 
 ## What Can Be Restored
 
-Snapshot backups include:
+Snapshots include:
 
 - **Database dumps** (`.gz` files) - Database schemas, tables, data, routines, events, and triggers
 - **User accounts** (`users.sql.gz`) - User definitions, passwords, and grant permissions (if `DB_SNAPSHOT_USERS_GRANTS` was enabled)
@@ -52,7 +52,7 @@ for db in app1 app2 app3; do
 done
 ```
 
-### Combined Backup (ALL_DATABASES.gz)
+### Combined Snapshot (ALL_DATABASES.gz)
 
 If you used `DB_SNAPSHOT_COMBINED=true`, restore all databases from a single file:
 

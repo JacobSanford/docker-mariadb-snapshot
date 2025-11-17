@@ -73,7 +73,7 @@ nav:
     - Reference Documentation:
       - Important Considerations: important-considerations.md
       - Snapshot Metadata: metadata.md
-      - Backup Consistency: backup-consistency.md
+      - Atomic Consistency: consistency.md
       - Security: security.md
     - Contributing:
       - General: contributing.md

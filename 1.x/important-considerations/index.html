@@ -8,8 +8,8 @@
 <meta content="Critical security, data integrity, and operational considerations for using docker-mariadb-snapshot in production" name="description"/>
 <meta content="Jacob Sanford" name="author"/>
 <link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/important-considerations/" rel="canonical"/>
-<link href="../running-tests/" rel="prev"/>
-<link href="../security/" rel="next"/>
+<link href="../restoration/" rel="prev"/>
+<link href="../metadata/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
 <title>Important Considerations - docker-mariadb-snapshot</title>
@@ -200,7 +200,7 @@
 <span class="md-ellipsis">
     
   
-    RSnapshot Configuration
+    rsnapshot Configuration
   
 
     
@@ -258,18 +258,6 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../metadata/">
-<span class="md-ellipsis">
-    
-  
-    Snapshot Metadata
-  
-
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="../restoration/">
 <span class="md-ellipsis">
     
@@ -281,18 +269,29 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../running-tests/">
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
 <span class="md-ellipsis">
     
   
-    Running Tests
+    Reference Documentation
   
 
     
   </span>
-</a>
-</li>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference Documentation
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
@@ -332,15 +331,6 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#your-environment">
-<span class="md-ellipsis">
-      
-        Your Environment
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="#sensitive-data">
 <span class="md-ellipsis">
       
@@ -412,16 +402,62 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#data-integrity">
+<a class="md-nav__link" href="#snapshot-consistency-and-atomic-state">
 <span class="md-ellipsis">
       
-        Data Integrity
+        Snapshot Consistency and Atomic State
+      
+    </span>
+</a>
+<nav aria-label="Snapshot Consistency and Atomic State" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview">
+<span class="md-ellipsis">
+      
+        Overview
       
     </span>
 </a>
 </li>
 </ul>
 </nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#guaranteeing-snapshot-consistency">
+<span class="md-ellipsis">
+      
+        Guaranteeing Snapshot Consistency
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metadata/">
+<span class="md-ellipsis">
+    
+  
+    Snapshot Metadata
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../consistency/">
+<span class="md-ellipsis">
+    
+  
+    Atomic Consistency
+  
+
+    
+  </span>
+</a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../security/">
@@ -435,9 +471,12 @@
   </span>
 </a>
 </li>
+</ul>
+</nav>
+</li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_10" type="checkbox"/>
-<label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
 <span class="md-ellipsis">
     
   
@@ -448,8 +487,8 @@
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_2_10_label" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="__nav_2_10">
+<nav aria-expanded="false" aria-labelledby="__nav_2_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_7">
 <span class="md-nav__icon md-icon"></span>
             
   
@@ -471,11 +510,23 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../running-tests/">
+<span class="md-ellipsis">
+    
+  
+    Running Tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../style/">
 <span class="md-ellipsis">
     
   
-    Style
+    Documentation Style
   
 
     
@@ -512,15 +563,6 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#your-environment">
-<span class="md-ellipsis">
-      
-        Your Environment
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="#sensitive-data">
 <span class="md-ellipsis">
       
@@ -592,10 +634,32 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#data-integrity">
+<a class="md-nav__link" href="#snapshot-consistency-and-atomic-state">
 <span class="md-ellipsis">
       
-        Data Integrity
+        Snapshot Consistency and Atomic State
+      
+    </span>
+</a>
+<nav aria-label="Snapshot Consistency and Atomic State" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview">
+<span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#guaranteeing-snapshot-consistency">
+<span class="md-ellipsis">
+      
+        Guaranteeing Snapshot Consistency
       
     </span>
 </a>
@@ -607,39 +671,45 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="important-considerations"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.</span> Important Considerations</h1>
-<p>This package has not been reviewed for all possible use cases and environments. It should be considered an example rather than a production-ready tool.</p>
-<p>Please be aware of the following considerations:</p>
-<h2 id="testing-snapshot-restorations"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.1</span> Testing Snapshot Restorations</h2>
+<h1 id="important-considerations"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.</span> Important Considerations</h1>
+<div class="admonition info">
+<p class="admonition-title">Please Read</p>
+<p>These considerations are provided to help you evaluate the suitability of docker-mariadb-snapshot for your specific environment and requirements, not to scare you away from using it.</p>
+<p>This tool has succesfully been used in production with mid-scale (1M+ rows) deployments, but every environment is different.</p>
+</div>
+<p>docker-mariadb-snapshot may not be suitable for all environments. It is designed to be reliable, simple and easy to use. It may not meet all requirements or constraints in every scenario.</p>
+<p>Please ensure that you audit this package and understand its limitations before deploying it in your specific environment. Some of the considerations you may want to review before deploying this package in production include:</p>
+<h2 id="testing-snapshot-restorations"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.1</span> Testing Snapshot Restorations</h2>
 <p>Always test restoration procedures <strong>immediately after scheduling and performing the first snapshots</strong>.</p>
-<p>Test in a non-production environment. Verify the snapshot integrity and compatibility with your target server version by performing the restoration as if you were in a data-loss situation.</p>
+<ul>
+<li>Test in a non-production environment.</li>
+<li>Verify the snapshot integrity and compatibility with your target server version by performing the restoration as if you were in a data-loss situation.</li>
+</ul>
 <p>If possible, automate periodic restoration tests to ensure ongoing snapshot integrity.</p>
-<h2 id="your-environment"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.2</span> Your Environment</h2>
-<p>This package may not be suitable for all environments. Please ensure that you audit this package and how you deploy it against your specific environment and requirements.</p>
-<h2 id="sensitive-data"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.3</span> Sensitive Data</h2>
-<p>Database snapshots may contain sensitive, personal, or confidential data. Ensure that snapshot files are stored securely and access is restricted.</p>
-<h2 id="non-default-rsnapshot-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.4</span> Non-Default rsnapshot Configuration</h2>
+<h2 id="sensitive-data"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.2</span> Sensitive Data</h2>
+<p>Database snapshots may contain sensitive, personal, or confidential data. Snapshots are plain-text and, unless encrypted separately, insecure by default. Ensure that snapshot files are stored securely and access is restricted.</p>
+<h2 id="non-default-rsnapshot-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.3</span> Non-Default rsnapshot Configuration</h2>
 <p>By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. docker-mariadb-snapshot instead leverages the <code>sync_first     1</code> rsnapshot configuration item.</p>
 <p>Consequently, running docker-mariadb-snapshot with any frequency level as an argument <strong>will always snapshot the live data before performing the rotation</strong>, and rotation only happens within the level you invoke. See the <a href="../rsnapshot/">Understanding the RSnapshot Configuration</a> document for more details.</p>
-<h2 id="container-restart-policies"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.5</span> Container Restart Policies</h2>
+<h2 id="container-restart-policies"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.4</span> Container Restart Policies</h2>
 <p>The image ENTRYPOINT will return a non-zero exit code if any part of the snapshot process fails (even if only one database snapshot in many fails).</p>
 <p>This means: If only one database in an entire snapshot failed to snapshot, docker-mariadb-snapshot will still signal the orchestration system that the run has failed. This allows observability and notification of snapshot issues.</p>
 <p>Other databases/users may have successfully snapshotted during such a failed run. To err on the side of caution, <strong>a partial snapshot failure is still post-processed as if it were successful</strong> - rotation will occur, and the snapshot files created during that run will be retained according to your retention policies.</p>
 <p>A consequence of this: if a snapshot fails and docker-mariadb-snapshot exits with a non-zero status, a container restart policy like <code>always</code> or <code>on-failure</code> could cause a cascading string of restarts and failed snapshots, overwriting many retained 'good' snapshots with the current failure.</p>
 <p>Although all examples within this documentation set docker-mariadb-snapshot restart policy to prevent automatic restarts on failure, it is important to ensure that your orchestration system or container runtime is configured similarly to handle these scenarios appropriately.</p>
-<h3 id="suggested-configurations"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.5.1</span> Suggested Configurations</h3>
-<h4 id="docker-compose"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.5.1.1</span> docker-compose</h4>
+<h3 id="suggested-configurations"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.4.1</span> Suggested Configurations</h3>
+<h4 id="docker-compose"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.4.1.1</span> docker-compose</h4>
 <p>Setting the <a href="https://docs.docker.com/reference/compose-file/services/#restart" target="_blank">restart policy</a> to "no" will prevent automatic restarts:
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">service</span><span class="p">:</span>
 </span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">    </span><span class="p p-Indicator">[</span><span class="nv">...</span><span class="p p-Indicator">]</span>
 </span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="s">"no"</span>
 </span></code></pre></div></p>
-<h4 id="kubernetes-cron"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.5.1.2</span> Kubernetes Cron</h4>
+<h4 id="kubernetes-cron"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.4.1.2</span> Kubernetes Cron</h4>
 <p>Setting the <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy" target="_blank">restartPolicy</a> to <code>Never</code> and <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-backoff-limit" target="_blank">backoffLimit</a> to <code>0</code> in a Job spec will prevent automatic restarts:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="w">    </span><span class="nt">restartPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Never</span>
 </span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">    </span><span class="nt">backoffLimit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 </span></code></pre></div>
-<h2 id="snapshot-options"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.6</span> Snapshot Options</h2>
+<h2 id="snapshot-options"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.5</span> Snapshot Options</h2>
 <p>The <a href="https://mariadb.com/kb/en/mariadb-dump/" target="_blank">mariadb-dump</a> utility has many options, however only the following are used to create snapshots:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="w">    </span>--single-transaction
 </span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">    </span>--quick
@@ -650,9 +720,11 @@
 </span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">    </span>--hex-blob
 </span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">    </span>--default-character-set<span class="o">=</span><span class="si">${</span><span class="nv">DB_DEFAULT_CHARSET</span><span class="si">}</span>
 </span></code></pre></div>
-<p>The character set defaults to <code>utf8mb4</code> but can be customized via the <code>DB_DEFAULT_CHARSET</code> environment variable.</p>
-<p>If you require additional options, you will need to modify the package accordingly.</p>
-<h2 id="data-integrity"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.7</span> Data Integrity</h2>
+<h2 id="snapshot-consistency-and-atomic-state"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.6</span> Snapshot Consistency and Atomic State</h2>
+<h3 id="overview"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.6.1</span> Overview</h3>
+<p>The combination of <code>--single-transaction</code> and <code>--skip-lock-tables</code> provides <strong>point-in-time consistency for InnoDB tables only</strong>.  Generally, this is likely 'good enough' for many applications using InnoDB as the primary storage engine. Non-transactional storage engines (MyISAM, MEMORY, etc.) are not locked and may be captured in an inconsistent state if modified during backup.</p>
+<p>For more detailed information about consistency, storage engine implications, cross-engine consistency issues, and how to audit your database, see the <a href="../consistency/">Snapshot Consistency and Atomic State</a> guide.</p>
+<h2 id="guaranteeing-snapshot-consistency"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.7</span> Guaranteeing Snapshot Consistency</h2>
 <p>For high-reliability snapshots, a <a href="https://mariadb.org" target="_blank">MariaDB</a>/<a href="https://www.mysql.com" target="_blank">MySQL</a> server must be placed into a read-only state before the snapshot is taken.</p>
 <p>How to do so is outside the scope of this documentation, and depends on your specific environment and setup.</p>
 <p>Good starting points:</p>

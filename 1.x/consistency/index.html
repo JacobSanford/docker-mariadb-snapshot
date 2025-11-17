@@ -5,14 +5,14 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Complete reference for all environment variables and configuration options for docker-mariadb-snapshot" name="description"/>
+<meta content="Understanding consistency guarantees and limitations of backups created with --single-transaction and --skip-lock-tables" name="description"/>
 <meta content="Jacob Sanford" name="author"/>
-<link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/configuration/" rel="canonical"/>
-<link href="../quickstart/" rel="prev"/>
-<link href="../rsnapshot/" rel="next"/>
+<link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/consistency/" rel="canonical"/>
+<link href="../metadata/" rel="prev"/>
+<link href="../security/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
-<title>Configuration Reference - docker-mariadb-snapshot</title>
+<title>Backup Consistency and Atomic State - docker-mariadb-snapshot</title>
 <link href="../assets/stylesheets/main.618322db.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -26,7 +26,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#snapshot-configuration">
+<a class="md-skip" href="#snapshot-consistency-and-atomic-state">
           Skip to content
         </a>
 </div>
@@ -52,7 +52,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Configuration Reference
+              Backup Consistency and Atomic State
             
           </span>
 </div>
@@ -183,20 +183,8 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-<span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../configuration/">
 <span class="md-ellipsis">
     
   
@@ -206,121 +194,6 @@
     
   </span>
 </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#rsnapshot-retention-settings">
-<span class="md-ellipsis">
-      
-        Rsnapshot Retention Settings
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#general-settings">
-<span class="md-ellipsis">
-      
-        General Settings
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mysql-connection-parameters">
-<span class="md-ellipsis">
-      
-        MySQL Connection Parameters
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#database-selection-modes">
-<span class="md-ellipsis">
-      
-        Database Selection Modes
-      
-    </span>
-</a>
-<nav aria-label="Database Selection Modes" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mode-1-explicit-list">
-<span class="md-ellipsis">
-      
-        Mode 1: Explicit List
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mode-2-auto-discovery">
-<span class="md-ellipsis">
-      
-        Mode 2: Auto-Discovery
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mode-3-single-database-legacy">
-<span class="md-ellipsis">
-      
-        Mode 3: Single Database - Legacy
-      
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#structure-only-tables">
-<span class="md-ellipsis">
-      
-        Structure-Only Tables
-      
-    </span>
-</a>
-<nav aria-label="Structure-Only Tables" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#global-configuration">
-<span class="md-ellipsis">
-      
-        Global Configuration
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#per-database-configuration">
-<span class="md-ellipsis">
-      
-        Per-Database Configuration
-      
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#users-and-grants-snapshot">
-<span class="md-ellipsis">
-      
-        Users and Grants Snapshot
-      
-    </span>
-</a>
-</li>
-</ul>
-</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../rsnapshot/">
@@ -396,8 +269,8 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_6" type="checkbox"/>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2_6" type="checkbox"/>
 <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
 <span class="md-ellipsis">
     
@@ -409,7 +282,7 @@
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_2_6_label" class="md-nav" data-md-level="2">
+<nav aria-expanded="true" aria-labelledby="__nav_2_6_label" class="md-nav" data-md-level="2">
 <label class="md-nav__title" for="__nav_2_6">
 <span class="md-nav__icon md-icon"></span>
             
@@ -443,8 +316,20 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../consistency/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Atomic Consistency
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
 <span class="md-ellipsis">
     
   
@@ -454,6 +339,54 @@
     
   </span>
 </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#consistency-by-storage-engine">
+<span class="md-ellipsis">
+      
+        Consistency by Storage Engine
+      
+    </span>
+</a>
+<nav aria-label="Consistency by Storage Engine" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#innodb-consistent">
+<span class="md-ellipsis">
+      
+        InnoDB (✅ Consistent)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#myisam-memory-csv-archive-inconsistent">
+<span class="md-ellipsis">
+      
+        MyISAM, MEMORY, CSV, Archive (⚠️ Inconsistent)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#additional-limitations">
+<span class="md-ellipsis">
+      
+        Additional Limitations
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../security/">
@@ -550,65 +483,29 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#rsnapshot-retention-settings">
+<a class="md-nav__link" href="#consistency-by-storage-engine">
 <span class="md-ellipsis">
       
-        Rsnapshot Retention Settings
+        Consistency by Storage Engine
       
     </span>
 </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#general-settings">
-<span class="md-ellipsis">
-      
-        General Settings
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mysql-connection-parameters">
-<span class="md-ellipsis">
-      
-        MySQL Connection Parameters
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#database-selection-modes">
-<span class="md-ellipsis">
-      
-        Database Selection Modes
-      
-    </span>
-</a>
-<nav aria-label="Database Selection Modes" class="md-nav">
+<nav aria-label="Consistency by Storage Engine" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#mode-1-explicit-list">
+<a class="md-nav__link" href="#innodb-consistent">
 <span class="md-ellipsis">
       
-        Mode 1: Explicit List
+        InnoDB (✅ Consistent)
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#mode-2-auto-discovery">
+<a class="md-nav__link" href="#myisam-memory-csv-archive-inconsistent">
 <span class="md-ellipsis">
       
-        Mode 2: Auto-Discovery
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mode-3-single-database-legacy">
-<span class="md-ellipsis">
-      
-        Mode 3: Single Database - Legacy
+        MyISAM, MEMORY, CSV, Archive (⚠️ Inconsistent)
       
     </span>
 </a>
@@ -617,41 +514,10 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#structure-only-tables">
+<a class="md-nav__link" href="#additional-limitations">
 <span class="md-ellipsis">
       
-        Structure-Only Tables
-      
-    </span>
-</a>
-<nav aria-label="Structure-Only Tables" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#global-configuration">
-<span class="md-ellipsis">
-      
-        Global Configuration
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#per-database-configuration">
-<span class="md-ellipsis">
-      
-        Per-Database Configuration
-      
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#users-and-grants-snapshot">
-<span class="md-ellipsis">
-      
-        Users and Grants Snapshot
+        Additional Limitations
       
     </span>
 </a>
@@ -663,264 +529,25 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="snapshot-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.</span> Snapshot Configuration</h1>
-<p>This page provides a complete reference for all configuration options. All configuration options are set via environment variables within the running container.</p>
-<h2 id="rsnapshot-retention-settings"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.1</span> Rsnapshot Retention Settings</h2>
-<p>Control how many snapshots are retained by rsnapshot (follows <a href="https://wiki.archlinux.org/title/Rsnapshot" target="_blank">rsnapshot retention models</a>):</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>RSNAPSHOT_RETAIN_HOURLY</code></td>
-<td>Number of hourly snapshots to retain</td>
-<td><code>8</code></td>
-</tr>
-<tr>
-<td><code>RSNAPSHOT_RETAIN_DAILY</code></td>
-<td>Number of daily snapshots to retain</td>
-<td><code>7</code></td>
-</tr>
-<tr>
-<td><code>RSNAPSHOT_RETAIN_WEEKLY</code></td>
-<td>Number of weekly snapshots to retain</td>
-<td><code>4</code></td>
-</tr>
-<tr>
-<td><code>RSNAPSHOT_RETAIN_MONTHLY</code></td>
-<td>Number of monthly snapshots to retain</td>
-<td><code>6</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="general-settings"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.2</span> General Settings</h2>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>GZIP_COMPRESSION_LEVEL</code></td>
-<td>Level of <a href="https://en.wikipedia.org/wiki/Gzip" target="_blank">gzip compression</a> (1-9, where 9 is maximum compression)</td>
-<td><code>6</code></td>
-</tr>
-<tr>
-<td><code>DB_DUMP_LOCATION</code></td>
-<td>Directory where snapshot files will be stored</td>
-<td><code>/data</code></td>
-</tr>
-<tr>
-<td><code>DB_DEFAULT_CHARSET</code></td>
-<td>Character set used for <a href="https://mariadb.com/kb/en/mariadb-dump/" target="_blank">mariadb-dump</a> operations</td>
-<td><code>utf8mb4</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Tip:</strong> Higher compression levels reduce file size but increase CPU usage and snapshot time.</p>
-<h2 id="mysql-connection-parameters"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.3</span> MySQL Connection Parameters</h2>
-<p>Configure how docker-mariadb-snapshot connects to your MariaDB/MySQL server:</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>DB_HOSTNAME</code></td>
-<td>Hostname or IP address of the MySQL server</td>
-<td><code>localhost</code></td>
-</tr>
-<tr>
-<td><code>DB_PORT</code></td>
-<td>Port number of the MySQL server</td>
-<td><code>3306</code></td>
-</tr>
-<tr>
-<td><code>DB_USER_NAME</code></td>
-<td>Username for connecting to MySQL</td>
-<td><code>root</code></td>
-</tr>
-<tr>
-<td><code>DB_USER_PASSWORD</code></td>
-<td>Password for connecting to MySQL</td>
-<td><code>changeme</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Security Note:</strong> Always use a dedicated snapshot user with minimal required privileges (<code>SELECT</code>, <code>LOCK TABLES</code>, <code>SHOW VIEW</code>, <code>EVENT</code>, <code>TRIGGER</code>).</p>
-<h2 id="database-selection-modes"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4</span> Database Selection Modes</h2>
-<p>docker-mariadb-snapshot supports three ways to select databases for snapshot. If multiple modes are configured, they are evaluated in priority order.</p>
-<h3 id="mode-1-explicit-list"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4.1</span> Mode 1: Explicit List</h3>
-<p>Snapshot a specific list of databases. Each database is backed up to a separate <code>.gz</code> file.</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>DB_DATABASES</code></td>
-<td>Comma-separated list of databases to snapshot</td>
-<td><code>db1,db2,db3</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="mode-2-auto-discovery"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4.2</span> Mode 2: Auto-Discovery</h3>
-<p>Automatically discover and snapshot all databases on the server, excluding system databases.</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>DB_SNAPSHOT_ALL_DATABASES</code></td>
-<td>Set to <code>true</code> or <code>1</code> to enable auto-discovery</td>
-<td>(disabled)</td>
-</tr>
-<tr>
-<td><code>DB_EXCLUDE_DATABASES</code></td>
-<td>Comma-separated list of databases to exclude</td>
-<td><code>information_schema,performance_schema,mysql,sys</code></td>
-</tr>
-<tr>
-<td><code>DB_SNAPSHOT_COMBINED</code></td>
-<td>Set to <code>true</code> or <code>1</code> to create additional combined snapshot file</td>
-<td>(disabled)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="mode-3-single-database-legacy"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.4.3</span> Mode 3: Single Database - Legacy</h3>
-<p>Snapshot a single specific database. This is the original behavior maintained for backward compatibility. Do not use this mode, as it may be removed in future releases.</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>DB_DATABASE</code></td>
-<td>Single database to snapshot</td>
-<td><code>myapp</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="structure-only-tables"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.5</span> Structure-Only Tables</h2>
-<p>Often, certain tables (like cache or session tables) do not need their data backed up, only their structure. This feature allows you to specify tables whose data should be excluded from the snapshot while preserving their schema.</p>
-<h3 id="global-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.5.1</span> Global Configuration</h3>
-<p>To exclude structure-only tables across all snapshotted databases:</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>DB_STRUCT_TABLES</code></td>
-<td>Comma-separated list of table patterns (supports wildcards)</td>
-<td><code>cache_*,sessions</code></td>
-</tr>
-</tbody>
-</table>
-<p>This excludes data from any tables matching:
-- <code>cache_*</code> (e.g., <code>cache_data</code>, <code>cache_pages</code>)
-- <code>sessions</code>
-- <code>temp_*</code> (e.g., <code>temp_files</code>, <code>temp_uploads</code>)</p>
-<p><strong>Pattern Matching:</strong>
-- <code>*</code> matches any characters
-- Patterns are matched against actual table names using <code>SHOW TABLES LIKE</code>
-- If a pattern matches no tables, it's silently ignored</p>
-<h3 id="per-database-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.5.2</span> Per-Database Configuration</h3>
-<p>You can also configure structure-only tables per database using the format:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>DB_STRUCT_TABLES_&lt;NORMALIZED_DB_NAME&gt;
-</span></code></pre></div>
-<p>Where <code>&lt;NORMALIZED_DB_NAME&gt;</code> is the database name:
-- Converted to uppercase
-- Hyphens (<code>-</code>) replaced with underscores (<code>_</code>)
-- Periods (<code>.</code>) replaced with underscores (<code>_</code>)</p>
-<p><strong>Examples:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Database Name</th>
-<th>Environment Variable</th>
-<th>Example Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>myapp</code></td>
-<td><code>DB_STRUCT_TABLES_MYAPP</code></td>
-<td><code>cache_%,sessions</code></td>
-</tr>
-<tr>
-<td><code>my_app</code></td>
-<td><code>DB_STRUCT_TABLES_MY_APP</code></td>
-<td><code>cache_%,sessions</code></td>
-</tr>
-<tr>
-<td><code>my-app</code></td>
-<td><code>DB_STRUCT_TABLES_MY_APP</code></td>
-<td><code>cache_%,sessions</code></td>
-</tr>
-<tr>
-<td><code>my.app</code></td>
-<td><code>DB_STRUCT_TABLES_MY_APP</code></td>
-<td><code>cache_%,sessions</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="users-and-grants-snapshot"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.6</span> Users and Grants Snapshot</h2>
-<p>In addition to backing up database contents, you can also snapshot MariaDB/MySQL user accounts and their grants. This creates a separate snapshot file containing user definitions and privileges.</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>DB_SNAPSHOT_USERS_GRANTS</code></td>
-<td>Set to <code>true</code> or <code>1</code> to snapshot users and grants</td>
-<td>(disabled)</td>
-</tr>
-</tbody>
-</table>
-<p>When enabled, docker-mariadb-snapshot will create an additional file <code>users.sql.gz</code> containing:
-- User account definitions (<code>CREATE USER</code> statements)
-- Grant permissions (<code>GRANT</code> statements)
-- Password hashes and authentication plugins</p>
-<p><strong>Important Notes:</strong>
-- The database user must have privileges to read the <code>mysql</code> system database
-- The snapshot user typically needs <code>SELECT</code> privilege on <code>mysql.*</code> to dump users
-- User snapshots are created once per snapshot invocation (not per database)
-- This feature can be used with any database selection mode (single, explicit list, or auto-discovery)</p>
+<h1 id="snapshot-consistency-and-atomic-state"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.</span> Snapshot Consistency and Atomic State</h1>
+<p>The combination of <code>--single-transaction</code> and <code>--skip-lock-tables</code> provides point-in-time consistency for <strong>InnoDB tables only</strong>. Non-transactional storage engines are not guaranteeed to be consistent. This is generally 'good enough' for non-critical services - the fact that you are considering using this package indicates that you likely do not require fully ACID-compliant backups.</p>
+<h2 id="consistency-by-storage-engine"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.1</span> Consistency by Storage Engine</h2>
+<h3 id="innodb-consistent"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.1.1</span> InnoDB (✅ Consistent)</h3>
+<ul>
+<li>All tables captured at the same transaction timestamp</li>
+<li>Data relationships remain intact (e.g., orders match order items)</li>
+<li>Non-blocking - reads and writes continue during backup</li>
+</ul>
+<h3 id="myisam-memory-csv-archive-inconsistent"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.1.2</span> MyISAM, MEMORY, CSV, Archive (⚠️ Inconsistent)</h3>
+<ul>
+<li>Tables are not locked during backup</li>
+<li>May be captured mid-modification</li>
+<li>Can contain mixed old and new data that never existed together</li>
+<li>Mixed InnoDB + MyISAM databases will have tables from different points in time</li>
+</ul>
+<h2 id="additional-limitations"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.2</span> Additional Limitations</h2>
+<p><strong>Binary log position:</strong> Not captured by default. Point-in-time recovery and replica setup require manual binary log analysis. To capture position, modify <code>build/scripts/snapshot.sh</code> to add <code>--master-data</code> flag.</p>
+<p><strong>Testing:</strong> Always restore backups to a test environment to verify consistency meets your requirements. See <a href="../restoration/">Restoration Guide</a>.</p>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>

@@ -201,7 +201,7 @@
 <span class="md-ellipsis">
     
   
-    RSnapshot Configuration
+    rsnapshot Configuration
   
 
     
@@ -212,7 +212,7 @@
 <span class="md-ellipsis">
     
   
-    RSnapshot Configuration
+    rsnapshot Configuration
   
 
     
@@ -296,6 +296,53 @@
 </nav>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../restoration/">
+<span class="md-ellipsis">
+    
+  
+    Restoring Snapshots
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Reference Documentation
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference Documentation
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../important-considerations/">
+<span class="md-ellipsis">
+    
+  
+    Important Considerations
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../metadata/">
 <span class="md-ellipsis">
     
@@ -308,35 +355,11 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../restoration/">
+<a class="md-nav__link" href="../consistency/">
 <span class="md-ellipsis">
     
   
-    Restoring Snapshots
-  
-
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../running-tests/">
-<span class="md-ellipsis">
-    
-  
-    Running Tests
-  
-
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../important-considerations/">
-<span class="md-ellipsis">
-    
-  
-    Important Considerations
+    Atomic Consistency
   
 
     
@@ -355,9 +378,12 @@
   </span>
 </a>
 </li>
+</ul>
+</nav>
+</li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_10" type="checkbox"/>
-<label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
 <span class="md-ellipsis">
     
   
@@ -368,8 +394,8 @@
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_2_10_label" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="__nav_2_10">
+<nav aria-expanded="false" aria-labelledby="__nav_2_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_7">
 <span class="md-nav__icon md-icon"></span>
             
   
@@ -391,11 +417,23 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../running-tests/">
+<span class="md-ellipsis">
+    
+  
+    Running Tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../style/">
 <span class="md-ellipsis">
     
   
-    Style
+    Documentation Style
   
 
     
@@ -447,21 +485,22 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="understanding-the-rsnapshot-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.</span> Understanding the RSnapshot Configuration</h1>
+<h1 id="understanding-the-rsnapshot-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.</span> Understanding the rsnapshot Configuration</h1>
 <h2 id="frequency-labels"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.1</span> 'Frequency' Labels</h2>
-<p>This image's environment variable names and rsnapshot configuration use the terms <code>hourly</code>, <code>daily</code>, <code>weekly</code>, and <code>monthly</code> to refer to different snapshot retention levels:</p>
+<p>docker-mariadb-snapshot's environment variable names and rsnapshot configuration use the terms <code>hourly</code>, <code>daily</code>, <code>weekly</code>, and <code>monthly</code> to refer to different snapshot retention levels:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>retain  hourly  RSNAPSHOT_RETAIN_HOURLY
 </span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>retain  daily   RSNAPSHOT_RETAIN_DAILY
 </span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>retain  weekly  RSNAPSHOT_RETAIN_WEEKLY
 </span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>retain  monthly RSNAPSHOT_RETAIN_MONTHLY
 </span></code></pre></div>
 <p>Although these appear to be time-based settings, it is important to understand <strong>rsnapshot does not inherently understand time</strong>. 'hourly', 'daily', 'weekly', and 'monthly' are simply labels for separate snapshot retention groups without any intrinsic time meaning. They could, in fact, be anything - 'red', 'blue', 'green', etc.</p>
-<p>The actual frequency of when each level is executed is solely determined by how you schedule rsnapshot (e.g., via cron jobs).</p>
+<p>The actual frequency of when each level is executed is solely determined by the period in which you execute docker-mariadb-snapshot (e.g., via cron jobs).</p>
 <h2 id="snapshot-rotation"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.2</span> Snapshot Rotation</h2>
-<p>By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. In the above configuration, the daily,weekly, and monthly levels 'promote' the oldest snapshot from the level above it <strong>instead of creating a new snapshot from live data</strong>.</p>
-<p>docker-mariadb-snapshot instead leverages the <code>sync_first     1</code> rsnapshot configuration item. Consequently, <strong>running docker-mariadb-snapshot with any frequency level as an argument will always snapshot the live data before performing the rotation</strong>, and rotation only happens within the level you invoke.</p>
-<p>This is less efficient in terms of storage and snapshot time, but it guarantees that each snapshot level contains a full snapshot of the live data exactly at the time of execution.</p>
-<p>Therefore, running docker-mariadb-snapshot with a <code>daily</code> argument will execute as follows:</p>
+<p>By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. In the above-mentioned sample configuration, the daily, weekly, and monthly levels 'promote' and copy/link the oldest snapshot from the level above it <strong>instead of creating a new snapshot from live data</strong>. Snapshots are only ever taken (by default) at the hourly level, and the other levels simply rotate hourly snapshots down the hierarchy.</p>
+<p>This default behavior is not ideal for accurate point-in-time restores. Instead, snapshots should be taken each time the image is run.</p>
+<p>To accomplish this, docker-mariadb-snapshot sets the <code>sync_first     1</code> rsnapshot configuration item, which means <strong>running docker-mariadb-snapshot with any frequency level as an argument will always snapshot the live data before performing the rotation</strong>, and rotation only happens within the level you invoke.</p>
+<p>This method is less efficient in terms of storage and snapshot time, but it guarantees that each snapshot level contains a full snapshot of the live data at the time of execution.</p>
+<p>As an example: running docker-mariadb-snapshot with, say, the <code>daily</code> argument will:</p>
 <ul>
 <li>Create a new snapshot from the live filesystem.</li>
 <li>Rotate the daily.* set (daily.6 → daily.7, ..., daily.0 → daily.1)</li>

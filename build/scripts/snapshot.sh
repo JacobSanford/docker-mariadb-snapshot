@@ -53,6 +53,16 @@ get_server_type() {
     -e "SELECT @@version_comment;" 2>/dev/null || echo "unknown"
 }
 
+# Strip MariaDB sandbox mode comment from dump file if enabled
+# Newer mariadb-dump adds /*!999999\- enable the sandbox mode */ or /*M!999999\- enable the sandbox mode */
+# This is only supported by MariaDB and causes compatibility issues with MySQL
+strip_sandbox_line() {
+  DUMP_FILE="$1"
+  if [ "${DB_STRIP_SANDBOX_LINE:-true}" = "true" ] || [ "${DB_STRIP_SANDBOX_LINE:-true}" = "1" ]; then
+    sed -i '/999999.*enable the sandbox mode/d' "$DUMP_FILE"
+  fi
+}
+
 # Generate snapshot metadata JSON file
 generate_metadata_json() {
   START_TIME=$1
@@ -100,6 +110,7 @@ generate_metadata_json() {
     "DB_SNAPSHOT_USERS_GRANTS": "${DB_SNAPSHOT_USERS_GRANTS:-}",
     "DB_EXCLUDE_DATABASES": "${DB_EXCLUDE_DATABASES:-}",
     "DB_DEFAULT_CHARSET": "${DB_DEFAULT_CHARSET:-}",
+    "DB_STRIP_SANDBOX_LINE": "${DB_STRIP_SANDBOX_LINE:-}",
     "DB_STRUCT_TABLES": "${DB_STRUCT_TABLES:-}",
     "RSNAPSHOT_RETAIN_HOURLY": "${RSNAPSHOT_RETAIN_HOURLY:-}",
     "RSNAPSHOT_RETAIN_DAILY": "${RSNAPSHOT_RETAIN_DAILY:-}",
@@ -219,9 +230,9 @@ snapshot_single_database() {
     mv "$TMP_DATA" "$TMP_COMBINED"
   fi
 
-  # 4. Strip lines containing "enable the sandbox mode" for compatibility with old versions
+  # 4. Strip MariaDB sandbox mode comment for MySQL compatibility
   # See: https://github.com/drush-ops/drush/issues/6027
-  sed -i '/enable the sandbox mode/d' "$TMP_COMBINED"
+  strip_sandbox_line "$TMP_COMBINED"
 
   # 4.5. Append to combined backup file if it exists
   if [ -n "$COMBINED_SNAPSHOT_FILE" ]; then
@@ -269,6 +280,9 @@ snapshot_users_grants() {
     return 1
   fi
   echo "✅ Dumped users and grants to: $TMP_USERS"
+
+  # Strip MariaDB sandbox mode comment for MySQL compatibility
+  strip_sandbox_line "$TMP_USERS"
 
   # Compress the export
   echo "Compressing the users/grants export..."

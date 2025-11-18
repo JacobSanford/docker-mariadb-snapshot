@@ -28,8 +28,11 @@ Control how many snapshots are retained by rsnapshot (follows [rsnapshot retenti
 | `GZIP_COMPRESSION_LEVEL` | Level of [gzip compression](https://en.wikipedia.org/wiki/Gzip){target="_blank"} (1-9, where 9 is maximum compression) | `6` |
 | `DB_DUMP_LOCATION` | Directory where snapshot files will be stored | `/data` |
 | `DB_DEFAULT_CHARSET` | Character set used for [mariadb-dump](https://mariadb.com/kb/en/mariadb-dump/){target="_blank"} operations | `utf8mb4` |
+| `DB_STRIP_SANDBOX_LINE` | Strip MariaDB sandbox mode comment for MySQL compatibility. Set to `true` or `1` to strip, `false` or `0` to preserve | `true` |
 
 **Tip:** Higher compression levels reduce file size but increase CPU usage and snapshot time.
+
+**Compatibility Note:** Newer MariaDB clients add a sandbox mode comment (`/*!999999\- enable the sandbox mode */`) to dumps. This comment is only supported by MariaDB and causes errors when importing into MySQL servers. The default behavior strips this comment for maximum compatibility. Set `DB_STRIP_SANDBOX_LINE=false` only if you exclusively use MariaDB servers for both dump and restore operations.
 
 ## MySQL Connection Parameters
 

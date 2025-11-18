@@ -304,18 +304,6 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../metadata/">
-<span class="md-ellipsis">
-    
-  
-    Snapshot Metadata
-  
-
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="../consistency/">
 <span class="md-ellipsis">
     
@@ -328,11 +316,35 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../compatibility/">
+<span class="md-ellipsis">
+    
+  
+    Compatibility
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../security/">
 <span class="md-ellipsis">
     
   
     Security
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metadata/">
+<span class="md-ellipsis">
+    
+  
+    Snapshot Metadata
   
 
     
@@ -628,12 +640,12 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="documentation-style-guide"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.</span> Documentation Style Guide</h1>
+<h1 id="documentation-style-guide"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.</span> Documentation Style Guide</h1>
 <p>This brief style guide ensures consistency across the docker-mariadb-snapshot documentation.</p>
-<h2 id="product-naming"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.1</span> Product Naming</h2>
+<h2 id="product-naming"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.1</span> Product Naming</h2>
 <p><strong>Canonical Name:</strong> <code>docker-mariadb-snapshot</code></p>
 <p>Use this exact form in all documentation.</p>
-<h2 id="front-matter"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.2</span> Front Matter</h2>
+<h2 id="front-matter"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.2</span> Front Matter</h2>
 <p>All <code>.md</code> files must include complete YAML front matter:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nn">---</span>
 </span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Page Title</span>
@@ -655,7 +667,7 @@
 <li><code>lastReviewed</code>: ISO date of last review</li>
 <li><code>version</code>: Product version (currently <code>1.x</code>)</li>
 </ul>
-<h2 id="headings"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.3</span> Headings</h2>
+<h2 id="headings"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.3</span> Headings</h2>
 <p><strong>Capitalization:</strong> Use sentence case with key terms capitalized</p>
 <p>Examples:</p>
 <ul>
@@ -666,7 +678,7 @@
 <li>✗ <code>## DOCKER COMPOSE EXAMPLES</code> (too uppercase)</li>
 </ul>
 <p><strong>Hierarchy:</strong> Do not skip heading levels (h2 → h4)</p>
-<h2 id="code-blocks"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.4</span> Code Blocks</h2>
+<h2 id="code-blocks"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.4</span> Code Blocks</h2>
 <p>Always specify the language for syntax highlighting:</p>
 <div class="language-markdown highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="sb">```bash</span>
 </span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>mariadb-snapshot:1.x<span class="w"> </span>hourly
@@ -685,7 +697,7 @@
 </span><span id="__span-1-15"><a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="sb">```</span>
 </span></code></pre></div>
 <p><strong>Supported languages:</strong> <code>bash</code>, <code>yaml</code>, <code>json</code>, <code>sql</code>, <code>text</code></p>
-<h2 id="links"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.5</span> Links</h2>
+<h2 id="links"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.5</span> Links</h2>
 <p><strong>External links:</strong> Always use <code>{target="_blank"}</code> to open in new tabs</p>
 <div class="language-markdown highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>[<span class="nt">Docker</span>](<span class="na">https://www.docker.com</span>){target="_blank"}
 </span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>[<span class="nt">MariaDB</span>](<span class="na">https://mariadb.org</span>){target="_blank"}
@@ -699,7 +711,7 @@
 <li>✓ <code>See the [Configuration Reference](configuration.md) for details</code></li>
 <li>✗ <code>Click [here](configuration.md) for more information</code></li>
 </ul>
-<h2 id="inline-code"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.6</span> Inline Code</h2>
+<h2 id="inline-code"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.6</span> Inline Code</h2>
 <p>Use backticks for:</p>
 <ul>
 <li>File paths: <code>`/data`</code>, <code>`snapshot.sh`</code></li>
@@ -707,7 +719,7 @@
 <li>Commands: <code>`docker compose run`</code></li>
 <li>Code references: <code>`mariadb-dump`</code>, <code>`rsnapshot`</code></li>
 </ul>
-<h2 id="admonitions"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.7</span> Admonitions</h2>
+<h2 id="admonitions"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.7</span> Admonitions</h2>
 <p>Use MkDocs admonitions for important information:</p>
 <div class="language-markdown highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>!!! warning "Your Responsibility"
 </span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>    This package should be considered an example rather than production-ready.
@@ -716,14 +728,14 @@
 </span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>    Higher compression levels reduce file size but increase CPU usage.
 </span></code></pre></div>
 <p><strong>Common types:</strong> <code>warning</code>, <code>note</code>, <code>tip</code>, <code>info</code></p>
-<h2 id="tables"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.8</span> Tables</h2>
+<h2 id="tables"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.8</span> Tables</h2>
 <p>Use pipe tables with header separators:</p>
 <div class="language-markdown highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>| Variable | Description | Default |
 </span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>|----------|-------------|---------|
 </span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>| <span class="sb">`DB_HOSTNAME`</span> | Database server hostname | <span class="sb">`localhost`</span> |
 </span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>| <span class="sb">`DB_PORT`</span> | Database server port | <span class="sb">`3306`</span> |
 </span></code></pre></div>
-<h2 id="tone-and-voice"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.9</span> Tone and Voice</h2>
+<h2 id="tone-and-voice"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.9</span> Tone and Voice</h2>
 <p><strong>Style:</strong> Professional, technical, directive</p>
 <ul>
 <li>Use active voice: ✓ "Configure the database hostname" vs. ✗ "The database hostname should be configured"</li>
@@ -731,7 +743,7 @@
 <li>Assume reader has Docker and database familiarity</li>
 <li>Avoid excessive pleasantries or conversational asides</li>
 </ul>
-<h2 id="file-organization"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.10</span> File Organization</h2>
+<h2 id="file-organization"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.10</span> File Organization</h2>
 <p><strong>New pages:</strong>
 1. Create the <code>.md</code> file in <code>docs/</code>
 2. Add complete front matter

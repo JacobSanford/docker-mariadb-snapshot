@@ -5,14 +5,14 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Understanding the snapshot-metadata.json file generated with each backup operation" name="description"/>
+<meta content="MariaDB and MySQL version compatibility for docker-mariadb-snapshot exports and imports" name="description"/>
 <meta content="Jacob Sanford" name="author"/>
-<link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/metadata/" rel="canonical"/>
-<link href="../security/" rel="prev"/>
-<link href="../contributing/" rel="next"/>
+<link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/compatibility/" rel="canonical"/>
+<link href="../consistency/" rel="prev"/>
+<link href="../security/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
-<title>Snapshot Metadata - docker-mariadb-snapshot</title>
+<title>Compatibility - docker-mariadb-snapshot</title>
 <link href="../assets/stylesheets/main.618322db.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -26,7 +26,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#snapshot-metadata">
+<a class="md-skip" href="#compatibility">
           Skip to content
         </a>
 </div>
@@ -52,7 +52,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Snapshot Metadata
+              Compatibility
             
           </span>
 </div>
@@ -316,8 +316,20 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../compatibility/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Compatibility
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
 <span class="md-ellipsis">
     
   
@@ -327,6 +339,41 @@
     
   </span>
 </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#export-compatibility">
+<span class="md-ellipsis">
+      
+        Export Compatibility
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#import-compatibility">
+<span class="md-ellipsis">
+      
+        Import Compatibility
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#older-versions">
+<span class="md-ellipsis">
+      
+        Older Versions
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../security/">
@@ -340,9 +387,8 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metadata/">
 <span class="md-ellipsis">
     
   
@@ -430,48 +476,65 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#export-compatibility">
+<span class="md-ellipsis">
+      
+        Export Compatibility
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#import-compatibility">
+<span class="md-ellipsis">
+      
+        Import Compatibility
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#older-versions">
+<span class="md-ellipsis">
+      
+        Older Versions
+      
+    </span>
+</a>
+</li>
+</ul>
 </nav>
 </div>
 </div>
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="snapshot-metadata"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.</span> Snapshot Metadata</h1>
-<p>Each snapshot run automatically generates a <code>snapshot-metadata.json</code> file containing detailed information about the backup operation. This file is stored alongside your database backups and rotated with them by rsnapshot.</p>
-<p><strong>Metadata Contents:</strong></p>
-<p>The JSON file includes the following information:</p>
+<h1 id="compatibility"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.</span> Compatibility</h1>
+<p>This image leverages <code>mariadb-dump</code> for database exports, which is compatible with both MariaDB and MySQL servers.</p>
+<h2 id="export-compatibility"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.1</span> Export Compatibility</h2>
+<p>Tested and expected to export snapshots from:</p>
 <ul>
-<li><strong>Snapshot Information</strong>: Start time, end time, duration (seconds), and frequency (hourly/daily/weekly/monthly)</li>
-<li><strong>Database Server</strong>: Server type (MariaDB/MySQL), version, and version comment (e.g., "MySQL Community Server - GPL" or "MariaDB Server")</li>
-<li><strong>Client Information</strong>: MariaDB dump utility version</li>
-<li><strong>Configuration</strong>: Key environment variables used for the snapshot (excluding authentication details)</li>
+<li>MariaDB 10.5+ (10.5/10.6/10.11/11.x/12.x)</li>
+<li>MySQL 5.6+, 5.7, and 8.x</li>
 </ul>
-<p><strong>Example metadata file:</strong>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span>
-</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">  </span><span class="nt">"snapshot_info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">    </span><span class="nt">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-11-15T12:34:56Z"</span><span class="p">,</span>
-</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">    </span><span class="nt">"end_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-11-15T12:35:23Z"</span><span class="p">,</span>
-</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">    </span><span class="nt">"duration_seconds"</span><span class="p">:</span><span class="w"> </span><span class="mi">27</span><span class="p">,</span>
-</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">    </span><span class="nt">"frequency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hourly"</span>
-</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">  </span><span class="p">},</span>
-</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">  </span><span class="nt">"database_server"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MySQL"</span><span class="p">,</span>
-</span><span id="__span-0-10"><a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8.0.44"</span><span class="p">,</span>
-</span><span id="__span-0-11"><a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="nt">"version_comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MySQL Community Server - GPL"</span>
-</span><span id="__span-0-12"><a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">  </span><span class="p">},</span>
-</span><span id="__span-0-13"><a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">  </span><span class="nt">"client_info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-14"><a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="nt">"mariadb_dump_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mariadb-dump 11.4.8-MariaDB"</span>
-</span><span id="__span-0-15"><a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">  </span><span class="p">},</span>
-</span><span id="__span-0-16"><a href="#__codelineno-0-16" id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="w">  </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-17"><a href="#__codelineno-0-17" id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">    </span><span class="nt">"DB_HOSTNAME"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysql"</span><span class="p">,</span>
-</span><span id="__span-0-18"><a href="#__codelineno-0-18" id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="nt">"DB_PORT"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3306"</span><span class="p">,</span>
-</span><span id="__span-0-19"><a href="#__codelineno-0-19" id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">    </span><span class="nt">"DB_DATABASES"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app1,app2"</span><span class="p">,</span>
-</span><span id="__span-0-20"><a href="#__codelineno-0-20" id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="w">    </span><span class="nt">"RSNAPSHOT_RETAIN_HOURLY"</span><span class="p">:</span><span class="w"> </span><span class="s2">"24"</span><span class="p">,</span>
-</span><span id="__span-0-21"><a href="#__codelineno-0-21" id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">    </span><span class="nt">"GZIP_COMPRESSION_LEVEL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9"</span>
-</span><span id="__span-0-22"><a href="#__codelineno-0-22" id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-0-23"><a href="#__codelineno-0-23" id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="p">}</span>
-</span></code></pre></div></p>
-<p><strong>Security Note:</strong> The metadata file excludes sensitive information like <code>DB_USER_NAME</code> and <code>DB_USER_PASSWORD</code>.</p>
+<h2 id="import-compatibility"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.2</span> Import Compatibility</h2>
+<p>Snapshots created by docker-mariadb-snapshot can be imported into:</p>
+<ul>
+<li>MariaDB 10.5+ (10.5/10.6/10.11/11.x/12.x)</li>
+<li>MySQL 5.6+, 5.7, and 8.x</li>
+</ul>
+<h2 id="older-versions"><span class="enumerate-headings-plugin enumerate-heading-plugin">9.3</span> Older Versions</h2>
+<p>While older versions of MariaDB and MySQL may work, they have not been explicitly tested with docker-mariadb-snapshot. If you are using significantly older versions, please test snapshot exports and imports in a non-production environment to ensure compatibility. </p>
+<div class="admonition warning">
+<p class="admonition-title">MariaDB Sandbox Mode Compatibility</p>
+<p>Please see the <a href="../important-considerations/">Important Considerations</a> document for details on MariaDB sandbox mode and compatibility with MySQL clients. If you are only using modern MariaDB servers and clients, you may want to disable the docker-mariadb-snapshot default behavior of stripping the sandbox mode comment from dumps.</p>
+</div>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>

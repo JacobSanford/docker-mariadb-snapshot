@@ -9,7 +9,7 @@
 <meta content="Jacob Sanford" name="author"/>
 <link href="https://jacobsanford.github.io/docker-mariadb-snapshot/1.x/important-considerations/" rel="canonical"/>
 <link href="../restoration/" rel="prev"/>
-<link href="../metadata/" rel="next"/>
+<link href="../consistency/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
 <title>Important Considerations - docker-mariadb-snapshot</title>
@@ -445,18 +445,6 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../metadata/">
-<span class="md-ellipsis">
-    
-  
-    Snapshot Metadata
-  
-
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="../consistency/">
 <span class="md-ellipsis">
     
@@ -469,11 +457,35 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../compatibility/">
+<span class="md-ellipsis">
+    
+  
+    Compatibility
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../security/">
 <span class="md-ellipsis">
     
   
     Security
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metadata/">
+<span class="md-ellipsis">
+    
+  
+    Snapshot Metadata
   
 
     
@@ -742,7 +754,7 @@
 <p>Recent versions of <code>mariadb-dump</code> introduced <strong>sandbox mode</strong> as a security feature and now prepend a special directive at the top of every dump file:</p>
 <div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="cm">/*!999999- enable the sandbox mode */</span>
 </span></code></pre></div>
-<p>The change was introduced as a mitigation for <a href="https://nvd.nist.gov/vuln/detail/cve-2024-21096">CVE-2024-21096</a>. Sandbox mode blocks those dangerous client commands, but it also has a side effect: <strong>older MariaDB clients and all MySQL clients do not understand the <code>\-</code> sandbox command and fail with errors like <code>ERROR at line 1: Unknown command '\-'</code> when they encounter this directive</strong>. For more details, see<a href="https://mariadb.org/mariadb-dump-file-compatibility-change/"> MariaDB’s announcement “MariaDB Dump File Compatibility Change</a>.</p>
+<p>The change was introduced as a mitigation for <a href="https://nvd.nist.gov/vuln/detail/cve-2024-21096" target="_blank">CVE-2024-21096</a>. Sandbox mode blocks those dangerous client commands, but it also has a side effect: <strong>older MariaDB clients and all MySQL clients do not understand the <code>\-</code> sandbox command and fail with errors like <code>ERROR at line 1: Unknown command '\-'</code> when they encounter this directive</strong>. For more details, see<a href="https://mariadb.org/mariadb-dump-file-compatibility-change/" target="_blank"> MariaDB’s announcement “MariaDB Dump File Compatibility Change</a>.</p>
 <p>docker-mariadb-snapshot strips this line by default from all dump files after they are created to maintain compatibility with older MariaDB clients and MySQL clients. If you want to retain this line in your dumps, set the environment variable <code>STRIP_SANDBOX_MODE_COMMENT</code> to <code>false</code>.</p>
 <h2 id="snapshot-consistency-and-atomic-state"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.7</span> Snapshot Consistency and Atomic State</h2>
 <h3 id="overview"><span class="enumerate-headings-plugin enumerate-heading-plugin">7.7.1</span> Overview</h3>

@@ -305,18 +305,6 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../metadata/">
-<span class="md-ellipsis">
-    
-  
-    Snapshot Metadata
-  
-
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="../consistency/">
 <span class="md-ellipsis">
     
@@ -329,11 +317,35 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../compatibility/">
+<span class="md-ellipsis">
+    
+  
+    Compatibility
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../security/">
 <span class="md-ellipsis">
     
   
     Security
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../metadata/">
+<span class="md-ellipsis">
+    
+  
+    Snapshot Metadata
   
 
     
@@ -1055,10 +1067,10 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="running-tests"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.</span> Running Tests</h1>
+<h1 id="running-tests"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.</span> Running Tests</h1>
 <p>Tests are provided for package-level testing of the docker-mariadb-snapshot image. They are not intended for end-users, but rather for developers and maintainers to validate functionality.</p>
 <p>This page provides comprehensive guidance for testing the docker-mariadb-snapshot image, including automated test suites and manual testing procedures.</p>
-<h2 id="quick-start"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.1</span> Quick Start</h2>
+<h2 id="quick-start"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.1</span> Quick Start</h2>
 <p>The project includes an automated test suite in the <code>testing/</code> directory. To run all tests:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>testing
 </span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>./run-tests.sh
@@ -1073,9 +1085,9 @@
 <li>Clean up containers</li>
 </ol>
 <p><strong>No manual setup required!</strong></p>
-<h2 id="what-the-tests-cover"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.2</span> What the Tests Cover</h2>
+<h2 id="what-the-tests-cover"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.2</span> What the Tests Cover</h2>
 <p>The automated test suite validates all snapshot modes and features:</p>
-<h3 id="snapshot-modes"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.2.1</span> Snapshot Modes</h3>
+<h3 id="snapshot-modes"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.2.1</span> Snapshot Modes</h3>
 <ol>
 <li><strong>Single Database Snapshot</strong> - Legacy mode backing up one database (app1)</li>
 <li><strong>Multiple Databases Snapshot</strong> - Explicit list of databases (app1, app2, app3)</li>
@@ -1083,7 +1095,7 @@
 <li><strong>Per-Database Config</strong> - Different structure-only table configurations per database</li>
 <li><strong>Combined Snapshot</strong> - Creates both individual files and ALL_DATABASES.gz</li>
 </ol>
-<h3 id="validation-checks"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.2.2</span> Validation Checks</h3>
+<h3 id="validation-checks"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.2.2</span> Validation Checks</h3>
 <p>For each snapshot mode, tests verify:</p>
 <ul>
 <li>Snapshot files are created in correct locations</li>
@@ -1093,7 +1105,7 @@
 <li>Combined snapshot contains all databases</li>
 <li>File sizes are reasonable (not empty or corrupt)</li>
 </ul>
-<h2 id="test-output"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.3</span> Test Output</h2>
+<h2 id="test-output"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.3</span> Test Output</h2>
 <p>A successful test run looks like this:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>==================================================
 </span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>MySQL/MariaDB Snapshot Container - Test Suite
@@ -1126,44 +1138,44 @@
 </span><span id="__span-1-29"><a href="#__codelineno-1-29" id="__codelineno-1-29" name="__codelineno-1-29"></a>All tests passed! (15/15)
 </span><span id="__span-1-30"><a href="#__codelineno-1-30" id="__codelineno-1-30" name="__codelineno-1-30"></a>==================================================
 </span></code></pre></div>
-<h2 id="manual-testing"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.4</span> Manual Testing</h2>
+<h2 id="manual-testing"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.4</span> Manual Testing</h2>
 <p>If you need to test specific snapshot scenarios manually, use the following commands:</p>
-<h3 id="single-database-snapshot"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.4.1</span> Single Database Snapshot</h3>
+<h3 id="single-database-snapshot"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.4.1</span> Single Database Snapshot</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>testing
 </span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>snapshot-single<span class="w"> </span>hourly
 </span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>ls<span class="w"> </span>-la<span class="w"> </span>snapshots/single/hourly.0/mysql/
 </span></code></pre></div>
 <p><strong>Expected output:</strong> <code>app1.gz</code> file with cache and session tables structure-only</p>
-<h3 id="multiple-databases"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.4.2</span> Multiple Databases</h3>
+<h3 id="multiple-databases"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.4.2</span> Multiple Databases</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>snapshot-multiple<span class="w"> </span>daily
 </span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>snapshots/multiple/daily.0/mysql/
 </span></code></pre></div>
 <p><strong>Expected output:</strong> <code>app1.gz</code>, <code>app2.gz</code>, <code>app3.gz</code> files</p>
-<h3 id="auto-discovery"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.4.3</span> Auto-Discovery</h3>
+<h3 id="auto-discovery"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.4.3</span> Auto-Discovery</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>snapshot-all<span class="w"> </span>weekly
 </span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>snapshots/all/weekly.0/mysql/
 </span></code></pre></div>
 <p><strong>Expected output:</strong> One <code>.gz</code> file per discovered database (app1, app2, app3)</p>
-<h3 id="per-database-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.4.4</span> Per-Database Configuration</h3>
+<h3 id="per-database-configuration"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.4.4</span> Per-Database Configuration</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>snapshot-per-db-config<span class="w"> </span>hourly
 </span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>snapshots/per-db/hourly.0/mysql/
 </span></code></pre></div>
 <p><strong>Expected output:</strong>
 - <code>app1.gz</code> with cache, sessions, and watchdog tables structure-only
 - <code>app2.gz</code> with temp_files and cache tables structure-only</p>
-<h3 id="combined-snapshot"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.4.5</span> Combined Snapshot</h3>
+<h3 id="combined-snapshot"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.4.5</span> Combined Snapshot</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>snapshot-combined<span class="w"> </span>daily
 </span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>snapshots/combined/daily.0/mysql/
 </span></code></pre></div>
 <p><strong>Expected output:</strong>
 - Individual database files: <code>app1.gz</code>, <code>app2.gz</code>, <code>app3.gz</code>
 - Combined file: <code>ALL_DATABASES.gz</code></p>
-<h2 id="inspecting-snapshot-files"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.5</span> Inspecting Snapshot Files</h2>
-<h3 id="view-snapshot-contents"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.5.1</span> View Snapshot Contents</h3>
+<h2 id="inspecting-snapshot-files"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.5</span> Inspecting Snapshot Files</h2>
+<h3 id="view-snapshot-contents"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.5.1</span> View Snapshot Contents</h3>
 <p>To decompress and view a snapshot without restoring:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>gunzip<span class="w"> </span>-c<span class="w"> </span>snapshots/single/hourly.0/mysql/app1.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
 </span></code></pre></div>
-<h3 id="check-for-structure-only-tables"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.5.2</span> Check for Structure-Only Tables</h3>
+<h3 id="check-for-structure-only-tables"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.5.2</span> Check for Structure-Only Tables</h3>
 <p>Verify that structure-only tables have no INSERT statements:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>gunzip<span class="w"> </span>-c<span class="w"> </span>snapshots/single/hourly.0/mysql/app1.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"INSERT INTO.*cache_data"</span>
 </span></code></pre></div>
@@ -1172,7 +1184,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>gunzip<span class="w"> </span>-c<span class="w"> </span>snapshots/single/hourly.0/mysql/app1.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"CREATE TABLE.*cache_data"</span>
 </span></code></pre></div>
 <p><strong>Expected:</strong> CREATE TABLE statement found</p>
-<h3 id="restore-to-mysql-for-testing"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.5.3</span> Restore to MySQL for Testing</h3>
+<h3 id="restore-to-mysql-for-testing"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.5.3</span> Restore to MySQL for Testing</h3>
 <p>Restore a snapshot to your test MySQL server:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>gunzip<span class="w"> </span>-c<span class="w"> </span>snapshots/single/hourly.0/mysql/app1.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">  </span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-T<span class="w"> </span>mysql<span class="w"> </span>mysql<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-prootpassword<span class="w"> </span>app1
@@ -1185,21 +1197,21 @@
 </span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a>gunzip<span class="w"> </span>-c<span class="w"> </span>snapshots/single/hourly.0/mysql/app1.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-11-6"><a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="w">  </span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-T<span class="w"> </span>mysql<span class="w"> </span>mysql<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-prootpassword<span class="w"> </span>app1_restored
 </span></code></pre></div>
-<h2 id="test-database-structure"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.6</span> Test Database Structure</h2>
+<h2 id="test-database-structure"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.6</span> Test Database Structure</h2>
 <p>The test MySQL server is initialized with three databases for comprehensive testing:</p>
-<h3 id="app1-database"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.6.1</span> app1 Database</h3>
+<h3 id="app1-database"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.6.1</span> app1 Database</h3>
 <p>Tables:
 - <code>cache_data</code> - Structure-only (matches <code>cache_*</code> pattern)
 - <code>cache_pages</code> - Structure-only (matches <code>cache_*</code> pattern)
 - <code>sessions</code> - Structure-only
 - <code>watchdog</code> - Structure-only in per-DB config tests
 - <code>users</code> - Regular table with full data snapshot</p>
-<h3 id="app2-database"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.6.2</span> app2 Database</h3>
+<h3 id="app2-database"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.6.2</span> app2 Database</h3>
 <p>Tables:
 - <code>temp_files</code> - Structure-only in per-DB config (matches <code>temp_*</code> pattern)
 - <code>cache</code> - Structure-only in per-DB config
 - <code>posts</code> - Regular table with full data snapshot</p>
-<h3 id="app3-database"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.6.3</span> app3 Database</h3>
+<h3 id="app3-database"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.6.3</span> app3 Database</h3>
 <p>Tables:
 - <code>products</code> - Regular table with full data snapshot
 - <code>orders</code> - Regular table with full data snapshot</p>
@@ -1208,22 +1220,22 @@
 - Exact table name matching (<code>sessions</code>, <code>watchdog</code>, <code>cache</code>)
 - Per-database configuration variations
 - Databases without structure-only tables</p>
-<h2 id="cleanup"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.7</span> Cleanup</h2>
-<h3 id="clean-up-test-data"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.7.1</span> Clean Up Test Data</h3>
+<h2 id="cleanup"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.7</span> Cleanup</h2>
+<h3 id="clean-up-test-data"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.7.1</span> Clean Up Test Data</h3>
 <p>To remove all test containers and snapshots:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="nb">cd</span><span class="w"> </span>testing
 </span><span id="__span-12-2"><a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>down<span class="w"> </span>-v
 </span><span id="__span-12-3"><a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a>rm<span class="w"> </span>-rf<span class="w"> </span>snapshots
 </span></code></pre></div>
-<h3 id="clean-up-individual-snapshot-directories"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.7.2</span> Clean Up Individual Snapshot Directories</h3>
+<h3 id="clean-up-individual-snapshot-directories"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.7.2</span> Clean Up Individual Snapshot Directories</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>snapshots/single
 </span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>snapshots/multiple
 </span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a>rm<span class="w"> </span>-rf<span class="w"> </span>snapshots/all
 </span><span id="__span-13-4"><a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a>rm<span class="w"> </span>-rf<span class="w"> </span>snapshots/per-db
 </span><span id="__span-13-5"><a href="#__codelineno-13-5" id="__codelineno-13-5" name="__codelineno-13-5"></a>rm<span class="w"> </span>-rf<span class="w"> </span>snapshots/combined
 </span></code></pre></div>
-<h2 id="troubleshooting"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.8</span> Troubleshooting</h2>
-<h3 id="tests-fail-with-mysql-is-not-ready"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.8.1</span> Tests Fail with "MySQL is not ready"</h3>
+<h2 id="troubleshooting"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.8</span> Troubleshooting</h2>
+<h3 id="tests-fail-with-mysql-is-not-ready"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.8.1</span> Tests Fail with "MySQL is not ready"</h3>
 <p><strong>Cause:</strong> MySQL container is still initializing.</p>
 <p><strong>Solution:</strong> Wait a few seconds for MySQL to finish starting, then run tests again:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c1"># Check MySQL status</span>
@@ -1236,12 +1248,12 @@
 </span><span id="__span-14-8"><a href="#__codelineno-14-8" id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="c1"># Run tests</span>
 </span><span id="__span-14-9"><a href="#__codelineno-14-9" id="__codelineno-14-9" name="__codelineno-14-9"></a>./run-tests.sh
 </span></code></pre></div>
-<h3 id="permission-errors-when-running-tests"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.8.2</span> Permission Errors When Running Tests</h3>
+<h3 id="permission-errors-when-running-tests"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.8.2</span> Permission Errors When Running Tests</h3>
 <p><strong>Cause:</strong> <code>run-tests.sh</code> script is not executable.</p>
 <p><strong>Solution:</strong> Make the script executable:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>run-tests.sh
 </span></code></pre></div>
-<h3 id="snapshot-files-not-found"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.8.3</span> Snapshot Files Not Found</h3>
+<h3 id="snapshot-files-not-found"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.8.3</span> Snapshot Files Not Found</h3>
 <p><strong>Cause:</strong> MySQL server not running before snapshot execution.</p>
 <p><strong>Solution:</strong> Start MySQL first:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>mysql
@@ -1252,7 +1264,7 @@
 </span><span id="__span-16-6"><a href="#__codelineno-16-6" id="__codelineno-16-6" name="__codelineno-16-6"></a><span class="c1"># Run snapshot</span>
 </span><span id="__span-16-7"><a href="#__codelineno-16-7" id="__codelineno-16-7" name="__codelineno-16-7"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>snapshot-single<span class="w"> </span>hourly
 </span></code></pre></div>
-<h3 id="structure-only-table-validation-fails"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.8.4</span> Structure-Only Table Validation Fails</h3>
+<h3 id="structure-only-table-validation-fails"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.8.4</span> Structure-Only Table Validation Fails</h3>
 <p><strong>Cause:</strong> Test data was not properly initialized.</p>
 <p><strong>Solution:</strong> Recreate the MySQL container with fresh data:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>down<span class="w"> </span>-v
@@ -1264,7 +1276,7 @@
 </span><span id="__span-17-7"><a href="#__codelineno-17-7" id="__codelineno-17-7" name="__codelineno-17-7"></a><span class="c1"># Run tests</span>
 </span><span id="__span-17-8"><a href="#__codelineno-17-8" id="__codelineno-17-8" name="__codelineno-17-8"></a>./run-tests.sh
 </span></code></pre></div>
-<h3 id="docker-compose-command-not-found"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.8.5</span> Docker Compose Command Not Found</h3>
+<h3 id="docker-compose-command-not-found"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.8.5</span> Docker Compose Command Not Found</h3>
 <p><strong>Cause:</strong> <a href="https://docs.docker.com/compose/" target="_blank">Docker Compose</a> not installed or using old syntax.</p>
 <p><strong>Solution:</strong> Update Docker Compose:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="c1"># Modern Docker with integrated compose</span>
@@ -1274,13 +1286,13 @@
 </span><span id="__span-18-5"><a href="#__codelineno-18-5" id="__codelineno-18-5" name="__codelineno-18-5"></a>docker-compose<span class="w"> </span>version
 </span></code></pre></div>
 <p>Replace <code>docker compose</code> with <code>docker-compose</code> if using the standalone version.</p>
-<h2 id="continuous-integration"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.9</span> Continuous Integration</h2>
+<h2 id="continuous-integration"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.9</span> Continuous Integration</h2>
 <p>The project uses GitHub Actions for automated testing. See <code>.github/workflows/ci.yml</code> for the CI configuration.</p>
 <p>Tests run automatically on:
 - Push to main branches
 - Pull requests
 - Manual workflow dispatch</p>
-<h2 id="writing-custom-tests"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.10</span> Writing Custom Tests</h2>
+<h2 id="writing-custom-tests"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.10</span> Writing Custom Tests</h2>
 <p>To add your own test scenarios, create a new service in <code>testing/docker-compose.yml</code>:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-19-1"><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-19-2"><a href="#__codelineno-19-2" id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="w">  </span><span class="nt">snapshot-custom</span><span class="p">:</span>
@@ -1302,7 +1314,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>snapshot-custom<span class="w"> </span>hourly
 </span><span id="__span-20-2"><a href="#__codelineno-20-2" id="__codelineno-20-2" name="__codelineno-20-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>snapshots/custom/hourly.0/mysql/
 </span></code></pre></div>
-<h2 id="next-steps"><span class="enumerate-headings-plugin enumerate-heading-plugin">12.11</span> Next Steps</h2>
+<h2 id="next-steps"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.11</span> Next Steps</h2>
 <ul>
 <li><strong><a href="../configuration/">Configuration Reference</a></strong> - Learn about all environment variables</li>
 <li><strong><a href="../docker-compose/">Docker Compose Examples</a></strong> - See production-ready configurations</li>

@@ -72,9 +72,10 @@ nav:
     - Restoring Snapshots: restoration.md
     - Reference Documentation:
       - Important Considerations: important-considerations.md
-      - Snapshot Metadata: metadata.md
       - Atomic Consistency: consistency.md
+      - Compatibility: compatibility.md
       - Security: security.md
+      - Snapshot Metadata: metadata.md
     - Contributing:
       - General: contributing.md
       - Running Tests: running-tests.md

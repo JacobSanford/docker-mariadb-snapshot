@@ -23,6 +23,9 @@ The primary goals of docker-mariadb-snapshot are reliability, simplicity, and ea
 !!! warning "Your Responsibility"
     Please review the [Important Considerations](important-considerations.md) document. This package has not been reviewed for all possible use cases and environments. It should be considered an example, rather than a production-ready tool. Please ensure that you audit this package and how you deploy it against your specific environment and requirements.
 
+## Compatibility
+This image leverages `mariadb-dump` for database exports, which is compatible with both MariaDB and MySQL servers. For detailed version compatibility information, see the [Compatibility](compatibility.md) document.
+
 ## Quick Navigation
 
 - **[Quick Start Guide](quickstart.md)** - Get up and running in 5 minutes

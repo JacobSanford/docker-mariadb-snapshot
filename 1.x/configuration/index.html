@@ -723,9 +723,15 @@
 <td>Character set used for <a href="https://mariadb.com/kb/en/mariadb-dump/" target="_blank">mariadb-dump</a> operations</td>
 <td><code>utf8mb4</code></td>
 </tr>
+<tr>
+<td><code>DB_STRIP_SANDBOX_LINE</code></td>
+<td>Strip MariaDB sandbox mode comment for MySQL compatibility. Set to <code>true</code> or <code>1</code> to strip, <code>false</code> or <code>0</code> to preserve</td>
+<td><code>true</code></td>
+</tr>
 </tbody>
 </table>
 <p><strong>Tip:</strong> Higher compression levels reduce file size but increase CPU usage and snapshot time.</p>
+<p><strong>Compatibility Note:</strong> Newer MariaDB clients add a sandbox mode comment (<code>/*!999999\- enable the sandbox mode */</code>) to dumps. This comment is only supported by MariaDB and causes errors when importing into MySQL servers. The default behavior strips this comment for maximum compatibility. Set <code>DB_STRIP_SANDBOX_LINE=false</code> only if you exclusively use MariaDB servers for both dump and restore operations.</p>
 <h2 id="mysql-connection-parameters"><span class="enumerate-headings-plugin enumerate-heading-plugin">2.3</span> MySQL Connection Parameters</h2>
 <p>Configure how docker-mariadb-snapshot connects to your MariaDB/MySQL server:</p>
 <table>

@@ -28,4 +28,4 @@ Snapshots created by docker-mariadb-snapshot can be imported into:
 While older versions of MariaDB and MySQL may work, they have not been explicitly tested with docker-mariadb-snapshot. If you are using significantly older versions, please test snapshot exports and imports in a non-production environment to ensure compatibility. 
 
 !!! warning "MariaDB Sandbox Mode Compatibility"
-    Please see the [Important Considerations](important-considerations.md#maridb-sandbox-mode) document for details on MariaDB sandbox mode and compatibility with MySQL clients. If you are only using modern MariaDB servers and clients, you may want to disable the docker-mariadb-snapshot default behavior of stripping the sandbox mode comment from dumps.
+    Please see the [Important Considerations](important-considerations.md) document for details on MariaDB sandbox mode and compatibility with MySQL clients. If you are only using modern MariaDB servers and clients, you may want to disable the docker-mariadb-snapshot default behavior of stripping the sandbox mode comment from dumps.

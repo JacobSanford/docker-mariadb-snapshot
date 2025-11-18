@@ -85,7 +85,7 @@ Recent versions of `mariadb-dump` introduced **sandbox mode** as a security feat
 /*!999999- enable the sandbox mode */
 ```
 
-The change was introduced as a mitigation for [CVE-2024-21096](https://nvd.nist.gov/vuln/detail/cve-2024-21096). Sandbox mode blocks those dangerous client commands, but it also has a side effect: **older MariaDB clients and all MySQL clients do not understand the `\-` sandbox command and fail with errors like `ERROR at line 1: Unknown command '\-'` when they encounter this directive**. For more details, see[ MariaDB’s announcement “MariaDB Dump File Compatibility Change](https://mariadb.org/mariadb-dump-file-compatibility-change/).
+The change was introduced as a mitigation for [CVE-2024-21096](https://nvd.nist.gov/vuln/detail/cve-2024-21096){target="_blank"}. Sandbox mode blocks those dangerous client commands, but it also has a side effect: **older MariaDB clients and all MySQL clients do not understand the `\-` sandbox command and fail with errors like `ERROR at line 1: Unknown command '\-'` when they encounter this directive**. For more details, see[ MariaDB’s announcement “MariaDB Dump File Compatibility Change](https://mariadb.org/mariadb-dump-file-compatibility-change/){target="_blank"}.
 
 docker-mariadb-snapshot strips this line by default from all dump files after they are created to maintain compatibility with older MariaDB clients and MySQL clients. If you want to retain this line in your dumps, set the environment variable `STRIP_SANDBOX_MODE_COMMENT` to `false`.
 

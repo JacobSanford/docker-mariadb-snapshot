@@ -91,7 +91,7 @@ plugins:
       validate_rendered_template: true
       ignore_urls:
         - 'https://mariadb.com/kb/en/*'  # Unreliable, 500s in build
-        - 'https://www.mysql.com*'  # 403s to GitHub-hosted runners
+        - 'https://*mysql.com*'  # www and dev both 403 GitHub-hosted runners
   - enumerate-headings:
       exclude:
         - index.md

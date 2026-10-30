@@ -22,12 +22,9 @@ jobs:
     permissions:
       contents: read
       packages: write
-    uses: unb-libraries/dockworker/.github/workflows/build-push.yaml@6.x
+    uses: unb-libraries/github-workflows/.github/workflows/build-push.yaml@1.x
     with:
-      build-themes: false
       image-name: 'ghcr.io/jacobsanford/mariadb-snapshot'
-      push-all-branches: true
-      push-branches: '[]'
     secrets:
       GH_CONTAINER_REGISTRY_USER: ${{ github.actor }}
       GH_CONTAINER_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}

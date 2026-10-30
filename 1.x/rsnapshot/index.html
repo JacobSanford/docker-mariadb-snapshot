@@ -11,10 +11,10 @@
 <link href="../configuration/" rel="prev"/>
 <link href="../docker-compose/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.8.0" name="generator"/>
 <title>Understanding the RSnapshot Configuration - docker-mariadb-snapshot</title>
-<link href="../assets/stylesheets/main.618322db.min.css" rel="stylesheet"/>
-<link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/main.57a0d79d.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.fb2fffe2.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
@@ -508,17 +508,30 @@
 <p>Although these appear to be time-based settings, it is important to understand <strong>rsnapshot does not inherently understand time</strong>. 'hourly', 'daily', 'weekly', and 'monthly' are simply labels for separate snapshot retention groups without any intrinsic time meaning. They could, in fact, be anything - 'red', 'blue', 'green', etc.</p>
 <p>The actual frequency of when each level is executed is solely determined by the period in which you execute docker-mariadb-snapshot (e.g., via cron jobs).</p>
 <h2 id="snapshot-rotation"><span class="enumerate-headings-plugin enumerate-heading-plugin">3.2</span> Snapshot Rotation</h2>
-<p>By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. In the above-mentioned sample configuration, the daily, weekly, and monthly levels 'promote' and copy/link the oldest snapshot from the level above it <strong>instead of creating a new snapshot from live data</strong>. Snapshots are only ever taken (by default) at the hourly level, and the other levels simply rotate hourly snapshots down the hierarchy.</p>
-<p>This default behavior is not ideal for accurate point-in-time restores. Instead, snapshots should be taken each time the image is run.</p>
-<p>To accomplish this, docker-mariadb-snapshot sets the <code>sync_first     1</code> rsnapshot configuration item, which means <strong>running docker-mariadb-snapshot with any frequency level as an argument will always snapshot the live data before performing the rotation</strong>, and rotation only happens within the level you invoke.</p>
-<p>This method is less efficient in terms of storage and snapshot time, but it guarantees that each snapshot level contains a full snapshot of the live data at the time of execution.</p>
-<p>As an example: running docker-mariadb-snapshot with, say, the <code>daily</code> argument will:</p>
+<p>docker-mariadb-snapshot uses rsnapshot's standard rotation, with the <code>sync_first     1</code>
+configuration item. Only the <strong>lowest retained level</strong> (the first <code>retain</code> line left in the
+configuration, normally <code>hourly</code>, or <code>daily</code> when <code>RSNAPSHOT_RETAIN_HOURLY</code> is <code>0</code>) takes a new
+snapshot of the live data. Every higher level promotes the oldest snapshot of the level below
+it and does not connect to the database at all.</p>
+<p>As an example, with <code>RSNAPSHOT_RETAIN_HOURLY=0</code> and the default daily, weekly and monthly
+retention, running docker-mariadb-snapshot with:</p>
 <ul>
-<li>Create a new snapshot from the live filesystem.</li>
-<li>Rotate the daily.* set (daily.6 → daily.7, ..., daily.0 → daily.1)</li>
-<li>Set the new snapshot as daily.0.</li>
+<li><code>daily</code> creates a new snapshot from the live data in <code>.sync</code>, rotates the daily set
+  (daily.5 → daily.6, ..., daily.0 → daily.1), and makes the new snapshot daily.0.</li>
+<li><code>weekly</code> rotates the weekly set and moves the oldest daily (daily.6) to weekly.0. Nothing is
+  dumped. Until seven dailies exist there is nothing to promote, and rsnapshot logs
+  <code>daily.6 not present (yet), nothing to copy</code>.</li>
+<li><code>monthly</code> does the same with the oldest weekly (weekly.3).</li>
 </ul>
-<p>It will completely ignore the other levels and never 'promote' snapshots from hourly to daily, daily to weekly, or weekly to monthly.</p>
+<p>A weekly or monthly snapshot is therefore the point-in-time snapshot taken by the lowest level
+when it ran, not a snapshot taken when the weekly or monthly job ran. Its
+<code>snapshot-metadata.json</code> records that original run, including <code>"frequency": "daily"</code>.</p>
+<p>Every level you schedule must have a non-zero retention, and the lowest level must run often
+enough to feed the levels above it. A level that is retained but never run (for example the
+image's default <code>hourly</code> retention when only <code>daily</code>, <code>weekly</code> and <code>monthly</code> are scheduled)
+becomes the lowest level, and then nothing is ever promoted. Set its retention to <code>0</code>.</p>
+<p>Before 2026-10-30 every level dumped the live data before rotating. Higher levels then
+discarded that dump, because they promote from the level below rather than from <code>.sync</code>.</p>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
@@ -546,7 +559,7 @@
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
-<script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+<script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+<script src="../assets/javascripts/bundle.c21346df.min.js"></script>
 </body>
 </html>

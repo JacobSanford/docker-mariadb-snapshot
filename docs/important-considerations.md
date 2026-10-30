@@ -34,13 +34,11 @@ Database snapshots may contain sensitive, personal, or confidential data. Snapsh
 docker-mariadb-snapshot sets the `sync_first     1` rsnapshot configuration item and uses rsnapshot's standard rotation hierarchy. __Only the lowest retained level snapshots the live data__; higher levels promote the oldest snapshot of the level below and never connect to the database. Any level that is retained but not scheduled must have its retention set to `0`, or nothing is ever promoted. See the [Understanding the RSnapshot Configuration](rsnapshot.md) document for more details.
 
 ## Container Restart Policies
-The image ENTRYPOINT will return a non-zero exit code if any part of the snapshot process fails (even if only one database snapshot in many fails).
+The image ENTRYPOINT returns a non-zero exit code if any part of the snapshot process fails, even if only one database in many fails, so the orchestration system sees the failure.
 
-This means: If only one database in an entire snapshot failed to snapshot, docker-mariadb-snapshot will still signal the orchestration system that the run has failed. This allows observability and notification of snapshot issues.
+When the snapshot script fails, rsnapshot __rolls the run back__: `.sync` is restored from the newest snapshot of the lowest level, discarding every file from that run, including the databases that did dump successfully. The image then exits without rotating, so a failed run leaves the existing snapshots exactly as they were. (Before 2026-10-30 the image ignored this failure, exited zero and rotated anyway, which copied the previous snapshot into a new generation and pushed the oldest distinct one out.)
 
-Other databases/users may have successfully snapshotted during such a failed run. To err on the side of caution, __a partial snapshot failure is still post-processed as if it were successful__ - rotation will occur, and the snapshot files created during that run will be retained according to your retention policies.
-
-A consequence of this: if a snapshot fails and docker-mariadb-snapshot exits with a non-zero status, a container restart policy like `always` or `on-failure` could cause a cascading string of restarts and failed snapshots, overwriting many retained 'good' snapshots with the current failure.
+A consequence: __a failure that repeats every run freezes your snapshots at the last good one__, while every run reports failure. Watch the exit status of every run. A container restart policy like `always` or `on-failure` only repeats the failure and adds load to the server.
 
 Although all examples within this documentation set docker-mariadb-snapshot restart policy to prevent automatic restarts on failure, it is important to ensure that your orchestration system or container runtime is configured similarly to handle these scenarios appropriately.
 

@@ -291,6 +291,18 @@ run_test "Weekly promotes the oldest daily" "cmp -s $R/weekly.0/mysql/snapshot-m
 run_test "Promoted weekly snapshot is valid" "validate_snapshot $R/weekly.0/mysql/app1.gz app1"
 rm -f /tmp/rotation-*.log /tmp/rotation-*.json
 
+# Test 11: Failure - a failed run exits non-zero, rotates nothing, and logs no credentials
+F=./snapshots/failure
+docker compose run --rm snapshot-failure-good daily > /tmp/failure-good.log 2>&1 || true
+cp $F/daily.0/mysql/snapshot-metadata.json /tmp/failure-good.json
+BAD_STATUS=0
+docker compose run --rm snapshot-failure-bad daily > /tmp/failure-bad.log 2>&1 || BAD_STATUS=$?
+run_test "Failure: the run exits non-zero" "[ $BAD_STATUS -ne 0 ]"
+run_test "Failure: rsnapshot rolled .sync back" "grep -q 'Rolling back' /tmp/failure-bad.log && cmp -s $F/.sync/mysql/snapshot-metadata.json /tmp/failure-good.json"
+run_test "Failure: no rotation, so no duplicate generation" "[ ! -e $F/daily.1 ] && cmp -s $F/daily.0/mysql/snapshot-metadata.json /tmp/failure-good.json"
+run_test "No credentials in any log" "! grep -q 'rootpassword' /tmp/failure-good.log /tmp/failure-bad.log"
+rm -f /tmp/failure-*.log /tmp/failure-*.json
+
 echo ""
 echo "=================================================="
 if [ $FAILED -eq 0 ]; then

@@ -52,3 +52,10 @@ becomes the lowest level, and then nothing is ever promoted. Set its retention t
 
 Before 2026-10-30 every level dumped the live data before rotating. Higher levels then
 discarded that dump, because they promote from the level below rather than from `.sync`.
+
+## Failed Runs
+rsnapshot runs the dump script with its working directory in `<snapshot_root>/tmp`, then copies
+the results into `.sync`. When the script exits non-zero, rsnapshot rolls `.sync` back to the
+newest snapshot of the lowest level, discarding every file from that run. The image then stops
+without rotating and exits with rsnapshot's non-zero status, so nothing changes on disk and the
+orchestrator sees a failure.

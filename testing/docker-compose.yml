@@ -181,5 +181,46 @@ services:
       mysql:
         condition: service_healthy
 
+  # Example 7: Failure. A good run, then a run with one missing database, into the same tree.
+  snapshot-failure-good:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mariadb-snapshot:test
+    restart: "no"
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_USER_NAME: root
+      DB_USER_PASSWORD: rootpassword
+      DB_DATABASES: "app1"
+      RSNAPSHOT_RETAIN_HOURLY: 0
+      RSNAPSHOT_RETAIN_DAILY: 3
+    volumes:
+      - ./snapshots/failure:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  snapshot-failure-bad:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mariadb-snapshot:test
+    restart: "no"
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_USER_NAME: root
+      DB_USER_PASSWORD: rootpassword
+      DB_DATABASES: "app1,nosuchdb"
+      RSNAPSHOT_RETAIN_HOURLY: 0
+      RSNAPSHOT_RETAIN_DAILY: 3
+    volumes:
+      - ./snapshots/failure:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
 volumes:
   mysql-data:

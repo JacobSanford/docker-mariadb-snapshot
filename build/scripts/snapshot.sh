@@ -196,7 +196,15 @@ snapshot_single_database() {
   fi
 
   # 2. Dump full DB (or DB minus structure tables)
+  # The data dump is appended to the schema dump rather than written separately
+  # and concatenated afterwards, which would rewrite the whole (possibly very
+  # large) uncompressed dump a second time.
   echo "Dumping full database $DB_NAME..."
+  if [ -f "$TMP_SCHEMA" ]; then
+    mv "$TMP_SCHEMA" "$TMP_DATA"
+  else
+    : > "$TMP_DATA"
+  fi
   if ! $MYSQLDUMP \
     --skip-ssl \
     --host="${DB_HOSTNAME}" \
@@ -213,22 +221,19 @@ snapshot_single_database() {
     --hex-blob \
     --default-character-set=${DB_DEFAULT_CHARSET} \
     $IGNORE_TABLES_FULL_DUMP_CMD \
-    "$DB_NAME" > "$TMP_DATA" 2>&1; then
+    "$DB_NAME" >> "$TMP_DATA" 2>&1; then
     echo "❌ ERROR: Failed to dump database: $DB_NAME"
     echo "Error output:"
-    head -200 "$TMP_DATA" 2>/dev/null || echo "(no error output captured)"
+    # tail, not head: the file may begin with the schema dump of the
+    # structure-only tables, and the error is at the end.
+    tail -200 "$TMP_DATA" 2>/dev/null || echo "(no error output captured)"
     rm -f "$TMP_SCHEMA" "$TMP_DATA" "$TMP_COMBINED"
     return 1
   fi
   echo "✅ Dumped full database to: $TMP_DATA"
 
-  # 3. Combine schema and data dumps if structure-only tables were found
-  if [ -f "$TMP_SCHEMA" ]; then
-    echo "Combining schema and data dumps for $DB_NAME..."
-    cat "$TMP_SCHEMA" "$TMP_DATA" > "$TMP_COMBINED"
-  else
-    mv "$TMP_DATA" "$TMP_COMBINED"
-  fi
+  # 3. The schema and data dumps are already one file (see step 2)
+  mv "$TMP_DATA" "$TMP_COMBINED"
 
   # 4. Strip MariaDB sandbox mode comment for MySQL compatibility
   # See: https://github.com/drush-ops/drush/issues/6027

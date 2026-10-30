@@ -275,6 +275,22 @@ run_test "Metadata created (multiple)" "validate_metadata ./snapshots/multiple/h
 run_test "Metadata created (all)" "validate_metadata ./snapshots/all/hourly.0/mysql/snapshot-metadata.json"
 run_test "Metadata created (with-users)" "validate_metadata ./snapshots/with-users/hourly.0/mysql/snapshot-metadata.json"
 
+# Test 10: Rotation - only the lowest retained level dumps; higher levels only promote
+R=./snapshots/rotation
+docker compose run --rm snapshot-rotation daily > /tmp/rotation-daily1.log 2>&1
+sleep 1
+docker compose run --rm snapshot-rotation daily > /tmp/rotation-daily2.log 2>&1
+run_test "Lowest level (daily) dumps live data" "grep -q 'MySQL Backup Script' /tmp/rotation-daily2.log && validate_snapshot $R/daily.0/mysql/app1.gz app1"
+run_test "Lowest level rotates into daily.1" "[ -f $R/daily.1/mysql/snapshot-metadata.json ]"
+cp $R/daily.1/mysql/snapshot-metadata.json /tmp/rotation-oldest-daily.json
+cp $R/.sync/mysql/snapshot-metadata.json /tmp/rotation-sync-before.json
+docker compose run --rm snapshot-rotation weekly > /tmp/rotation-weekly.log 2>&1
+run_test "Higher level (weekly) does not dump" "! grep -q 'MySQL Backup Script' /tmp/rotation-weekly.log && grep -q 'Skipping sync' /tmp/rotation-weekly.log"
+run_test "Higher level leaves .sync untouched" "cmp -s $R/.sync/mysql/snapshot-metadata.json /tmp/rotation-sync-before.json"
+run_test "Weekly promotes the oldest daily" "cmp -s $R/weekly.0/mysql/snapshot-metadata.json /tmp/rotation-oldest-daily.json && [ ! -e $R/daily.1 ] && [ -d $R/daily.0 ]"
+run_test "Promoted weekly snapshot is valid" "validate_snapshot $R/weekly.0/mysql/app1.gz app1"
+rm -f /tmp/rotation-*.log /tmp/rotation-*.json
+
 echo ""
 echo "=================================================="
 if [ $FAILED -eq 0 ]; then

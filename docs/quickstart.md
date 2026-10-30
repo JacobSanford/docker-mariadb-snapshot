@@ -4,7 +4,7 @@ description: Get up and running with docker-mariadb-snapshot in 5 minutes with D
 audience: users
 doc_type: quickstart
 tags: [quickstart, getting-started, docker, docker-compose, cron]
-lastReviewed: 2025-11-15
+lastReviewed: 2026-10-30
 version: 1.x
 ---
 
@@ -24,7 +24,7 @@ docker-mariadb-snapshot accepts one argument to specify the snapshot frequency:
 - `weekly` - Performs a weekly snapshot
 - `monthly` - Performs a monthly snapshot
 
-These are labels passed to rsnapshot, which handles snapshot rotation based on your retention configuration.
+These are labels passed to rsnapshot, which handles snapshot rotation based on your retention configuration. Only the lowest retained level (`hourly` by default) dumps the databases; higher levels promote the oldest snapshot of the level below. If you do not schedule `hourly`, set `RSNAPSHOT_RETAIN_HOURLY=0`. See [Understanding the RSnapshot Configuration](rsnapshot.md).
 
 ## Docker Run Example
 

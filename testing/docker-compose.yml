@@ -156,5 +156,30 @@ services:
       mysql:
         condition: service_healthy
 
+  # Example 6: Rotation. Only the lowest retained level (daily here, since hourly is 0)
+  # dumps live data; weekly promotes the oldest daily without dumping.
+  snapshot-rotation:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: mariadb-snapshot:test
+    container_name: snapshot-rotation
+    restart: "no"
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_USER_NAME: root
+      DB_USER_PASSWORD: rootpassword
+      DB_DATABASES: "app1"
+      RSNAPSHOT_RETAIN_HOURLY: 0
+      RSNAPSHOT_RETAIN_DAILY: 2
+      RSNAPSHOT_RETAIN_WEEKLY: 2
+      RSNAPSHOT_RETAIN_MONTHLY: 0
+    volumes:
+      - ./snapshots/rotation:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
 volumes:
   mysql-data:

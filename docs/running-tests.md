@@ -4,7 +4,7 @@ description: Developer guide for running automated and manual tests to validate 
 audience: developers
 doc_type: guide
 tags: [testing, development, validation, automated-tests, debugging]
-lastReviewed: 2025-11-15
+lastReviewed: 2026-10-30
 version: 1.x
 ---
 
@@ -111,8 +111,8 @@ ls -la snapshots/single/hourly.0/mysql/
 ### Multiple Databases
 
 ```bash
-docker compose run --rm snapshot-multiple daily
-ls -la snapshots/multiple/daily.0/mysql/
+docker compose run --rm snapshot-multiple hourly
+ls -la snapshots/multiple/hourly.0/mysql/
 ```
 
 **Expected output:** `app1.gz`, `app2.gz`, `app3.gz` files
@@ -120,11 +120,23 @@ ls -la snapshots/multiple/daily.0/mysql/
 ### Auto-Discovery
 
 ```bash
-docker compose run --rm snapshot-all weekly
-ls -la snapshots/all/weekly.0/mysql/
+docker compose run --rm snapshot-all hourly
+ls -la snapshots/all/hourly.0/mysql/
 ```
 
 **Expected output:** One `.gz` file per discovered database (app1, app2, app3)
+
+### Rotation
+
+```bash
+docker compose run --rm snapshot-rotation daily
+docker compose run --rm snapshot-rotation daily
+docker compose run --rm snapshot-rotation weekly
+ls -la snapshots/rotation/
+```
+
+**Expected output:** `daily.0` and `weekly.0`. The weekly run logs `Skipping sync` and does not
+dump; `weekly.0` is the older of the two dailies.
 
 ### Per-Database Configuration
 
@@ -140,8 +152,8 @@ ls -la snapshots/per-db/hourly.0/mysql/
 ### Combined Snapshot
 
 ```bash
-docker compose run --rm snapshot-combined daily
-ls -la snapshots/combined/daily.0/mysql/
+docker compose run --rm snapshot-combined hourly
+ls -la snapshots/combined/hourly.0/mysql/
 ```
 
 **Expected output:**

@@ -4,7 +4,7 @@ description: How rsnapshot frequency labels and snapshot rotation work in docker
 audience: users
 doc_type: reference
 tags: [rsnapshot, configuration, rotation, retention, scheduling]
-lastReviewed: 2025-11-16
+lastReviewed: 2026-10-30
 version: 1.x
 ---
 
@@ -25,18 +25,30 @@ Although these appear to be time-based settings, it is important to understand _
 The actual frequency of when each level is executed is solely determined by the period in which you execute docker-mariadb-snapshot (e.g., via cron jobs).
 
 ## Snapshot Rotation
-By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. In the above-mentioned sample configuration, the daily, weekly, and monthly levels 'promote' and copy/link the oldest snapshot from the level above it __instead of creating a new snapshot from live data__. Snapshots are only ever taken (by default) at the hourly level, and the other levels simply rotate hourly snapshots down the hierarchy.
+docker-mariadb-snapshot uses rsnapshot's standard rotation, with the `sync_first     1`
+configuration item. Only the **lowest retained level** (the first `retain` line left in the
+configuration, normally `hourly`, or `daily` when `RSNAPSHOT_RETAIN_HOURLY` is `0`) takes a new
+snapshot of the live data. Every higher level promotes the oldest snapshot of the level below
+it and does not connect to the database at all.
 
-This default behavior is not ideal for accurate point-in-time restores. Instead, snapshots should be taken each time the image is run.
+As an example, with `RSNAPSHOT_RETAIN_HOURLY=0` and the default daily, weekly and monthly
+retention, running docker-mariadb-snapshot with:
 
-To accomplish this, docker-mariadb-snapshot sets the `sync_first     1` rsnapshot configuration item, which means __running docker-mariadb-snapshot with any frequency level as an argument will always snapshot the live data before performing the rotation__, and rotation only happens within the level you invoke.
+* `daily` creates a new snapshot from the live data in `.sync`, rotates the daily set
+  (daily.5 → daily.6, ..., daily.0 → daily.1), and makes the new snapshot daily.0.
+* `weekly` rotates the weekly set and moves the oldest daily (daily.6) to weekly.0. Nothing is
+  dumped. Until seven dailies exist there is nothing to promote, and rsnapshot logs
+  `daily.6 not present (yet), nothing to copy`.
+* `monthly` does the same with the oldest weekly (weekly.3).
 
-This method is less efficient in terms of storage and snapshot time, but it guarantees that each snapshot level contains a full snapshot of the live data at the time of execution.
+A weekly or monthly snapshot is therefore the point-in-time snapshot taken by the lowest level
+when it ran, not a snapshot taken when the weekly or monthly job ran. Its
+`snapshot-metadata.json` records that original run, including `"frequency": "daily"`.
 
-As an example: running docker-mariadb-snapshot with, say, the `daily` argument will:
+Every level you schedule must have a non-zero retention, and the lowest level must run often
+enough to feed the levels above it. A level that is retained but never run (for example the
+image's default `hourly` retention when only `daily`, `weekly` and `monthly` are scheduled)
+becomes the lowest level, and then nothing is ever promoted. Set its retention to `0`.
 
-* Create a new snapshot from the live filesystem.
-* Rotate the daily.* set (daily.6 → daily.7, ..., daily.0 → daily.1)
-* Set the new snapshot as daily.0.
-
-It will completely ignore the other levels and never 'promote' snapshots from hourly to daily, daily to weekly, or weekly to monthly.
+Before 2026-10-30 every level dumped the live data before rotating. Higher levels then
+discarded that dump, because they promote from the level below rather than from `.sync`.

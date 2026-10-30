@@ -4,7 +4,7 @@ description: Critical security, data integrity, and operational considerations f
 audience: users
 doc_type: reference
 tags: [security, best-practices, considerations, production, data-integrity, performance, backup-strategies]
-lastReviewed: 2025-11-17
+lastReviewed: 2026-10-30
 version: 1.x
 ---
 
@@ -31,9 +31,7 @@ If possible, automate periodic restoration tests to ensure ongoing snapshot inte
 Database snapshots may contain sensitive, personal, or confidential data. Snapshots are plain-text and, unless encrypted separately, insecure by default. Ensure that snapshot files are stored securely and access is restricted.
 
 ## Non-Default rsnapshot Configuration
-By default, rsnapshot uses a rotation mechanism to manage snapshots in a hierarchy. docker-mariadb-snapshot instead leverages the `sync_first     1` rsnapshot configuration item.
-
-Consequently, running docker-mariadb-snapshot with any frequency level as an argument __will always snapshot the live data before performing the rotation__, and rotation only happens within the level you invoke. See the [Understanding the RSnapshot Configuration](rsnapshot.md) document for more details.
+docker-mariadb-snapshot sets the `sync_first     1` rsnapshot configuration item and uses rsnapshot's standard rotation hierarchy. __Only the lowest retained level snapshots the live data__; higher levels promote the oldest snapshot of the level below and never connect to the database. Any level that is retained but not scheduled must have its retention set to `0`, or nothing is ever promoted. See the [Understanding the RSnapshot Configuration](rsnapshot.md) document for more details.
 
 ## Container Restart Policies
 The image ENTRYPOINT will return a non-zero exit code if any part of the snapshot process fails (even if only one database snapshot in many fails).

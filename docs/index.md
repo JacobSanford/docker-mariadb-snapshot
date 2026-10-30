@@ -4,7 +4,7 @@ description: Docker image for periodic MariaDB/MySQL database snapshots with rot
 audience: users
 doc_type: landing
 tags: [mysql, mariadb, backup, snapshot, rsnapshot, docker, database]
-lastReviewed: 2025-11-15
+lastReviewed: 2026-10-30
 version: 1.x
 ---
 
@@ -37,7 +37,7 @@ This image leverages `mariadb-dump` for database exports, which is compatible wi
 
 ## How It Works
 
-The image leverages [`rsnapshot`](https://rsnapshot.org){target="_blank"} for snapshot rotation and [`mariadb-dump`](https://mariadb.com/kb/en/mariadb-dump/){target="_blank"} for database exports. When run with a frequency argument (`hourly`, `daily`, `weekly`, `monthly`), it:
+The image leverages [`rsnapshot`](https://rsnapshot.org){target="_blank"} for snapshot rotation and [`mariadb-dump`](https://mariadb.com/kb/en/mariadb-dump/){target="_blank"} for database exports. When run with the lowest retained frequency argument (normally `hourly`), it:
 
 1. Connects to your MariaDB/MySQL server
 2. Selects databases based on your configuration mode
@@ -46,6 +46,8 @@ The image leverages [`rsnapshot`](https://rsnapshot.org){target="_blank"} for sn
 5. Generates a `snapshot-metadata.json` file with snapshot details, timing, and configuration
 6. Rotates snapshots according to retention policies
 7. Stores snapshots in timestamped directories (e.g., `hourly.0/`, `hourly.1/`)
+
+When run with a higher level (`daily`, `weekly`, `monthly`), it only promotes the oldest snapshot of the level below; see [Understanding the RSnapshot Configuration](rsnapshot.md).
 
 ## License
 

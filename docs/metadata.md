@@ -4,13 +4,13 @@ description: Understanding the snapshot-metadata.json file generated with each b
 audience: users
 doc_type: reference
 tags: [metadata, json, snapshot-info, configuration, troubleshooting]
-lastReviewed: 2025-11-16
+lastReviewed: 2026-10-30
 version: 1.x
 ---
 
 # Snapshot Metadata
 
-Each snapshot run automatically generates a `snapshot-metadata.json` file containing detailed information about the backup operation. This file is stored alongside your database backups and rotated with them by rsnapshot.
+Each snapshot run automatically generates a `snapshot-metadata.json` file containing detailed information about the backup operation. This file is stored alongside your database backups and rotated with them by rsnapshot. A promoted weekly or monthly snapshot keeps the metadata of the run that created it, so its `frequency` is the lowest level's (for example `daily`).
 
 **Metadata Contents:**
 

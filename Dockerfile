@@ -27,7 +27,7 @@ ENV RSNAPSHOT_RETAIN_WEEKLY=4
 ENV RSNAPSHOT_VERBOSE=2
 ENV RSNAPSHOT_LOGLEVEL=3
 
-RUN apk --update --no-cache add rsnapshot mariadb-client && \
+RUN apk --update --no-cache add rsnapshot mariadb-client mariadb-connector-c && \
   mkdir -p ${DB_DUMP_LOCATION}
 
 COPY ./build/conf/rsnapshot/rsnapshot.conf /etc/rsnapshot.conf

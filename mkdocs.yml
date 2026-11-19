@@ -92,6 +92,7 @@ plugins:
       ignore_urls:
         - 'https://mariadb.com/kb/en/*'  # Unreliable, 500s in build
         - 'https://*mysql.com*'  # www and dev both 403 GitHub-hosted runners
+        - 'https://rsnapshot.org*'  # DNS stopped resolving 2026-11-19
   - enumerate-headings:
       exclude:
         - index.md

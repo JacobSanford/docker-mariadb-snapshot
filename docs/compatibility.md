@@ -18,7 +18,7 @@ CI runs the full test suite against each of these server images on every push:
 - MariaDB 10.11, 11.4, 11.8 and 12.3 (the maintained LTS releases)
 - MySQL 8.4 (LTS)
 
-The list lives in [`testing/db-servers.txt`](https://github.com/JacobSanford/docker-mariadb-snapshot/blob/1.x/testing/db-servers.txt){target="_blank"}.
+The list lives in `testing/db-servers.txt` in the repository.
 
 ## Export Compatibility
 Expected to export snapshots from:

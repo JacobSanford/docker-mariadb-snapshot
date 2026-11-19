@@ -6,14 +6,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  tests:
-    name: Setup/Validation Tests
+  db-servers:
+    name: List Database Servers
     runs-on: ubuntu-latest
+    outputs:
+      images: ${{ steps.list.outputs.images }}
+    steps:
+    - uses: actions/checkout@v4
+    - id: list
+      run: echo "images=$(grep -v '^\s*#' testing/db-servers.txt | jq -R . | jq -sc 'map(select(length > 0))')" >> "$GITHUB_OUTPUT"
+
+  tests:
+    name: Tests (${{ matrix.db-server }})
+    needs: [db-servers]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        db-server: ${{ fromJSON(needs.db-servers.outputs.images) }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Docker Compose
       uses: docker/setup-compose-action@v1
     - name: Run tests
+      env:
+        DB_SERVER_IMAGE: ${{ matrix.db-server }}
       run: cd testing && bash run-tests.sh
 
   build-push-images:

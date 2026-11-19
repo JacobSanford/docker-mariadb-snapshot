@@ -12,6 +12,25 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
+# With no DB_SERVER_IMAGE given, run the whole suite once per image listed in
+# db-servers.txt and report which ones failed.
+if [ -z "${DB_SERVER_IMAGE:-}" ]; then
+    cd "$(dirname "$0")"
+    FAILED_IMAGES=""
+    for image in $(grep -v '^\s*#' db-servers.txt); do
+        echo -e "\n##### Database server: $image #####\n"
+        DB_SERVER_IMAGE="$image" bash ./run-tests.sh || FAILED_IMAGES="$FAILED_IMAGES $image"
+    done
+    echo "=================================================="
+    if [ -z "$FAILED_IMAGES" ]; then
+        echo -e "${GREEN}All database servers passed${NC}"
+        exit 0
+    fi
+    echo -e "${RED}Failed against:${FAILED_IMAGES}${NC}"
+    exit 1
+fi
+export DB_SERVER_IMAGE
+
 # Helper function to run a test
 run_test() {
     local test_name="$1"
@@ -170,6 +189,7 @@ validate_metadata() {
 
 echo "=================================================="
 echo "MySQL/MariaDB Snapshot Image - Test Suite"
+echo "Database server: $DB_SERVER_IMAGE"
 echo "=================================================="
 echo ""
 
@@ -186,17 +206,25 @@ docker compose build snapshot-single
 echo -e "${GREEN}Image built successfully${NC}"
 echo ""
 
-# Step 3: Start MySQL server
-echo "Step 3/5: Starting MySQL server..."
+# Step 3: Start the database server
+echo "Step 3/5: Starting database server ($DB_SERVER_IMAGE)..."
 docker compose up -d mysql > /dev/null 2>&1
-echo -e "${GREEN}MySQL container started${NC}"
+echo -e "${GREEN}Database server container started${NC}"
+
+# MariaDB 11+ images ship only the mariadb-* client names, MySQL images only mysql*.
+db_exec() {
+    docker compose exec -T mysql sh -c '
+        if command -v mariadb > /dev/null; then c=mariadb; a=mariadb-admin; else c=mysql; a=mysqladmin; fi
+        case "$1" in admin) shift; exec "$a" "$@" ;; *) exec "$c" "$@" ;; esac
+    ' db_exec "$@"
+}
 echo ""
 
 # Step 4: Wait for MySQL to be ready
 echo "Step 4/5: Waiting for MySQL to accept connections..."
 ATTEMPTS=0
 MAX_ATTEMPTS=30
-until docker compose exec -T mysql mysqladmin ping -h localhost -u root -prootpassword --silent 2>/dev/null; do
+until db_exec admin ping -h localhost -u root -prootpassword --silent 2>/dev/null; do
     ATTEMPTS=$((ATTEMPTS + 1))
     if [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; then
         echo -e "${RED}MySQL failed to start after ${MAX_ATTEMPTS} seconds${NC}"
@@ -213,7 +241,7 @@ done
 echo "Verifying MySQL can accept database queries..."
 ATTEMPTS=0
 MAX_ATTEMPTS=30
-until docker compose exec -T mysql mysql --protocol=TCP -h 127.0.0.1 -u root -prootpassword -e "SELECT 1;" app1 > /dev/null 2>&1; do
+until db_exec --protocol=TCP -h 127.0.0.1 -u root -prootpassword -e "SELECT 1;" app1 > /dev/null 2>&1; do
     ATTEMPTS=$((ATTEMPTS + 1))
     if [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; then
         echo -e "${RED}MySQL not accepting queries after ${MAX_ATTEMPTS} seconds${NC}"

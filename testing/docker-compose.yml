@@ -1,19 +1,19 @@
 services:
-  # MySQL database server with sample databases
+  # Database server with sample databases. run-tests.sh sets DB_SERVER_IMAGE
+  # to each image in db-servers.txt; the service keeps the name "mysql" because
+  # every snapshot service below connects to that hostname.
   mysql:
-    image: mysql:8.0
-    container_name: mysql-server
-    command: --default-authentication-plugin=mysql_native_password
+    image: ${DB_SERVER_IMAGE:-mariadb:11.8}
+    container_name: db-server
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: app1
     volumes:
       - mysql-data:/var/lib/mysql
       - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    ports:
-      - "3306:3306"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      # MariaDB 11+ images ship mariadb-admin only; MySQL images ship mysqladmin only.
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -u root -prootpassword || mysqladmin ping -h localhost -u root -prootpassword"]
       interval: 10s
       timeout: 10s
       retries: 10

@@ -176,7 +176,7 @@ echo ""
 # Step 1: Clean up any existing images and volumes
 echo "Step 1/5: Cleaning up old images and volumes..."
 docker compose down -v > /dev/null 2>&1
-docker run --rm -v "$(pwd)/snapshots:/snapshots" alpine:3.22 sh -c "rm -rf /snapshots/* && mkdir -p /snapshots" || true
+docker run --rm -v "$(pwd)/snapshots:/snapshots" alpine:3.24 sh -c "rm -rf /snapshots/* && mkdir -p /snapshots" || true
 echo -e "${GREEN}Cleanup complete${NC}"
 echo ""
 

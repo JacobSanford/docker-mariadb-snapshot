@@ -207,11 +207,13 @@ until docker compose exec -T mysql mysqladmin ping -h localhost -u root -prootpa
     sleep 1
 done
 
-# Additional check: Ensure MySQL can accept queries (not just pings)
+# Additional check: Ensure MySQL accepts queries over TCP, as the snapshot
+# containers connect. On first start the entrypoint runs a socket-only
+# temporary server, so socket checks can pass before port 3306 is open.
 echo "Verifying MySQL can accept database queries..."
 ATTEMPTS=0
-MAX_ATTEMPTS=10
-until docker compose exec -T mysql mysql -u root -prootpassword -e "SELECT 1;" app1 > /dev/null 2>&1; do
+MAX_ATTEMPTS=30
+until docker compose exec -T mysql mysql --protocol=TCP -h 127.0.0.1 -u root -prootpassword -e "SELECT 1;" app1 > /dev/null 2>&1; do
     ATTEMPTS=$((ATTEMPTS + 1))
     if [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; then
         echo -e "${RED}MySQL not accepting queries after ${MAX_ATTEMPTS} seconds${NC}"

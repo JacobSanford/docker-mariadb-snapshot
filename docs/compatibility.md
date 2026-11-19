@@ -12,11 +12,21 @@ version: 1.x
 
 This image leverages `mariadb-dump` for database exports, which is compatible with both MariaDB and MySQL servers.
 
+## Tested Servers
+CI runs the full test suite against each of these server images on every push:
+
+- MariaDB 10.11, 11.4, 11.8 and 12.3 (the maintained LTS releases)
+- MySQL 8.4 (LTS)
+
+The list lives in [`testing/db-servers.txt`](https://github.com/JacobSanford/docker-mariadb-snapshot/blob/1.x/testing/db-servers.txt){target="_blank"}.
+
 ## Export Compatibility
-Tested and expected to export snapshots from:
+Expected to export snapshots from:
 
 - MariaDB 10.5+ (10.5/10.6/10.11/11.x/12.x)
 - MySQL 5.6+, 5.7, and 8.x
+
+Of these, only the versions under [Tested Servers](#tested-servers) are tested. The MySQL 8.4 tests log in as a user with MySQL's default `caching_sha2_password` authentication plugin.
 
 ## Import Compatibility
 Snapshots created by docker-mariadb-snapshot can be imported into:

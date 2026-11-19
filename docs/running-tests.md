@@ -23,16 +23,24 @@ cd testing
 ./run-tests.sh
 ```
 
-The test runner is completely self-contained and will:
+The test runner is completely self-contained. For each database server image listed in `testing/db-servers.txt`, it will:
 
 1. Clean up old images and snapshots
 2. Build the [Docker](https://www.docker.com){target="_blank"} image
-3. Start [MySQL](https://www.mysql.com){target="_blank"} server
-4. Wait for MySQL to be ready
+3. Start the database server
+4. Wait for the server to accept TCP connections
 5. Run all snapshot tests
 6. Clean up containers
 
-**No manual setup required!**
+It then lists any server images the suite failed against. **No manual setup required!**
+
+To test against one server image only, set `DB_SERVER_IMAGE`:
+
+```bash
+DB_SERVER_IMAGE=mysql:8.4 ./run-tests.sh
+```
+
+CI runs the suite once per image in `testing/db-servers.txt`, as separate matrix jobs. To test another server version, add its image to that file.
 
 ## What the Tests Cover
 
@@ -188,29 +196,29 @@ gunzip -c snapshots/single/hourly.0/mysql/app1.gz | grep -i "CREATE TABLE.*cache
 
 **Expected:** CREATE TABLE statement found
 
-### Restore to MySQL for Testing
+### Restore to the Test Server
 
-Restore a snapshot to your test MySQL server:
+Restore a snapshot to the test database server. These commands use the `mariadb` client of the default `mariadb:11.8` server image; if you started a MySQL image with `DB_SERVER_IMAGE`, use `mysql` instead:
 
 ```bash
 gunzip -c snapshots/single/hourly.0/mysql/app1.gz | \
-  docker compose exec -T mysql mysql -u root -prootpassword app1
+  docker compose exec -T mysql mariadb -u root -prootpassword app1
 ```
 
 Or restore to a different database name:
 
 ```bash
 # Create new database
-docker compose exec mysql mysql -u root -prootpassword -e "CREATE DATABASE app1_restored"
+docker compose exec mysql mariadb -u root -prootpassword -e "CREATE DATABASE app1_restored"
 
 # Restore snapshot
 gunzip -c snapshots/single/hourly.0/mysql/app1.gz | \
-  docker compose exec -T mysql mysql -u root -prootpassword app1_restored
+  docker compose exec -T mysql mariadb -u root -prootpassword app1_restored
 ```
 
 ## Test Database Structure
 
-The test MySQL server is initialized with three databases for comprehensive testing:
+The test database server is initialized with three databases for comprehensive testing:
 
 ### app1 Database
 

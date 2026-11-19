@@ -10,7 +10,13 @@ Run all automated tests:
 ./run-tests.sh
 ```
 
-The test runner is self-contained and requires no manual setup. It will build the image, start MySQL, run all tests, and clean up automatically.
+The test runner is self-contained and requires no manual setup. For each database server image in `db-servers.txt` it builds the image, starts the server, runs all tests and cleans up.
+
+To test against one server image only:
+
+```bash
+DB_SERVER_IMAGE=mariadb:11.4 ./run-tests.sh
+```
 
 ## What Gets Tested
 
